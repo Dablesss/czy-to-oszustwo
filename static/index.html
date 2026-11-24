@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Czy to oszustwo?</title>
+  <meta name="description" content="Sprawdź podejrzany SMS, wiadomość albo link w kilka sekund.">
+  <meta name="theme-color" content="#1d4ed8">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Czy to oszustwo?</h1>
+      <p class="lead">Wklej podejrzaną wiadomość albo link. Sprawdzimy go w kilka sekund.</p>
+    </header>
+
+    <form id="check-form" novalidate>
+      <label for="message" class="visually-hidden">Treść wiadomości albo link</label>
+      <textarea id="message" name="text" rows="6" maxlength="3000"
+        placeholder="Wklej tutaj wiadomość, SMS albo link…"></textarea>
+
+      <div class="buttons">
+        <button type="button" id="paste-btn" class="secondary">Wklej ze schowka</button>
+        <button type="submit" id="check-btn" class="primary">SPRAWDŹ</button>
+      </div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </form>
+
+    <section id="result" class="result" aria-live="polite" hidden>
+      <div class="card" id="card">
+        <p class="verdict-icon" id="verdict-icon" aria-hidden="true"></p>
+        <h2 id="verdict-title"></h2>
+        <h3>Co zrobić teraz:</h3>
+        <ul id="advice"></ul>
+      </div>
+
+      <details>
+        <summary>Dlaczego tak uważamy?</summary>
+        <ul id="reasons"></ul>
+      </details>
+
+      <button type="button" id="again-btn" class="secondary wide">Sprawdź inną wiadomość</button>
+    </section>
+
+    <footer>
+      <p>To narzędzie pomocnicze, nie gwarancja. Nie zapisujemy treści sprawdzanych wiadomości.</p>
+      <p>Podejrzany SMS możesz zgłosić do CERT Polska, przesyłając go na numer <strong>8080</strong>.</p>
+    </footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
