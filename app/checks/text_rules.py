@@ -53,7 +53,11 @@ RULES: list[Rule] = [
     _r("blik_request", 60,
        "Nigdy nie podawaj nikomu kodu BLIK. Oszuści podszywają się pod znajomych i proszą o kod.",
        r"(kod\w* blik|blik\w*.{0,40}(podaj|wyslij|przeslij|daj|potrzebuj|pozycz)"
-       r"|(podaj|wyslij|przeslij|potrzebuj\w*).{0,40}blik)"),
+       # "wygenerujesz mi BLIKa", "podeslesz BLIKa": czasownik w dowolnej formie przed "blik"
+       r"|(podaj|podesl|wyslij|przeslij|wygeneruj|potrzebuj)\w*.{0,40}blik"
+       # Prośba o "kod na 300 zl" bez słowa BLIK: kod z kwotą to właśnie kod BLIK.
+       # (\w+ ){0,2} pozwala na 0-2 słowa pomiędzy: "podeslij mi szybko kod na 200 zl"
+       rf"|(podaj|podesl|wyslij|przeslij|wygeneruj|daj)\w* (\w+ ){{0,2}}kod\w* na {AMOUNT})"),
     _r("family_new_number", 40,
        "Wiadomość od „bliskiej osoby z nowego numeru” to znane oszustwo. Zadzwoń na jej stary numer.",
        rf"{FAMILY}.{{0,120}}{NEW_NUMBER}"
