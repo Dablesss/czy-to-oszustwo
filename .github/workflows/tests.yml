@@ -1,0 +1,32 @@
+name: Testy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  testy:
+    runs-on: ubuntu-latest
+    env:
+      # Testy nie mogą zależeć od sieci ani od klucza API.
+      CERT_AUTO_REFRESH: "false"
+      ANTHROPIC_API_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalacja zależności
+        run: pip install -r requirements.txt
+
+      - name: Testy (pytest)
+        run: python -m pytest -q
+
+      - name: Trafność reguł (tylko wynik)
+        run: python -m tests.evaluate

@@ -1,5 +1,7 @@
 # Czy to oszustwo?
 
+[![Testy](https://github.com/Dablesss/czy-to-oszustwo/actions/workflows/tests.yml/badge.svg)](https://github.com/Dablesss/czy-to-oszustwo/actions/workflows/tests.yml)
+
 Strona, na której każdy w kilka sekund sprawdzi podejrzany SMS, wiadomość albo link
 i dostanie prostą odpowiedź: **oszustwo**, **podejrzane** albo **brak oznak oszustwa**.
 Zaprojektowana z myślą o seniorach: jeden ekran, duża czcionka, zero logowania.
@@ -55,10 +57,15 @@ tests/             testy + zestaw przykładów
 
 ## Wdrożenie (Railway)
 
-1. Wrzuć repo na GitHuba.
-2. Na railway.app: New Project → Deploy from GitHub repo. Railway sam wykryje `Dockerfile`.
-3. W zakładce Variables dodaj `ANTHROPIC_API_KEY` (opcjonalnie).
-4. Settings → Networking → Generate Domain. Gotowe.
+Ustawienia wdrożenia są w pliku `railway.json`: Railway buduje obraz z `Dockerfile`
+i po każdym wdrożeniu sprawdza adres `/api/health` (healthcheck). Nowa wersja zastępuje
+starą dopiero wtedy, gdy ten adres odpowie poprawnie, więc zepsuty build nie wyłączy strony.
+
+1. Na railway.app: New Project → Deploy from GitHub repo → wybierz to repo.
+2. W zakładce Variables dodaj `ANTHROPIC_API_KEY` (opcjonalnie).
+3. Settings → Networking → Generate Domain. Gotowe.
+
+Każdy push i pull request do `main` uruchamia testy w GitHub Actions (plakietka na górze).
 
 ## Prywatność
 
