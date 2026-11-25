@@ -31,6 +31,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Skarbowka: aby otrzymac zwrot nadplaty 318 zl, wybierz swoj bank i zaloguj sie: zwrot-nadplaty.site", "scam"),
     ("Program Bon Rodzinny: wypelnij formularz i odbierz 300 zl na konto: bon-rodzinny.online", "scam"),
     ("Tu konsultantka z banku. Prosze zainstalowac TeamViewer, pomoge zablokowac podejrzany przelew.", "scam"),
+    ("Telefon mi sie zepsul, pisze z telefonu kolegi. Mamo, przelej mi 600 zl na rachunek, to pilne", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -51,4 +52,5 @@ LEGIT: list[str] = [
     "Sklep Zielony Koszyk: zwrot srodkow 59,90 zl za anulowane zamowienie zostal zlecony na Twoja karte.",
     "Odbierz paczke z automatu do 12.12. Za pobraniem: 45 zl, platne karta przy automacie.",
     "Pan z serwisu zainstalowal juz pralke, dziala bez zarzutu. Dzwonil tez pracownik spoldzielni.",
+    "Mam nowy numer do pracy, zapisz go sobie. Do zobaczenia w poniedzialek, Ola",
 ]

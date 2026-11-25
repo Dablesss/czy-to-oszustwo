@@ -36,6 +36,11 @@ def _r(code: str, points: int, reason: str, pattern: str) -> Rule:
 
 AMOUNT = r"\d{1,3}(?:[.,]\d{1,2})?\s?(?:zl|pln)"
 
+# Do reguły family_new_number: kto pisze i co się "stało" z telefonem.
+FAMILY = r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie)"
+NEW_NUMBER = (r"(nowy numer|zmienil\w* numer|zepsul\w* (mi )?(sie )?telefon|telefon (mi )?(sie )?zepsul"
+              r"|stary telefon|to moj nowy)")
+
 RULES: list[Rule] = [
     _r("small_payment", 30,
        "Prośba o małą dopłatę to najczęstsza sztuczka: chodzi o dane Twojej karty, nie o kwotę.",
@@ -51,8 +56,9 @@ RULES: list[Rule] = [
        r"|(podaj|wyslij|przeslij|potrzebuj\w*).{0,40}blik)"),
     _r("family_new_number", 40,
        "Wiadomość od „bliskiej osoby z nowego numeru” to znane oszustwo. Zadzwoń na jej stary numer.",
-       r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie).{0,120}"
-       r"(nowy numer|zmienil\w* numer|zepsul\w* (mi )?(sie )?telefon|stary telefon|to moj nowy)"
+       rf"{FAMILY}.{{0,120}}{NEW_NUMBER}"
+       # Odwrotna kolejność: "mam nowy numer. Tato, ..." (tu tylko zwroty do kogoś: mamo, tato)
+       rf"|{NEW_NUMBER}.{{0,80}}(mamo|tato|babciu|dziadku|synu|corko)"
        r"|(to moj nowy numer|pisze z nowego numeru|pisze z innego numeru)"),
     _r("money_request", 25,
        "Prośba o szybki przelew lub pożyczkę. Upewnij się telefonicznie, kto naprawdę pisze.",
