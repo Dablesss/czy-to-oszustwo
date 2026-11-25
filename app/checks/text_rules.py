@@ -63,8 +63,9 @@ RULES: list[Rule] = [
        r"|ostatnie (ostrzezenie|wezwanie|przypomnienie)|ostateczne wezwanie|niezwlocznie)"),
     _r("account_blocked", 25,
        "Groźba blokady konta i prośba o „potwierdzenie danych” to typowe wyłudzenie.",
+       # Bez "wygasa": "karta wygasa 12/2026" to zwykła informacja banku, a nie groźba
        r"(konto|rachunek|karta|dostep|aplikacj\w*|profil)\w*.{0,60}"
-       r"(zablokowan|zawieszon|wygas|wylaczon|ograniczon)"
+       r"(zablokowan|zawieszon|wylaczon|ograniczon)"
        r"|(potwierdz|zaktualizuj|zweryfikuj|uzupelnij)\w* (swoje )?(dane|tozsamos|konto)"),
     _r("prize_or_refund", 30,
        "Nieoczekiwana wygrana, zwrot lub „wypłata” to przynęta, żeby wyłudzić dane.",
