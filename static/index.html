@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Czy to oszustwo?</title>
   <meta name="description" content="Sprawdź podejrzany SMS, wiadomość albo link w kilka sekund.">
-  <meta name="theme-color" content="#1d4ed8">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -20,7 +21,7 @@
 
     <form id="check-form" novalidate>
       <label for="message" class="visually-hidden">Treść wiadomości albo link</label>
-      <textarea id="message" name="text" rows="6" maxlength="3000"
+      <textarea id="message" name="text" rows="6" maxlength="3000" aria-describedby="error"
         placeholder="Wklej tutaj wiadomość, SMS albo link…"></textarea>
 
       <div class="buttons">
@@ -30,10 +31,14 @@
       <p id="error" class="error" role="alert" hidden></p>
     </form>
 
-    <section id="result" class="result" aria-live="polite" hidden>
+    <!-- Niewidoczny komunikat dla czytnika ekranu: "Sprawdzam…", "Wynik gotowy". -->
+    <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
+
+    <section id="result" class="result" aria-labelledby="verdict-title" hidden>
       <div class="card" id="card">
         <p class="verdict-icon" id="verdict-icon" aria-hidden="true"></p>
-        <h2 id="verdict-title"></h2>
+        <!-- tabindex="-1": po sprawdzeniu przenosimy tu fokus z JS -->
+        <h2 id="verdict-title" tabindex="-1"></h2>
         <h3>Co zrobić teraz:</h3>
         <ul id="advice"></ul>
       </div>
@@ -45,6 +50,17 @@
 
       <button type="button" id="again-btn" class="secondary wide">Sprawdź inną wiadomość</button>
     </section>
+
+    <!-- Wskazówka tylko dla iPhone'a/iPada w Safari (pokazuje ją app.js) -->
+    <aside id="ios-hint" class="hint" hidden>
+      <p>
+        <strong>Dodaj tę stronę do ekranu głównego.</strong>
+        Naciśnij przycisk <strong>Udostępnij</strong>
+        (kwadrat ze strzałką w górę)
+        na dole ekranu, a potem <strong>„Do ekranu początkowego”</strong>.
+      </p>
+      <button type="button" id="ios-hint-close" class="secondary">Zamknij wskazówkę</button>
+    </aside>
 
     <footer>
       <p>To narzędzie pomocnicze, nie gwarancja. Nie zapisujemy treści sprawdzanych wiadomości.</p>
