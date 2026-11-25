@@ -25,6 +25,8 @@ SCAMS: list[tuple[str, str]] = [
     ("Dzien dobry, tu pracownik banku. Panstwa srodki sa zagrozone, prosze przelac je na bezpieczne konto.", "scam"),
     ("DPD: nie mozemy doreczyc paczki, adres nieprawidlowy. Zaktualizuj dane: dpd-paczka.top", "scam"),
     ("Urzad Skarbowy: nalezy ci sie zwrot podatku 412 zl. Wypelnij formularz: podatki-zwrot.net", "scam"),
+    # Podróbka domeny operatora sieci (prawdziwa to energa-operator.pl)
+    ("Energa Operator: zaleglosc 3,80 zl. Jutro odlaczenie pradu. Oplac: energa-operator-platnosc.top", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -40,4 +42,5 @@ LEGIT: list[str] = [
     "Twoja faktura za listopad jest dostepna w aplikacji. Termin platnosci: 10.12.",
     "Biblioteka: termin zwrotu ksiazki mija za 3 dni. Mozesz ja przedluzyc w katalogu online.",
     "Witaj.Dziekujemy za zakupy w naszym sklepie, zapraszamy ponownie!",
+    "Energa Operator: 3.12 w godz. 9-13 planowana przerwa w dostawie pradu przy ul. Polnej. Wiecej: energa-operator.pl",
 ]
