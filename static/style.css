@@ -6,6 +6,9 @@
   --primary: #1d4ed8;
   --primary-dark: #1e3a8a;
   --border: #cbd5e1;
+  --field-border: #64748b; /* ramka pola tekstowego: min. 3:1 do tła (WCAG 1.4.11) */
+  --on-primary: #fff;      /* kolor tekstu na niebieskim przycisku SPRAWDŹ */
+  --focus: #1e3a8a;        /* obwódka elementu wybranego klawiaturą */
   --scam-bg: #fee2e2;   --scam: #b91c1c;
   --warn-bg: #fef3c7;   --warn: #92400e;
   --ok-bg: #dcfce7;     --ok: #166534;
@@ -22,6 +25,7 @@ body {
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
+  overflow-wrap: break-word; /* długie linki łamią się zamiast wychodzić poza ekran */
 }
 
 main {
@@ -38,12 +42,14 @@ textarea {
   font: inherit;
   font-size: 1.05rem;
   padding: 16px;
-  border: 2px solid var(--border);
+  border: 2px solid var(--field-border);
   border-radius: var(--radius);
   background: #fff;
   color: var(--text);
   resize: vertical;
 }
+/* Domyślny szary placeholder w ciemnym motywie był za słaby (3.2:1). */
+textarea::placeholder { color: var(--muted); opacity: 1; }
 textarea:focus { outline: 3px solid var(--primary); outline-offset: 2px; border-color: var(--primary); }
 
 .buttons { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
@@ -56,18 +62,20 @@ button {
   cursor: pointer;
   min-height: 60px;
 }
-button:focus-visible { outline: 3px solid var(--primary-dark); outline-offset: 3px; }
+/* Wyraźna obwódka dla każdego elementu wybranego klawiaturą (Tab). */
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
 .primary {
   flex: 1 1 200px;
   background: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
   border: none;
   font-size: 1.2rem;
   letter-spacing: 0.05em;
 }
 .primary:hover { background: var(--primary-dark); }
-.primary:disabled { opacity: 0.6; cursor: wait; }
+/* W trakcie sprawdzania: bez przezroczystości, bo psuła kontrast (2.9:1). */
+.primary[aria-disabled="true"] { cursor: wait; }
 
 .secondary {
   flex: 0 1 auto;
@@ -104,11 +112,21 @@ details {
   background: #fff;
   border: 2px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px 18px;
 }
-summary { font-weight: 700; cursor: pointer; }
-details ul { margin: 12px 0 0; padding-left: 1.2em; }
+/* Cały pasek "Dlaczego tak uważamy?" jest klikalny i ma min. 48 px wysokości. */
+summary { font-weight: 700; cursor: pointer; padding: 9px 18px; min-height: 48px; border-radius: var(--radius); }
+details ul { margin: 4px 18px 14px; padding-left: 1.2em; }
 details li { margin-bottom: 8px; }
+
+/* Wskazówka "dodaj do ekranu głównego" (tylko iPhone/iPad w Safari). */
+.hint {
+  margin-top: 32px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+}
+.hint p { margin: 0 0 12px; }
 
 footer {
   margin-top: 40px;
@@ -121,6 +139,7 @@ footer {
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;
+  margin: -1px; padding: 0; border: 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -129,7 +148,9 @@ footer {
     --scam-bg: #450a0a; --scam: #fca5a5;
     --warn-bg: #451a03; --warn: #fcd34d;
     --ok-bg: #052e16;   --ok: #86efac;
-    --primary: #3b82f6; --primary-dark: #93c5fd;
+    /* Jasnoniebieski przycisk z ciemnym tekstem: biały na #3b82f6 miał tylko 3.7:1. */
+    --primary: #93c5fd; --primary-dark: #bfdbfe; --on-primary: #0f172a;
+    --field-border: #94a3b8; --focus: #bfdbfe;
   }
-  textarea, .secondary, details { background: #1e293b; color: var(--text); }
+  textarea, .secondary, details, .hint { background: #1e293b; color: var(--text); }
 }

@@ -1,7 +1,8 @@
 // Service worker: zapamiętuje wygląd strony, żeby otwierała się szybko.
 // Zapytania do /api/ NIGDY nie są zapisywane (prywatność i aktualność wyników).
 
-const CACHE = "czy-to-oszustwo-v1";
+// Zmień numer przy każdej zmianie w static/, żeby telefony pobrały nową wersję.
+const CACHE = "czy-to-oszustwo-v2";
 const SHELL = ["/", "/style.css", "/app.js", "/manifest.json", "/icons/icon.svg"];
 
 self.addEventListener("install", (event) => {

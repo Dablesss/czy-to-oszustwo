@@ -6,14 +6,29 @@ const checkBtn = document.getElementById("check-btn");
 const pasteBtn = document.getElementById("paste-btn");
 const againBtn = document.getElementById("again-btn");
 const errorBox = document.getElementById("error");
+const statusBox = document.getElementById("status");
 const result = document.getElementById("result");
 const card = document.getElementById("card");
+const verdictTitle = document.getElementById("verdict-title");
 
 const ICONS = { scam: "⛔", suspicious: "⚠️", no_signs: "✅" };
+
+let busy = false; // true, gdy czekamy na odpowiedź serwera
+
+// Gdy ktoś wyłączył animacje w systemie, przewijamy od razu, bez płynnego ruchu.
+function scrollBehavior() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+}
 
 function showError(message) {
   errorBox.textContent = message;
   errorBox.hidden = false;
+  textarea.setAttribute("aria-invalid", "true");
+}
+
+function hideError() {
+  errorBox.hidden = true;
+  textarea.removeAttribute("aria-invalid");
 }
 
 function fillList(id, items) {
@@ -28,15 +43,27 @@ function fillList(id, items) {
 function showResult(data) {
   card.className = `card ${data.verdict}`;
   document.getElementById("verdict-icon").textContent = ICONS[data.verdict] || "";
-  document.getElementById("verdict-title").textContent = data.title;
+  verdictTitle.textContent = data.title;
   fillList("advice", data.advice);
   fillList("reasons", data.reasons);
   result.hidden = false;
-  result.scrollIntoView({ behavior: "smooth", block: "start" });
+  statusBox.textContent = "Wynik jest gotowy.";
+  // Fokus na tytule wyniku: czytnik ekranu od razu go przeczyta.
+  verdictTitle.focus({ preventScroll: true });
+  result.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+}
+
+// Zamienia błąd sieci na prosty komunikat z tym, co zrobić.
+function networkErrorMessage() {
+  if (!navigator.onLine) {
+    return "Nie ma internetu. Włącz Wi-Fi albo dane komórkowe i naciśnij SPRAWDŹ jeszcze raz.";
+  }
+  return "Nie udało się połączyć ze stroną. Odczekaj chwilę i naciśnij SPRAWDŹ jeszcze raz.";
 }
 
 async function check(text) {
-  errorBox.hidden = true;
+  if (busy) return; // nie wysyłamy drugiego zapytania, zanim przyjdzie pierwsze
+  hideError();
   result.hidden = true;
   if (!text.trim()) {
     showError("Najpierw wklej treść wiadomości albo link.");
@@ -44,8 +71,12 @@ async function check(text) {
     return;
   }
 
-  checkBtn.disabled = true;
+  // Zamiast "disabled" używamy aria-disabled: przycisk nie traci fokusu z klawiatury.
+  busy = true;
+  checkBtn.setAttribute("aria-disabled", "true");
+  form.setAttribute("aria-busy", "true");
   checkBtn.textContent = "Sprawdzam…";
+  statusBox.textContent = "Sprawdzam wiadomość…";
   try {
     const response = await fetch("/api/check", {
       method: "POST",
@@ -56,14 +87,18 @@ async function check(text) {
     if (!response.ok) {
       showError(data.detail && typeof data.detail === "string"
         ? data.detail
-        : "Coś poszło nie tak. Spróbuj jeszcze raz.");
+        : "Coś poszło nie tak po naszej stronie. Odczekaj minutę i spróbuj jeszcze raz.");
+      statusBox.textContent = "";
       return;
     }
     showResult(data);
   } catch {
-    showError("Brak połączenia z internetem. Sprawdź połączenie i spróbuj ponownie.");
+    showError(networkErrorMessage());
+    statusBox.textContent = "";
   } finally {
-    checkBtn.disabled = false;
+    busy = false;
+    checkBtn.removeAttribute("aria-disabled");
+    form.removeAttribute("aria-busy");
     checkBtn.textContent = "SPRAWDŹ";
   }
 }
@@ -76,6 +111,7 @@ form.addEventListener("submit", (event) => {
 pasteBtn.addEventListener("click", async () => {
   try {
     textarea.value = await navigator.clipboard.readText();
+    hideError();
     textarea.focus();
   } catch {
     showError("Nie udało się wkleić automatycznie. Przytrzymaj palec w polu tekstowym i wybierz „Wklej”.");
@@ -85,8 +121,49 @@ pasteBtn.addEventListener("click", async () => {
 againBtn.addEventListener("click", () => {
   textarea.value = "";
   result.hidden = true;
+  statusBox.textContent = "";
   textarea.focus();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: scrollBehavior() });
+});
+
+// --- Wskazówka "dodaj do ekranu głównego" (tylko iPhone/iPad w Safari) ---
+const HINT_KEY = "iosHintClosed";
+const hint = document.getElementById("ios-hint");
+
+function isIosSafari() {
+  const ua = navigator.userAgent;
+  // iPad z nowym iOS udaje Maca, ale ma ekran dotykowy.
+  const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  // Chrome, Firefox, Edge i Opera na iPhonie mają w nazwie CriOS, FxiOS, EdgiOS, OPiOS.
+  const otherBrowser = /CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+  return ios && !otherBrowser;
+}
+
+function isStandalone() {
+  // Strona otwarta z ikony na ekranie głównym (wtedy wskazówka nie ma sensu).
+  return window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
+}
+
+function hintWasClosed() {
+  try {
+    return localStorage.getItem(HINT_KEY) === "1";
+  } catch {
+    return false; // np. tryb prywatny: localStorage niedostępny
+  }
+}
+
+if (isIosSafari() && !isStandalone() && !hintWasClosed()) {
+  hint.hidden = false;
+}
+
+document.getElementById("ios-hint-close").addEventListener("click", () => {
+  hint.hidden = true;
+  try {
+    localStorage.setItem(HINT_KEY, "1");
+  } catch {
+    // Nie da się zapisać? Trudno, wskazówka wróci przy następnej wizycie.
+  }
+  textarea.focus(); // fokus nie może zniknąć razem z ukrytym przyciskiem
 });
 
 // "Udostępnij" na Androidzie: system otwiera stronę z ?text=...&url=...
