@@ -33,6 +33,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Tu konsultantka z banku. Prosze zainstalowac TeamViewer, pomoge zablokowac podejrzany przelew.", "scam"),
     ("Telefon mi sie zepsul, pisze z telefonu kolegi. Mamo, przelej mi 600 zl na rachunek, to pilne", "scam"),
     ("Siema, podeslij mi szybko kod na 200 zl, nie dziala mi karta w sklepie. Zaraz oddam", "scam"),
+    ("Straz Miejska: wezwanie do zaplaty za nieprawidlowe parkowanie. Oplac w ciagu 24h: strazmiejska-oplaty.top", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -55,4 +56,5 @@ LEGIT: list[str] = [
     "Pan z serwisu zainstalowal juz pralke, dziala bez zarzutu. Dzwonil tez pracownik spoldzielni.",
     "Mam nowy numer do pracy, zapisz go sobie. Do zobaczenia w poniedzialek, Ola",
     "Oddalam Ci za bilety BLIKiem na telefon, sprawdz czy doszlo 80 zl",
+    "Parkowanie oplacone do 15:30 w strefie A. Przedluz postoj w aplikacji, jesli potrzebujesz.",
 ]
