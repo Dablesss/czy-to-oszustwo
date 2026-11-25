@@ -78,7 +78,8 @@ RULES: list[Rule] = [
        r"|odbierz \d+(?:[.,]\d{1,2})? ?(zl|pln|euro|eur)\b)"),
     _r("install_app", 30,
        "Prośba o zainstalowanie aplikacji z linku. Aplikacje instaluj tylko ze Sklepu Play lub App Store.",
-       r"(zainstaluj|pobierz|instalacj\w*).{0,50}(aplikacj|apk|program|nowa wersj|anydesk|teamviewer|quicksupport)"),
+       # "zainstal\w*" łapie każdą formę: zainstaluj, zainstalowac, zainstaluje
+       r"(zainstal\w*|pobierz|instalacj\w*).{0,50}(aplikacj|apk|program|nowa wersj|anydesk|teamviewer|quicksupport)"),
     _r("utility_cutoff", 35,
        "Groźba odcięcia prądu lub gazu z linkiem do zapłaty to znane oszustwo.",
        r"(odlaczen\w*|odciec\w*|wstrzyman\w*|zaleglos\w*).{0,60}(prad|energi|gaz|dostaw)"),
@@ -99,7 +100,12 @@ RULES: list[Rule] = [
        r"(kliknij|wejdz|odwiedz|przejdz)\w*.{0,30}(link|stron|adres|ponizej|tutaj|w link)"),
     _r("remote_access_call", 60,
        "„Konsultant banku” każący zainstalować program albo przelać pieniądze na „bezpieczne konto” to oszustwo.",
-       r"(bezpieczne konto|konto techniczne|pracownik (banku|policji|cert)|konsultant\w* banku)"),
+       # \w* po słowie łapie odmianę: "pracownika banku", "konsultantem z banku", "na konto techniczne"
+       # (bez "bezpieczenstwo konta" i "kontakt techniczny", bo to zwykłe zwroty)
+       r"(bezpieczn(e|ego|ym|y) (kont|rachun)|kont(o|a|em|u) techniczn|pracownik\w* (banku|policji|cert)"
+       r"|konsultant\w* (z )?banku"
+       # Programy do zdalnego pulpitu: w SMS-ie prawie zawsze oznaczają oszusta "z banku"
+       r"|anydesk|teamviewer|quicksupport|rustdesk)"),
 ]
 
 

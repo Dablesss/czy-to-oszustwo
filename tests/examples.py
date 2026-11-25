@@ -30,6 +30,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Bank Polnocny: Twoja karta zostala zablokowana. Potwierdz dane karty: bankpolnocny-karta.top", "scam"),
     ("Skarbowka: aby otrzymac zwrot nadplaty 318 zl, wybierz swoj bank i zaloguj sie: zwrot-nadplaty.site", "scam"),
     ("Program Bon Rodzinny: wypelnij formularz i odbierz 300 zl na konto: bon-rodzinny.online", "scam"),
+    ("Tu konsultantka z banku. Prosze zainstalowac TeamViewer, pomoge zablokowac podejrzany przelew.", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -49,4 +50,5 @@ LEGIT: list[str] = [
     "Bank Polnocny: Twoja karta debetowa wygasa 05/2027. Nowa karta zostanie wyslana poczta.",
     "Sklep Zielony Koszyk: zwrot srodkow 59,90 zl za anulowane zamowienie zostal zlecony na Twoja karte.",
     "Odbierz paczke z automatu do 12.12. Za pobraniem: 45 zl, platne karta przy automacie.",
+    "Pan z serwisu zainstalowal juz pralke, dziala bez zarzutu. Dzwonil tez pracownik spoldzielni.",
 ]
