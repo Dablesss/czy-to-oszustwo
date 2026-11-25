@@ -28,6 +28,7 @@ SCAMS: list[tuple[str, str]] = [
     # Podróbka domeny operatora sieci (prawdziwa to energa-operator.pl)
     ("Energa Operator: zaleglosc 3,80 zl. Jutro odlaczenie pradu. Oplac: energa-operator-platnosc.top", "scam"),
     ("Bank Polnocny: Twoja karta zostala zablokowana. Potwierdz dane karty: bankpolnocny-karta.top", "scam"),
+    ("Skarbowka: aby otrzymac zwrot nadplaty 318 zl, wybierz swoj bank i zaloguj sie: zwrot-nadplaty.site", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -45,4 +46,5 @@ LEGIT: list[str] = [
     "Witaj.Dziekujemy za zakupy w naszym sklepie, zapraszamy ponownie!",
     "Energa Operator: 3.12 w godz. 9-13 planowana przerwa w dostawie pradu przy ul. Polnej. Wiecej: energa-operator.pl",
     "Bank Polnocny: Twoja karta debetowa wygasa 05/2027. Nowa karta zostanie wyslana poczta.",
+    "Sklep Zielony Koszyk: zwrot srodkow 59,90 zl za anulowane zamowienie zostal zlecony na Twoja karte.",
 ]
