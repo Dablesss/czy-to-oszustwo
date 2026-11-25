@@ -73,7 +73,9 @@ RULES: list[Rule] = [
        r"|dostepne wyplaty|odbierz (swoj|nagrod|zwrot|bon)|odebra\w* (pieniadz|srodk|wyplat|platnos)|otrzymac (srodki|pieniadze|platnosc)|darmow\w* (bon|kupon|voucher)|bon o wartosci"
        # Sam "zwrot podatku/środków" to zwykła informacja (sklep, urząd).
        # Podejrzany jest zwrot, po który trzeba coś zrobić: wybrać bank, podać dane, kliknąć.
-       r"|(otrzymac|odebrac) zwrot\w*.{0,40}(wybierz|podaj|potwierdz|kliknij|wejdz))"),
+       r"|(otrzymac|odebrac) zwrot\w*.{0,40}(wybierz|podaj|potwierdz|kliknij|wejdz)"
+       # "odbierz 250 zl", "odbierz 10 euro na start": darmowe pieniądze za nic
+       r"|odbierz \d+(?:[.,]\d{1,2})? ?(zl|pln|euro|eur)\b)"),
     _r("install_app", 30,
        "Prośba o zainstalowanie aplikacji z linku. Aplikacje instaluj tylko ze Sklepu Play lub App Store.",
        r"(zainstaluj|pobierz|instalacj\w*).{0,50}(aplikacj|apk|program|nowa wersj|anydesk|teamviewer|quicksupport)"),
