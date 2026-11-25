@@ -70,7 +70,10 @@ RULES: list[Rule] = [
     _r("urgency", 15,
        "Wiadomość wywiera presję czasu. Prawdziwe firmy i urzędy nie wymagają reakcji w kilka godzin.",
        r"(natychmiast|pilne|pilnie|w ciagu (24|48|12) ?(h|godz)|do konca dnia|dzisiaj do"
-       r"|ostatnie (ostrzezenie|wezwanie|przypomnienie)|ostateczne wezwanie|niezwlocznie)"),
+       r"|ostatnie (ostrzezenie|wezwanie|przypomnienie)|ostateczne wezwanie|niezwlocznie"
+       # "Zaplac teraz", "aby uniknac kary": popędzanie groźbą dodatkowych kosztów
+       r"|(zaplac|oplac|ureguluj) (teraz|od razu)|uniknac (kary|dodatkow|odsetek|blokady)"
+       r"|dodatkowe (koszty|oplaty))"),
     _r("account_blocked", 25,
        "Groźba blokady konta i prośba o „potwierdzenie danych” to typowe wyłudzenie.",
        # Bez "wygasa": "karta wygasa 12/2026" to zwykła informacja banku, a nie groźba

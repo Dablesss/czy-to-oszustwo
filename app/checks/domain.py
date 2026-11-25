@@ -50,6 +50,7 @@ ALL_OFFICIAL: set[str] = set().union(*BRANDS.values())
 SUSPICIOUS_TLDS = {
     "top", "xyz", "icu", "sbs", "click", "shop", "online", "site", "live", "cfd", "buzz", "rest",
     "monster", "vip", "cyou", "bond", "quest", "lol", "fun", "space", "website", "link", "store",
+    "help",
 }
 
 SHORTENERS = {
