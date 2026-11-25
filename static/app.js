@@ -10,8 +10,7 @@ const statusBox = document.getElementById("status");
 const result = document.getElementById("result");
 const card = document.getElementById("card");
 const verdictTitle = document.getElementById("verdict-title");
-
-const ICONS = { scam: "⛔", suspicious: "⚠️", no_signs: "✅" };
+const checkLabel = document.getElementById("check-label");
 
 let busy = false; // true, gdy czekamy na odpowiedź serwera
 
@@ -41,8 +40,8 @@ function fillList(id, items) {
 }
 
 function showResult(data) {
-  card.className = `card ${data.verdict}`;
-  document.getElementById("verdict-icon").textContent = ICONS[data.verdict] || "";
+  // Klasa werdyktu wybiera w CSS kolor karty i jedną z trzech ikon.
+  card.className = `verdict ${data.verdict}`;
   verdictTitle.textContent = data.title;
   fillList("advice", data.advice);
   fillList("reasons", data.reasons);
@@ -56,9 +55,9 @@ function showResult(data) {
 // Zamienia błąd sieci na prosty komunikat z tym, co zrobić.
 function networkErrorMessage() {
   if (!navigator.onLine) {
-    return "Nie ma internetu. Włącz Wi-Fi albo dane komórkowe i naciśnij SPRAWDŹ jeszcze raz.";
+    return "Nie ma internetu. Włącz Wi-Fi albo dane komórkowe i naciśnij „Sprawdź wiadomość” jeszcze raz.";
   }
-  return "Nie udało się połączyć ze stroną. Odczekaj chwilę i naciśnij SPRAWDŹ jeszcze raz.";
+  return "Nie udało się połączyć ze stroną. Odczekaj chwilę i spróbuj jeszcze raz.";
 }
 
 async function check(text) {
@@ -75,7 +74,8 @@ async function check(text) {
   busy = true;
   checkBtn.setAttribute("aria-disabled", "true");
   form.setAttribute("aria-busy", "true");
-  checkBtn.textContent = "Sprawdzam…";
+  checkBtn.classList.add("is-busy"); // pokazuje kręcące się kółko
+  checkLabel.textContent = "Sprawdzam…";
   statusBox.textContent = "Sprawdzam wiadomość…";
   try {
     const response = await fetch("/api/check", {
@@ -99,7 +99,8 @@ async function check(text) {
     busy = false;
     checkBtn.removeAttribute("aria-disabled");
     form.removeAttribute("aria-busy");
-    checkBtn.textContent = "SPRAWDŹ";
+    checkBtn.classList.remove("is-busy");
+    checkLabel.textContent = "Sprawdź wiadomość";
   }
 }
 
