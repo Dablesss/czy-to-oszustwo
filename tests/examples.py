@@ -35,6 +35,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Siema, podeslij mi szybko kod na 200 zl, nie dziala mi karta w sklepie. Zaraz oddam", "scam"),
     ("Straz Miejska: wezwanie do zaplaty za nieprawidlowe parkowanie. Oplac w ciagu 24h: strazmiejska-oplaty.top", "scam"),
     ("Parking Miejski: nieoplacony postoj. Zaplac teraz, aby uniknac dodatkowych oplat: parking-miasto.help", "scam"),
+    ("Nowy system oplat w strefie: zeskanuj kod QR na parkomacie i zaplac karta na stronie.", "suspicious"),
 ]
 
 LEGIT: list[str] = [
@@ -59,4 +60,5 @@ LEGIT: list[str] = [
     "Oddalam Ci za bilety BLIKiem na telefon, sprawdz czy doszlo 80 zl",
     "Parkowanie oplacone do 15:30 w strefie A. Przedluz postoj w aplikacji, jesli potrzebujesz.",
     "Wodociagi: faktura 89 zl z terminem 10.12 jest w eBOK. Oplac w terminie, aby uniknac odsetek.",
+    "Zeskanuj kod QR na ulotce, aby zobaczyc menu naszej restauracji. Smacznego!",
 ]

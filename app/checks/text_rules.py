@@ -106,6 +106,12 @@ RULES: list[Rule] = [
        # parking i komunikacja miejska: "brak biletu", "wezwanie do zaplaty", "nieprawidlowe parkowanie"
        r"|brak\w* (waznego )?biletu|wezwani\w* do zaplaty|nieprawidlow\w* parkowan)"
        r"\w*.{0,80}(zaplac|oplac|uregul|link|kliknij|stron|skan)"),
+    _r("qr_payment", 25,
+       "Płatność przez kod QR z wiadomości albo naklejki może prowadzić na fałszywą stronę. "
+       "Płać w oficjalnej aplikacji albo w parkomacie.",
+       # kod QR + zapłata w dowolnej kolejności: "zeskanuj kod QR i oplac", "oplac, skanujac kod QR"
+       r"(zeskanuj|skanuj|zeskanowa)\w*.{0,30}kod\w* qr.{0,80}(zaplac|oplac|platnos)"
+       r"|(zaplac|oplac)\w*.{0,60}(zeskanuj|skanuj|zeskanowa)\w*.{0,20}kod\w* qr"),
     _r("personal_data_request", 25,
        "Prośba o PESEL, dane karty albo hasło. Nikt uczciwy nie prosi o to w wiadomości.",
        r"(podaj|wpisz|przeslij|potwierdz|uzupelnij).{0,40}"
