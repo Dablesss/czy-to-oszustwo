@@ -101,39 +101,31 @@ railway.json, Dockerfile      wdrożenie na Railway (jeszcze nie wdrożone)
 2. Dodaj przykład oszustwa i przykład zwykłej wiadomości, która NIE powinna się złapać.
 3. `python -m pytest -q` i `python -m tests.evaluate`. Sprawdź, czy nie wzrosły fałszywe alarmy.
 
-## Stan projektu (26.11.2026)
+## Stan projektu (27.11.2026)
 
-Zrobione (PR #1–#9 zmergowane do `main`):
-- MVP: API, reguły, analiza domen, lista CERT, opcjonalne AI, PWA z „Udostępnij” na Androidzie. 101 testów, CI w GitHub Actions.
-- Zestaw realny (44 oszustwa z kampanii CERT, banków, policji; 26 zwykłych) i HARD_LEGIT (21 trudnych zwykłych SMS-ów).
-- Reguły poprawione na podstawie pomyłek. `python -m tests.evaluate`: podstawowy 37/37 i 0/33 alarmów, realny **35/44** i 0/26, trudne zwykłe 1/21.
-- Nowy wygląd z systemem projektowym (`docs/design-system.md`), poprawki dostępności WCAG (czytnik ekranu, wysoki kontrast, powiększenie czcionki), licznik znaków zamiast ucinania tekstu.
-- Strony Prywatność i Regulamin (pola `[DO UZUPEŁNIENIA]` czekają na właściciela).
-- README pod portfolio, projekt w Figmie.
+W `main` (PR #1–#10): MVP, reguły, zestaw realny i HARD_LEGIT, system projektowy, dostępność, strony prawne v1, README, plan zadań.
+
+**Otwarte PR-y (czekają na merge, kolejność w `docs/zadania-fala-b.md`, krok 0):**
+- #11 polityka prywatności i regulamin v2 + treść z „Udostępnij” poza logami (`--no-access-log`, service worker)
+- #14 logo jako link, SEO (canonical, OG, robots.txt, sitemap.xml) → bazuje na #11
+- #17 8 poradników `/artykuly/` → bazuje na #14
+- #18 nowy wygląd: modernizm (czerń/biel/#1c45c4, proste kąty, siatka), ilustracje SVG, obrazy OG, przykłady do kliknięcia, generatory w `tools/poradniki/` → bazuje na #17
+- #16 reguły: realny 42/44, HARD_LEGIT 0/33 · #13 domeny (tldextract offline) · #15 maskowanie imion/adresów przed AI · #12 skrypt `tests/eval_ai.py`
 
 Znane ograniczenia:
-- 9 nierozpoznanych oszustw z zestawu realnego (oferty pracy, pożyczki, OLX „Verify”, Netflix, inwestycje).
-- `client_ip` bierze pierwszy adres z `X-Forwarded-For`, więc limit zapytań da się obejść. Uvicorn loguje IP (logi dostępu).
-- `registrable_domain` bez Public Suffix List; marki dopasowywane jako fragment adresu („sklep-orange-juice.com”).
-- Maskowanie przed AI nie obejmuje adresów ani imion.
-- AI nie było testowane na prawdziwym API. Strona nie jest wdrożona.
-- Rate limit w pamięci: działa na jednej instancji. Brak wieku domeny i obsługi zrzutów ekranu.
+- Limit zapytań da się obejść sfałszowanym `X-Forwarded-For`; klucze IP zostają w pamięci do restartu (zadanie B6).
+- `pko-weryfikacja.xyz` nie jest łapane jako podróbka PKO (B6). Nowe reguły z #16 nie są w `_ASKS_FOR_ACTION` (B6).
+- Podstrony (spis, poradniki, prawne) są w starszym stylu niż strona główna z #18 (B1).
+- AI nie testowane na prawdziwym API. Strona nie jest wdrożona, adres `https://domena.example` do podmiany.
 
 ## Zadania
 
-Szczegółowe zlecenia dla agentów (cel, gałąź, pliki, kroki, kryteria): **`docs/zadania-agentow.md`**.
-
-### Następne (agenci, pierwsza fala równolegle)
-- [ ] **[Claude]** A1 Reguły: pozostałe pomyłki zestawu realnego.
-- [ ] **[Claude]** A2 Domeny: Public Suffix List (tldextract offline) i dopasowanie marek.
-- [ ] **[Claude]** A3 Serwer: prawdziwe IP za proxy, `--no-access-log`.
-- [ ] **[Claude]** A4 Maskowanie adresów i imion przed AI.
-- [ ] **[Claude]** A5 Pomiar AI na zestawach (atrapa bez klucza).
-- [ ] **[Claude]** A8 Instrukcja wdrożenia `docs/wdrozenie.md`.
-- [ ] **[Claude]** Druga fala: A6 „Zgłoś na 8080”, A7 wiek domeny (RDAP), A9 aktualizacja Figmy.
+**Kolejna sesja: `docs/zadania-fala-b.md`** (krok 0: merge PR-ów za zgodą właściciela, potem agenci B1–B9, na koniec integracja). Wspólne zasady dla agentów i starsze zlecenia: `docs/zadania-agentow.md`.
 
 ### Właściciel
-- [ ] Uzupełnić pola `[DO UZUPEŁNIENIA]` w `static/prywatnosc.html` i `static/regulamin.html`.
+- [ ] Zgoda na merge PR #11–#18 (albo merge samodzielnie).
+- [ ] Uzupełnić pola `[DO UZUPEŁNIENIA]` w `static/prywatnosc.html` i `static/regulamin.html`, notka o projekcie swoimi słowami.
+- [ ] Przeczytać poradniki (lista do sprawdzenia w PR #17).
 - [ ] Przeczytać kod reguł (`text_rules.py`, zwłaszcza `_is_warning`) i umieć obronić każdą decyzję.
 
 ### Tydzień 3
