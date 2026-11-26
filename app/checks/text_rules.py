@@ -135,6 +135,13 @@ RULES: list[Rule] = [
        # "odbierz 250 zl na swoje konto", "odbierz 10 euro na start": darmowe pieniądze za nic.
        # Musi być "na konto/rachunek/start", bo "odbierz 20 zl na zakupy w aplikacji" to zwykły rabat sklepu.
        r"|odbierz \d+(?:[.,]\d{1,2})? ?(zl|pln|euro|eur) na (swoje |twoje )?(konto|rachunek|start)\b)"),
+    _r("seller_verification", 30,
+       "„Kupujący zapłacił, zweryfikuj konto” to oszustwo na sprzedających (OLX, Vinted). "
+       "Sprawdzaj sprzedaż tylko w aplikacji serwisu.",
+       # Weryfikacja konta i "kupujacy oplacil" w jednej wiadomości, w dowolnej kolejności.
+       # Prawdziwy serwis pisze o opłaconym zamówieniu ALBO o weryfikacji konta, nie łączy tego.
+       r"weryfik\w*.{0,80}kupujac\w* (oplacil|zaplacil)"
+       r"|kupujac\w* (oplacil|zaplacil)\w*.{0,80}weryfik"),
     _r("install_app", 30,
        "Prośba o zainstalowanie aplikacji z linku. Aplikacje instaluj tylko ze Sklepu Play lub App Store.",
        # "zainstal\w*" łapie każdą formę: zainstaluj, zainstalowac, zainstaluje
