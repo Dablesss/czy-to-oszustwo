@@ -89,18 +89,38 @@ def _edit_distance(a: str, b: str) -> int:
     return d[len(a)][len(b)]
 
 
+# Marki, które są też zwykłymi słowami (po angielsku albo po polsku). Liczymy je tylko
+# na początku członu adresu: "orange-faktura.top" tak, "sklep-orange-juice.com" nie.
+COMMON_WORD_BRANDS = {"orange", "millennium", "podatki", "santander"}
+
+
+def _brand_in_tokens(brand: str, tokens: list[str]) -> bool:
+    """Czy marka stoi w adresie jako osobny człon albo na początku członu.
+
+    tokens to słowa jednego członu adresu rozdzielone myślnikami, np. "poczta-polska-zwrot"
+    -> ["poczta", "polska", "zwrot"]. Marka może zająć kilka słów ("poczta" + "polska")
+    albo być doklejona z przodu ("inpostpaczka"), ale nie może siedzieć w środku słowa
+    ("mojinpost") ani, dla zwykłych słów, w środku nazwy ("sklep-orange-juice").
+    """
+    if len(brand) < 5:
+        # Krótkie nazwy (dpd, gov) tylko jako całe słowo: inaczej "governance" byłoby podróbką gov.pl
+        return brand in tokens
+    if brand in COMMON_WORD_BRANDS:
+        starts = [0]                      # tylko na samym początku członu
+    else:
+        starts = range(len(tokens))       # na początku dowolnego słowa
+    return any("".join(tokens[i:]).startswith(brand) for i in starts)
+
+
 def _find_brand(host: str) -> str | None:
-    """Szuka nazwy marki w hoście. Krótkie nazwy (dpd, gov) tylko jako osobny człon adresu."""
-    tokens = re.split(r"[-.]", host)
-    tokens += [t.translate(_LEET) for t in tokens]
-    flat = host.replace("-", "").replace(".", "")
-    flats = {flat, flat.translate(_LEET)}
-    for brand in BRANDS:
-        if len(brand) >= 5:
-            if any(brand in f for f in flats):
-                return brand
-        elif brand in tokens:
-            return brand
+    """Szuka nazwy marki w hoście. Każdy człon adresu (między kropkami) sprawdzamy osobno."""
+    for label in host.split("."):
+        # Wersja zwykła i po zamianie cyfr na litery (a11egro -> allegro)
+        for variant in (label, label.translate(_LEET)):
+            tokens = [t for t in variant.split("-") if t]
+            for brand in BRANDS:
+                if _brand_in_tokens(brand, tokens):
+                    return brand
     return None
 
 

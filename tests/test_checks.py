@@ -147,3 +147,27 @@ def test_public_suffix_list_works_offline(monkeypatch):
     monkeypatch.setattr(socket.socket, "connect", no_network)
     fresh = links._make_extractor()          # nowy obiekt, więc lista ładuje się od zera
     assert fresh("sklep.x.com.pl").suffix == "com.pl"
+
+
+# --- domeny: marka jako osobny człon adresu ---
+
+def test_brand_must_be_separate_part_or_at_start():
+    brand = lambda h: "brand_in_foreign_domain" in {s.code for s in analyze_host(h)[1]}
+    # osobny człon, kilka słów albo doklejona z przodu: podróbka
+    assert brand("poczta-polska-zwrot.com")
+    assert brand("inpostpaczka.top")
+    assert brand("konto.orange-pl.top")
+    assert brand("pk0bp-login.com")
+    # marka w środku słowa: nie liczymy
+    assert not brand("mojinpost.com")
+
+
+def test_common_word_brand_only_at_start():
+    # "orange", "podatki", "santander" to też zwykłe słowa (sok, biuro rachunkowe, miasto)
+    codes = {s.code for s in analyze_host("sklep-orange-juice.com")[1]}
+    assert "brand_in_foreign_domain" not in codes   # zostaje tylko sygnał o myślnikach
+    assert analyze_host("biuro-podatki.pl") == ("unknown", [])
+    assert analyze_host("hotel-santander.es") == ("unknown", [])
+    # na początku nazwy dalej łapiemy
+    assert "brand_in_foreign_domain" in {s.code for s in analyze_host("orange-faktura.top")[1]}
+    assert "brand_in_foreign_domain" in {s.code for s in analyze_host("santander-karta.eu")[1]}
