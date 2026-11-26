@@ -3,7 +3,7 @@
 
 // Zmień numer przy każdej zmianie w static/, żeby telefony pobrały nową wersję.
 // Poradników (static/artykuly/) celowo NIE ma w SHELL: nie zapychamy pamięci telefonu.
-const CACHE = "czy-to-oszustwo-v11";
+const CACHE = "czy-to-oszustwo-v12";
 const SHELL = ["/", "/style.css", "/app.js", "/manifest.json", "/icons/icon.svg",
                "/prywatnosc.html", "/regulamin.html"];
 
