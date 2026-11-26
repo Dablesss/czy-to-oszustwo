@@ -142,6 +142,15 @@ RULES: list[Rule] = [
        # Prawdziwy serwis pisze o opłaconym zamówieniu ALBO o weryfikacji konta, nie łączy tego.
        r"weryfik\w*.{0,80}kupujac\w* (oplacil|zaplacil)"
        r"|kupujac\w* (oplacil|zaplacil)\w*.{0,80}weryfik"),
+    _r("payment_failed", 25,
+       "„Płatność się nie udała, odnów subskrypcję przez link” to częsta przynęta na dane karty. "
+       "Sprawdź subskrypcję w aplikacji albo na stronie, wpisując adres samodzielnie.",
+       # Nieudana płatność ...
+       r"(nie udalo (nam )?sie (przetworzyc|pobrac|zrealizowac|obciazyc)|nie moglismy (przetworzyc|pobrac|obciazyc)"
+       r"|(platnos|oplat|transakcj)\w* (zostala )?(odrzucon|nieudan))"
+       # ... i polecenie z dwukropkiem albo linkiem: "Odnow subskrypcje: <link>".
+       # Samo "zaktualizuj metode platnosci w aplikacji" pisze prawdziwy serwis.
+       r".{0,80}(odnow|zaktualizuj|uzupelnij|potwierdz|podaj)\w*[^.:]{0,40}(:|tutaj|link|ponizej)"),
     _r("install_app", 30,
        "Prośba o zainstalowanie aplikacji z linku. Aplikacje instaluj tylko ze Sklepu Play lub App Store.",
        # "zainstal\w*" łapie każdą formę: zainstaluj, zainstalowac, zainstaluje

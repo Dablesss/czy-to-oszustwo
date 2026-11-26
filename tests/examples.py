@@ -64,6 +64,8 @@ SCAMS: list[tuple[str, str]] = [
     # Oszustwo na sprzedajacych: "kupujacy oplacil" + "weryfikacja konta"
     ("Vinted: kupujacy oplacil Twoj przedmiot, ale konto sprzedawcy wymaga weryfikacji: "
      "vinted-pl.sprzedaz-weryfikacja.com", "scam"),
+    # Nieudana platnosc za subskrypcje i link do "odnowienia"
+    ("Kino Online: nie udalo sie pobrac platnosci. Zaktualizuj dane karty tutaj: kino-online-konto.com", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -105,6 +107,8 @@ LEGIT: list[str] = [
     "Paczka wraca do nadawcy. Jesli chcesz ja zatrzymac, skontaktuj sie ze sklepem.",
     # Kupujacy zaplacil, ale bez "weryfikacji konta"
     "OLX: kupujacy zaplacil za przedmiot. Pieniadze trafia na Twoje konto po odbiorze paczki.",
+    # Nieudana platnosc, ale odeslanie do aplikacji, a nie do linku
+    "Kino Online: nie udalo sie pobrac platnosci za subskrypcje. Zaktualizuj metode platnosci w aplikacji.",
     "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
     # Prawdziwy bank kieruje do aplikacji i na numer z karty, a nie w link
     "Bank Polnocny: zablokowalismy podejrzana transakcje 2300 zl. Sprawdz ja w aplikacji albo zadzwon na numer z karty.",
