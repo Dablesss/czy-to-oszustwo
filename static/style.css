@@ -1,40 +1,80 @@
-/* Zasady: duża czcionka (20 px), wysoki kontrast (WCAG AA), jedna kolumna,
-   duże przyciski (min. 60 px głównego, 48 px pozostałych). Kolory tylko w zmiennych. */
+/* System projektowy opisany w docs/design-system.md.
+   Zasady: duża czcionka (20 px), wysoki kontrast (WCAG AA), jedna kolumna,
+   duże cele dotyku (główny przycisk 64 px, pozostałe min. 48 px).
+   Kolory, odstępy, rozmiary czcionek i czasy animacji są TYLKO w zmiennych niżej. */
 :root {
-  --bg: #f4f2ed;          /* tło strony: ciepła, jasna szarość */
-  --surface: #ffffff;     /* karty i pola */
+  /* --- Kolory --- */
+  --bg: #f4f2ed;           /* tło strony: ciepła, jasna szarość */
+  --surface: #ffffff;      /* karty i pola */
   --text: #16191d;
-  --muted: #4b5563;       /* tekst pomocniczy: 6.9:1 na tle */
-  --line: #ddd8cd;        /* delikatne linie i ramki */
-  --field-border: #6b7280;/* ramka pola: min. 3:1 (WCAG 1.4.11) */
-  --primary: #1f4fa3;     /* biały tekst na nim: 7.6:1 */
+  --muted: #4b5563;        /* tekst pomocniczy: 6.8:1 na tle */
+  --line: #ddd8cd;         /* delikatne linie i ramki */
+  --field-border: #6b7280; /* ramka pola: min. 3:1 (WCAG 1.4.11) */
+  --primary: #1f4fa3;      /* biały tekst na nim: 7.8:1 */
   --primary-hover: #183f84;
+  --primary-active: #12306a;
   --on-primary: #ffffff;
   --primary-soft: #e8eef9;
   --focus: #1f4fa3;
-  --shadow: 0 1px 2px rgb(22 25 29 / 0.06), 0 8px 24px rgb(22 25 29 / 0.06);
+  --link-visited: #5b3a9e;
 
-  /* Werdykty: kolor paska (biały tekst na nim min. 4.5:1) i jasne tło treści */
-  --scam: #b3261e;  --scam-soft: #fdf0ee;
-  --warn: #8f5100;  --warn-soft: #fff6e0;
-  --ok: #1e7a3c;    --ok-soft: #ebf6ee;
-  --on-verdict: #ffffff;
+  /* Werdykty (nazwy jak w API): pasek z tytułem i jasne tło treści */
+  --scam: #b3261e;        --scam-soft: #fdf0ee;
+  --suspicious: #8f5100;  --suspicious-soft: #fff6e0;
+  --no-signs: #1e7a3c;    --no-signs-soft: #ebf6ee;
+  --on-verdict: #ffffff;  /* tekst na pasku: min. 5.4:1 */
 
+  /* --- Odstępy: tylko te wartości --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  /* --- Typografia: 5 rozmiarów (1rem = 20 px) --- */
+  --text-sm: 0.85rem;   /* stopka, podpisy, małe przyciski */
+  --text-base: 1rem;    /* zwykły tekst */
+  --text-md: 1.15rem;   /* główny przycisk, wstęp */
+  --text-lg: 1.5rem;    /* tytuł werdyktu */
+  --text-xl: clamp(1.6rem, 5vw, 2.1rem); /* nagłówek strony */
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+  --leading: 1.5;
+  --leading-tight: 1.2;
+
+  /* --- Kształt i głębia --- */
   --radius: 16px;
   --radius-sm: 12px;
+  --shadow: 0 1px 2px rgb(22 25 29 / 0.06), 0 8px 24px rgb(22 25 29 / 0.06);
+
+  /* --- Ruch --- */
+  --duration-spin: 0.8s;
+
+  /* --- Rozmiary elementów --- */
+  --tap-min: 48px;      /* minimalny cel dotyku */
+  --tap-comfortable: 56px; /* przyciski drugorzędne, "Dlaczego tak uważamy?" */
+  --tap-main: 64px;     /* główny przycisk */
+  --icon-sm: 1.1em;
+  --icon-lg: 44px;
+  --content-width: 680px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0f1216; --surface: #181c22; --text: #eef0f3; --muted: #b4bcc8;
     --line: #2e353f; --field-border: #8a94a3;
-    /* Jasnoniebieski przycisk z ciemnym tekstem (10:1) */
-    --primary: #9cc0ff; --primary-hover: #c2d8ff; --on-primary: #0b1626;
-    --primary-soft: #1c2a42; --focus: #c2d8ff;
+    /* Jasnoniebieski przycisk z ciemnym tekstem (9.9:1) */
+    --primary: #9cc0ff; --primary-hover: #c2d8ff; --primary-active: #dbe8ff;
+    --on-primary: #0b1626; --primary-soft: #1c2a42; --focus: #c2d8ff;
+    --link-visited: #c9b2ff;
     --shadow: none;
-    --scam: #ffb4ab;  --scam-soft: #2a1513;
-    --warn: #ffd27a;  --warn-soft: #2a2110;
-    --ok: #8fdba6;    --ok-soft: #12241a;
+    --scam: #ffb4ab;       --scam-soft: #2a1513;
+    --suspicious: #ffd27a; --suspicious-soft: #2a2110;
+    --no-signs: #8fdba6;   --no-signs-soft: #12241a;
     --on-verdict: #16191d; /* w ciemnym motywie pasek jest jasny, a tekst ciemny */
   }
 }
@@ -48,64 +88,68 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-  line-height: 1.5;
+  font-size: var(--text-base);
+  line-height: var(--leading);
   overflow-wrap: break-word; /* długie linki łamią się zamiast wychodzić poza ekran */
   -webkit-text-size-adjust: 100%;
 }
 
-.wrap { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+.wrap { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-4); }
 
 /* Wspólny zbiór ikon jest niewidoczny, ikony pokazujemy przez <use>. */
 .sprite { display: none; }
-.icon { width: 1.1em; height: 1.1em; flex: none; }
+.icon { width: var(--icon-sm); height: var(--icon-sm); flex: none; }
 
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
-/* --- Nagłówek --- */
+a { color: var(--primary); }
+a:visited { color: var(--link-visited); }
+a:hover { text-decoration-thickness: 3px; }
+
+/* ===== Nagłówek ===== */
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
-.brand { display: flex; align-items: center; gap: 10px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: var(--space-3); min-height: var(--tap-main); }
 .brand-logo { width: 32px; height: 32px; color: var(--primary); }
 .logo-check { stroke: var(--surface); } /* ptaszek w kolorze tła, także w ciemnym motywie */
-.brand-name { font-weight: 800; font-size: 1rem; letter-spacing: -0.01em; }
+.brand-name { font-weight: var(--weight-heavy); letter-spacing: -0.01em; }
 
-/* --- Wprowadzenie --- */
-.hero { padding: 32px 0 20px; }
+/* ===== Wprowadzenie ===== */
+.hero { padding: var(--space-7) 0 var(--space-5); }
 h1 {
-  font-size: clamp(1.6rem, 5vw, 2.1rem);
-  line-height: 1.15;
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
   letter-spacing: -0.02em;
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-3);
   text-wrap: balance; /* równe linie zamiast jednego słowa w ostatniej */
 }
-.lead { font-size: 1.05rem; color: var(--muted); margin: 0; max-width: 34em; }
+.lead { color: var(--muted); margin: 0; max-width: 34em; }
 
-/* --- Formularz --- */
+/* ===== Formularz ===== */
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 20px;
+  padding: var(--space-5);
 }
 .field-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px 12px;
+  gap: var(--space-2) var(--space-3);
   flex-wrap: wrap;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
-label { font-weight: 700; }
+label { font-weight: var(--weight-bold); }
 
 textarea {
   display: block;
   width: 100%;
   font: inherit;
-  font-size: 1.05rem;
-  padding: 14px 16px;
+  padding: var(--space-3) var(--space-4);
   border: 2px solid var(--field-border);
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -114,54 +158,78 @@ textarea {
   min-height: 9em;
 }
 textarea::placeholder { color: var(--muted); opacity: 1; }
+textarea:hover { border-color: var(--text); }
 textarea:focus { outline: 3px solid var(--primary); outline-offset: 2px; border-color: var(--primary); }
 textarea[aria-invalid="true"] { border-color: var(--scam); }
 
-/* --- Przyciski --- */
-button {
+/* Licznik znaków: widoczny dopiero od 2500 znaków (app.js) */
+.counter {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-align: right;
+}
+.counter.is-over { color: var(--scam); font-weight: var(--weight-bold); }
+
+.error {
+  color: var(--scam);
+  font-weight: var(--weight-semibold);
+  margin: var(--space-3) 0 0;
+}
+
+/* ===== Przyciski =====
+   .btn to podstawa, a wariant dokłada kolory: --primary, --secondary, --ghost.
+   --full rozciąga przycisk na całą szerokość. */
+.btn {
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   border-radius: var(--radius-sm);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: var(--space-3);
+  min-height: var(--tap-min);
 }
+/* Wciśnięcie: przycisk lekko "wchodzi" w ekran, widać, że dotyk zadziałał */
+.btn:active { transform: translateY(1px); }
 
-.primary {
+.btn--primary {
   width: 100%;
-  min-height: 64px;
-  margin-top: 16px;
-  padding: 14px 20px;
+  min-height: var(--tap-main);
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-5);
   border: none;
   background: var(--primary);
   color: var(--on-primary);
-  font-size: 1.15rem;
+  font-size: var(--text-md);
 }
-.primary:hover { background: var(--primary-hover); }
-.primary[aria-disabled="true"] { cursor: wait; }
+.btn--primary:hover { background: var(--primary-hover); }
+.btn--primary:active { background: var(--primary-active); }
+.btn--primary[aria-disabled="true"] { cursor: wait; }
 
-.secondary {
-  min-height: 56px;
-  padding: 12px 20px;
+.btn--secondary {
+  min-height: var(--tap-comfortable);
+  padding: var(--space-3) var(--space-5);
   background: var(--surface);
   color: var(--text);
   border: 2px solid var(--field-border);
 }
-.secondary:hover { border-color: var(--primary); color: var(--primary); }
-.wide { width: 100%; margin-top: 16px; }
+.btn--secondary:hover { border-color: var(--primary); color: var(--primary); }
+.btn--secondary:active { background: var(--primary-soft); }
 
 /* Mały przycisk obok etykiety: bez ramki, ale cel dotyku min. 48 px */
-.ghost {
-  min-height: 48px;
-  padding: 8px 14px;
+.btn--ghost {
+  padding: var(--space-2) var(--space-4);
   background: var(--primary-soft);
   color: var(--primary);
   border: none;
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
 }
-.ghost:hover { text-decoration: underline; }
+.btn--ghost:hover { text-decoration: underline; }
+.btn--ghost:active { background: var(--line); }
+
+.btn--full { width: 100%; margin-top: var(--space-4); }
 
 /* Kółko kręcące się w przycisku podczas sprawdzania */
 .spinner {
@@ -170,19 +238,13 @@ button {
   border: 3px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin var(--duration-spin) linear infinite;
 }
-.primary.is-busy .spinner { display: inline-block; }
+.btn--primary.is-busy .spinner { display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.error {
-  color: var(--scam);
-  font-weight: 600;
-  margin: 10px 0 0;
-}
-
-/* --- Wynik --- */
-.result { margin-top: 24px; }
+/* ===== Wynik ===== */
+.result { margin-top: var(--space-6); }
 
 .verdict {
   border-radius: var(--radius);
@@ -194,109 +256,115 @@ button {
 .verdict-head {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 20px;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
   color: var(--on-verdict);
 }
-.verdict-icon svg { width: 44px; height: 44px; display: none; }
+.verdict-icon svg { width: var(--icon-lg); height: var(--icon-lg); display: none; }
+/* Klasy scam / suspicious / no_signs to wartości "verdict" z API (stąd podkreślnik). */
 .verdict.scam .only-scam,
 .verdict.suspicious .only-suspicious,
 .verdict.no_signs .only-no_signs { display: block; }
 
 .overline {
   margin: 0;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.verdict h2 { margin: 0; font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.01em; }
+.verdict h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
 .verdict h2:focus { outline: none; } /* fokus z JS jest tylko dla czytnika ekranu */
 
-.verdict.scam .verdict-head       { background: var(--scam); }
-.verdict.suspicious .verdict-head { background: var(--warn); }
-.verdict.no_signs .verdict-head   { background: var(--ok); }
-.verdict.scam .verdict-body       { background: var(--scam-soft); }
-.verdict.suspicious .verdict-body { background: var(--warn-soft); }
-.verdict.no_signs .verdict-body   { background: var(--ok-soft); }
-
-.verdict-body { padding: 18px 20px 20px; }
-.verdict-body h3 { font-size: 1rem; margin: 0 0 10px; }
+.verdict.scam       { --tone: var(--scam);       --tone-soft: var(--scam-soft); }
+.verdict.suspicious { --tone: var(--suspicious); --tone-soft: var(--suspicious-soft); }
+.verdict.no_signs   { --tone: var(--no-signs);   --tone-soft: var(--no-signs-soft); }
+.verdict-head { background: var(--tone); }
+.verdict-body { background: var(--tone-soft); padding: var(--space-4) var(--space-5) var(--space-5); }
+.verdict-body h3 { font-size: var(--text-base); margin: 0 0 var(--space-3); }
 
 /* Lista rad z kolorową kropką zamiast zwykłego punktora */
 .steps { list-style: none; margin: 0; padding: 0; }
-.steps li { position: relative; padding-left: 28px; margin-bottom: 10px; }
+.steps li { position: relative; padding-left: var(--space-7); margin-bottom: var(--space-3); }
 .steps li:last-child { margin-bottom: 0; }
 .steps li::before {
   content: "";
   position: absolute;
-  left: 4px; top: 0.55em;
+  left: var(--space-1); top: 0.55em;
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: currentColor;
+  background: var(--tone);
 }
-.verdict.scam .steps li::before       { background: var(--scam); }
-.verdict.suspicious .steps li::before { background: var(--warn); }
-.verdict.no_signs .steps li::before   { background: var(--ok); }
 
 .reasons {
-  margin-top: 14px;
+  margin-top: var(--space-4);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
 .reasons summary {
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   cursor: pointer;
-  padding: 12px 20px;
-  min-height: 56px;
+  padding: var(--space-3) var(--space-5);
+  min-height: var(--tap-comfortable);
   display: flex;
   align-items: center;
   list-style: none;
 }
 .reasons summary::-webkit-details-marker { display: none; }
-.reasons summary::after { content: "+"; margin-left: auto; font-size: 1.3rem; color: var(--primary); }
+.reasons summary::after {
+  content: "+";
+  margin-left: auto;
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--primary);
+}
+.reasons summary:hover { color: var(--primary); }
 .reasons[open] summary::after { content: "−"; }
-.reasons ul { margin: 0 20px 18px; padding-left: 1.1em; }
-.reasons li { margin-bottom: 8px; }
+.reasons ul { margin: 0 var(--space-5) var(--space-5); padding-left: 1.1em; }
+.reasons li { margin-bottom: var(--space-2); }
 
-/* --- Pasek zaufania --- */
+/* ===== Pasek zaufania ===== */
 .trust {
   list-style: none;
   padding: 0;
-  margin: 28px 0 0;
+  margin: var(--space-7) 0 0;
   display: grid;
-  gap: 10px;
+  gap: var(--space-3);
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
 }
-.trust li { display: flex; align-items: flex-start; gap: 10px; }
+.trust li { display: flex; align-items: flex-start; gap: var(--space-3); }
 .trust .icon { color: var(--primary); margin-top: 0.2em; }
 
-/* --- Wskazówka iOS --- */
+/* ===== Wskazówka iOS ===== */
 .hint {
   display: flex;
-  gap: 14px;
-  margin-top: 28px;
-  padding: 18px;
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+  padding: var(--space-5);
   background: var(--primary-soft);
   border-radius: var(--radius);
 }
 .hint[hidden] { display: none; }
 .hint-icon { width: 28px; height: 28px; color: var(--primary); }
-.hint p { margin: 0 0 12px; }
+.hint p { margin: 0 0 var(--space-3); }
 
-/* --- Stopka --- */
+/* ===== Stopka ===== */
 .site-footer {
-  margin-top: 48px;
-  padding: 24px 0 40px;
+  margin-top: var(--space-8);
+  padding: var(--space-6) 0 var(--space-8);
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
 }
-.site-footer p { margin: 0 0 10px; }
-.site-footer .report { color: var(--text); font-size: 0.95rem; }
-.site-footer a { color: var(--primary); }
+.site-footer p { margin: 0 0 var(--space-3); }
+.site-footer .report { color: var(--text); font-size: var(--text-base); }
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
@@ -306,12 +374,14 @@ button {
 
 /* Szerszy ekran: zaufanie w trzech kolumnach, więcej oddechu */
 @media (min-width: 720px) {
-  .hero { padding: 48px 0 24px; }
-  .panel { padding: 28px; }
-  .trust { grid-template-columns: repeat(3, 1fr); align-items: start; }
+  .hero { padding: var(--space-8) 0 var(--space-6); }
+  .panel { padding: var(--space-7); }
+  .trust { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* Mniej ruchu, gdy ktoś to wyłączył w systemie */
+/* Mniej ruchu, gdy ktoś to wyłączył w systemie: kółko stoi,
+   a o trwającym sprawdzaniu mówi napis "Sprawdzam…" w przycisku. */
 @media (prefers-reduced-motion: reduce) {
-  .spinner { animation-duration: 2.4s; }
+  .spinner { animation: none; border-right-color: currentColor; opacity: 0.6; }
+  .btn:active { transform: none; }
 }

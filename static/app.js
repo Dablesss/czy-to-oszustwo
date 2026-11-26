@@ -8,11 +8,25 @@ const againBtn = document.getElementById("again-btn");
 const errorBox = document.getElementById("error");
 const statusBox = document.getElementById("status");
 const result = document.getElementById("result");
-const card = document.getElementById("card");
+const verdictBox = document.getElementById("verdict");
 const verdictTitle = document.getElementById("verdict-title");
 const checkLabel = document.getElementById("check-label");
+const counter = document.getElementById("counter");
+
+// Ten sam limit co MAX_TEXT_LENGTH na serwerze (app/config.py).
+const MAX_LENGTH = 3000;
+// Licznik pokazujemy dopiero blisko limitu, żeby nie rozpraszał przy krótkich SMS-ach.
+const COUNTER_FROM = 2500;
 
 let busy = false; // true, gdy czekamy na odpowiedź serwera
+
+// Zamiast cicho ucinać tekst (atrybut maxlength), pokazujemy licznik i ostrzegamy.
+function updateCounter() {
+  const length = textarea.value.length;
+  counter.hidden = length < COUNTER_FROM;
+  counter.textContent = `${length} / ${MAX_LENGTH} znaków`;
+  counter.classList.toggle("is-over", length > MAX_LENGTH);
+}
 
 // Gdy ktoś wyłączył animacje w systemie, przewijamy od razu, bez płynnego ruchu.
 function scrollBehavior() {
@@ -41,7 +55,7 @@ function fillList(id, items) {
 
 function showResult(data) {
   // Klasa werdyktu wybiera w CSS kolor karty i jedną z trzech ikon.
-  card.className = `verdict ${data.verdict}`;
+  verdictBox.className = `verdict ${data.verdict}`;
   verdictTitle.textContent = data.title;
   fillList("advice", data.advice);
   fillList("reasons", data.reasons);
@@ -66,6 +80,12 @@ async function check(text) {
   result.hidden = true;
   if (!text.trim()) {
     showError("Najpierw wklej treść wiadomości albo link.");
+    textarea.focus();
+    return;
+  }
+  if (text.trim().length > MAX_LENGTH) {
+    showError(`Wiadomość jest za długa: ma ${text.trim().length} znaków, a mieści się ${MAX_LENGTH}. `
+      + "Wklej tylko najważniejszą część, na przykład fragment z linkiem.");
     textarea.focus();
     return;
   }
@@ -109,9 +129,13 @@ form.addEventListener("submit", (event) => {
   check(textarea.value);
 });
 
+// Licznik odświeżamy przy każdej zmianie w polu (pisanie, wklejanie, usuwanie).
+textarea.addEventListener("input", updateCounter);
+
 pasteBtn.addEventListener("click", async () => {
   try {
     textarea.value = await navigator.clipboard.readText();
+    updateCounter(); // zmiana z JS nie wywołuje zdarzenia "input"
     hideError();
     textarea.focus();
   } catch {
@@ -121,6 +145,7 @@ pasteBtn.addEventListener("click", async () => {
 
 againBtn.addEventListener("click", () => {
   textarea.value = "";
+  updateCounter();
   result.hidden = true;
   statusBox.textContent = "";
   textarea.focus();
@@ -172,6 +197,7 @@ const params = new URLSearchParams(window.location.search);
 const shared = [params.get("title"), params.get("text"), params.get("url")].filter(Boolean).join("\n");
 if (shared) {
   textarea.value = shared;
+  updateCounter();
   history.replaceState(null, "", "/"); // usuwamy treść z adresu strony
   check(shared);
 }

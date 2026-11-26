@@ -62,16 +62,18 @@
     <form id="check-form" class="panel" novalidate>
       <div class="field-head">
         <label for="message">Treść wiadomości albo link</label>
-        <button type="button" id="paste-btn" class="ghost">
+        <button type="button" id="paste-btn" class="btn btn--ghost">
           <svg class="icon" aria-hidden="true"><use href="#i-paste"/></svg>
           Wklej ze schowka
         </button>
       </div>
-      <textarea id="message" name="text" rows="6" maxlength="3000" aria-describedby="error"
+      <!-- Bez maxlength: przeglądarka ucinałaby tekst po cichu. Limit pilnuje app.js. -->
+      <textarea id="message" name="text" rows="6" aria-describedby="counter error"
         placeholder="Na przykład: Twoja paczka czeka na dopłatę 1,99 zł…"></textarea>
+      <p id="counter" class="counter" hidden></p>
       <p id="error" class="error" role="alert" hidden></p>
 
-      <button type="submit" id="check-btn" class="primary">
+      <button type="submit" id="check-btn" class="btn btn--primary">
         <span class="spinner" aria-hidden="true"></span>
         <span id="check-label">Sprawdź wiadomość</span>
       </button>
@@ -82,7 +84,7 @@
 
     <section id="result" class="result" aria-labelledby="verdict-title" hidden>
       <!-- Klasa scam / suspicious / no_signs (z app.js) wybiera kolor i ikonę. -->
-      <div class="verdict" id="card">
+      <div class="verdict" id="verdict">
         <div class="verdict-head">
           <span class="verdict-icon" aria-hidden="true">
             <svg class="only-scam"><use href="#i-scam"/></svg>
@@ -106,7 +108,7 @@
         <ul id="reasons"></ul>
       </details>
 
-      <button type="button" id="again-btn" class="secondary wide">Sprawdź inną wiadomość</button>
+      <button type="button" id="again-btn" class="btn btn--secondary btn--full">Sprawdź inną wiadomość</button>
     </section>
 
     <ul class="trust">
@@ -125,7 +127,7 @@
           (kwadrat ze strzałką w górę)
           na dole ekranu, a potem <strong>„Do ekranu początkowego”</strong>.
         </p>
-        <button type="button" id="ios-hint-close" class="secondary">Zamknij wskazówkę</button>
+        <button type="button" id="ios-hint-close" class="btn btn--secondary">Zamknij wskazówkę</button>
       </div>
     </aside>
   </main>
