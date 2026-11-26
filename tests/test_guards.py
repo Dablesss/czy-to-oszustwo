@@ -200,3 +200,103 @@ def test_manifest_is_valid():
     for icon in manifest["icons"]:
         # "/icons/icon-192.png" -> static/icons/icon-192.png
         assert (STATIC / icon["src"].lstrip("/")).is_file(), f"Brak pliku {icon['src']}"
+
+
+# ---------------------------------------------------------------- 8. SEO i nawigacja
+
+# Adres bazowy strony. To JEDYNE miejsce w Pythonie, gdzie jest zapisany.
+# Po kupnie domeny podmień go tutaj i w plikach static/ (canonical, og:url, og:image,
+# robots.txt, sitemap.xml) – testy niżej pilnują, żeby wszędzie był ten sam.
+SITE_URL = "https://domena.example"
+
+
+class HeadReader(HTMLParser):
+    """Zbiera z HTML to, co czytają wyszukiwarki: język, tytuł, opis, adres
+    kanoniczny, znaczniki Open Graph i adres linku z logo (a class="brand")."""
+
+    def __init__(self):
+        super().__init__()
+        self.lang = None
+        self.title = ""
+        self.in_title = False
+        self.meta = {}  # name albo property -> content
+        self.canonical = None
+        self.brand_href = None
+        self.skip_link = None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "html":
+            self.lang = a.get("lang")
+        elif tag == "title":
+            self.in_title = True
+        elif tag == "meta" and ("name" in a or "property" in a):
+            self.meta[a.get("name") or a.get("property")] = a.get("content", "")
+        elif tag == "link" and a.get("rel") == "canonical":
+            self.canonical = a.get("href")
+        elif tag == "a" and "brand" in (a.get("class") or "").split():
+            self.brand_href = a.get("href")
+        elif tag == "a" and "skip-link" in (a.get("class") or "").split():
+            self.skip_link = a.get("href")
+
+    def handle_endtag(self, tag):
+        if tag == "title":
+            self.in_title = False
+
+    def handle_data(self, data):
+        if self.in_title:
+            self.title += data
+
+
+def read_head(path):
+    reader = HeadReader()
+    reader.feed(path.read_text(encoding="utf-8"))
+    return reader
+
+
+@pytest.mark.parametrize("path", HTML_FILES, ids=lambda p: p.name)
+def test_html_has_seo_basics(path):
+    """Każda strona ma to, czego potrzebuje wyszukiwarka: język polski, tytuł
+    (do 60 znaków, dłuższy Google utnie), opis (do 160 znaków), adres kanoniczny
+    na naszej domenie i podgląd linku (Open Graph) z polską wersją językową."""
+    head = read_head(path)
+    assert head.lang == "pl"
+    assert 0 < len(head.title.strip()) <= 60, f"Tytuł: {head.title!r}"
+    assert 0 < len(head.meta.get("description", "")) <= 160
+    assert head.canonical and head.canonical.startswith(SITE_URL + "/")
+    assert head.meta.get("og:url") == head.canonical
+    assert head.meta.get("og:image", "").startswith(SITE_URL + "/")
+    assert head.meta.get("og:locale") == "pl_PL"
+    for key in ("og:title", "og:description", "og:type", "twitter:card"):
+        assert head.meta.get(key), f"Brak {key}"
+
+
+@pytest.mark.parametrize("path", HTML_FILES, ids=lambda p: p.name)
+def test_logo_links_home_and_skip_link_works(path):
+    """Logo w nagłówku prowadzi na stronę główną z każdej podstrony, a link
+    „Przejdź do treści” wskazuje element, który naprawdę istnieje."""
+    head = read_head(path)
+    assert head.brand_href == "/"
+    assert head.skip_link and head.skip_link.startswith("#")
+    assert f'id="{head.skip_link[1:]}"' in path.read_text(encoding="utf-8")
+
+
+def test_titles_are_unique():
+    """Dwie strony z tym samym tytułem wyglądają w wynikach wyszukiwania jak duplikat."""
+    titles = [read_head(p).title.strip() for p in HTML_FILES]
+    assert len(titles) == len(set(titles))
+
+
+def test_robots_and_sitemap(client):
+    """robots.txt i sitemap.xml są dostępne pod adresami, których szukają wyszukiwarki,
+    z właściwym typem, a mapa strony zawiera adres kanoniczny każdej strony HTML."""
+    robots = client.get("/robots.txt")
+    assert robots.status_code == 200
+    assert robots.headers["content-type"].startswith("text/plain")
+    assert f"Sitemap: {SITE_URL}/sitemap.xml" in robots.text
+
+    sitemap = client.get("/sitemap.xml")
+    assert sitemap.status_code == 200
+    assert "xml" in sitemap.headers["content-type"]
+    for path in HTML_FILES:
+        assert f"<loc>{read_head(path).canonical}</loc>" in sitemap.text

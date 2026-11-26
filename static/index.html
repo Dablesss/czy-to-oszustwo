@@ -4,7 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Czy to oszustwo? Sprawdź podejrzany SMS albo link</title>
-  <meta name="description" content="Sprawdź podejrzany SMS, wiadomość albo link w kilka sekund.">
+  <meta name="description" content="Wklej podejrzany SMS, wiadomość albo link i w kilka sekund sprawdź, czy to oszustwo. Za darmo, bez logowania, bez zapisywania treści.">
+  <!-- Adres bazowy https://domena.example podmień na prawdziwą domenę (patrz SITE_URL w tests/test_guards.py). -->
+  <link rel="canonical" href="https://domena.example/">
+  <!-- Podgląd linku w komunikatorach i serwisach społecznościowych (Open Graph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Czy to oszustwo?">
+  <meta property="og:title" content="Czy to oszustwo? Sprawdź podejrzany SMS albo link">
+  <meta property="og:description" content="Wklej podejrzany SMS, wiadomość albo link i w kilka sekund sprawdź, czy to oszustwo. Za darmo, bez logowania, bez zapisywania treści.">
+  <meta property="og:url" content="https://domena.example/">
+  <meta property="og:image" content="https://domena.example/icons/icon-512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logo Czy to oszustwo?: tarcza z ptaszkiem">
+  <meta property="og:locale" content="pl_PL">
+  <meta name="twitter:card" content="summary">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
@@ -13,6 +27,7 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#tresc">Przejdź do treści</a>
   <!-- Ikony w jednym miejscu. Niżej używamy ich przez <use href="#...">. -->
   <svg class="sprite" aria-hidden="true" focusable="false">
     <symbol id="i-logo" viewBox="0 0 32 32">
@@ -47,13 +62,15 @@
   </svg>
 
   <header class="site-header">
-    <div class="wrap brand">
-      <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
-      <span class="brand-name">Czy to oszustwo?</span>
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Czy to oszustwo? – strona główna" aria-current="page">
+        <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
+        <span class="brand-name">Czy to oszustwo?</span>
+      </a>
     </div>
   </header>
 
-  <main class="wrap">
+  <main id="tresc" class="wrap">
     <section class="hero">
       <h1>Sprawdź podejrzany SMS albo link</h1>
       <p class="lead">Wklej wiadomość, a w kilka sekund powiemy, czy wygląda na oszustwo i co zrobić dalej.</p>
@@ -140,6 +157,7 @@
       </p>
       <p>To narzędzie pomocnicze, nie gwarancja. W razie wątpliwości zadzwoń do firmy na numer, który znasz.</p>
       <ul class="footer-links">
+        <li><a href="/artykuly/">Poradniki</a></li>
         <li><a href="/prywatnosc.html">Prywatność</a></li>
         <li><a href="/regulamin.html">Regulamin</a></li>
         <li><a href="https://github.com/Dablesss/czy-to-oszustwo">Kod źródłowy na GitHubie</a></li>

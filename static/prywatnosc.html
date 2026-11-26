@@ -10,7 +10,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Polityka prywatności · Czy to oszustwo?</title>
-  <meta name="description" content="Jakie dane zbiera strona Czy to oszustwo? i co się z nimi dzieje.">
+  <meta name="description" content="Jakie dane przetwarza strona Czy to oszustwo?, po co i jak długo. Treści sprawdzanych wiadomości nie zapisujemy.">
+  <!-- Adres bazowy https://domena.example podmień na prawdziwą domenę (patrz SITE_URL w tests/test_guards.py). -->
+  <link rel="canonical" href="https://domena.example/prywatnosc.html">
+  <!-- Podgląd linku w komunikatorach i serwisach społecznościowych (Open Graph) -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Czy to oszustwo?">
+  <meta property="og:title" content="Polityka prywatności · Czy to oszustwo?">
+  <meta property="og:description" content="Jakie dane przetwarza strona Czy to oszustwo?, po co i jak długo. Treści sprawdzanych wiadomości nie zapisujemy.">
+  <meta property="og:url" content="https://domena.example/prywatnosc.html">
+  <meta property="og:image" content="https://domena.example/icons/icon-512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Logo Czy to oszustwo?: tarcza z ptaszkiem">
+  <meta property="og:locale" content="pl_PL">
+  <meta name="twitter:card" content="summary">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
@@ -19,6 +33,7 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#tresc">Przejdź do treści</a>
   <svg class="sprite" aria-hidden="true" focusable="false">
     <symbol id="i-logo" viewBox="0 0 32 32">
       <path d="M16 3 27 7v8.5c0 6.6-4.6 11.6-11 13.5C9.6 27.1 5 22.1 5 15.5V7Z" fill="currentColor"/>
@@ -27,13 +42,15 @@
   </svg>
 
   <header class="site-header">
-    <div class="wrap brand">
-      <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
-      <span class="brand-name">Czy to oszustwo?</span>
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Czy to oszustwo? – strona główna">
+        <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
+        <span class="brand-name">Czy to oszustwo?</span>
+      </a>
     </div>
   </header>
 
-  <main class="wrap prose">
+  <main id="tresc" class="wrap prose">
     <a class="back-link" href="/"><span aria-hidden="true">←</span> Wróć do sprawdzania</a>
 
     <h1>Polityka prywatności</h1>
@@ -184,6 +201,7 @@
         Podejrzany SMS zgłoś do CERT Polska: przekaż go na numer <strong>8080</strong>.
       </p>
       <ul class="footer-links">
+        <li><a href="/artykuly/">Poradniki</a></li>
         <li><a href="/prywatnosc.html" aria-current="page">Prywatność</a></li>
         <li><a href="/regulamin.html">Regulamin</a></li>
         <li><a href="https://github.com/Dablesss/czy-to-oszustwo">Kod źródłowy na GitHubie</a></li>
