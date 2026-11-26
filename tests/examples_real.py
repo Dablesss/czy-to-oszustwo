@@ -264,4 +264,30 @@ HARD_LEGIT: list[str] = [
     # --- Rodzina z nowym numerem, bez prośby o pieniądze ---
     "Tato, mam nowy numer do pracy, zapisz go sobie.",
     "Mamo, to moj nowy numer sluzbowy, prywatny zostaje bez zmian. Buziaki",
+
+    # --- Zwrot paczki do nadawcy (prawdziwy: bez linku do "anulowania") ---
+    "InPost: paczka nie zostala odebrana w terminie i wraca do nadawcy. Szczegoly w aplikacji InPost Mobile.",
+    "Allegro: zwrot paczki do sprzedawcy zostal zarejestrowany. Nadaj go w dowolnym Paczkomacie do 05.12.",
+
+    # --- Sprzedaż na OLX (prawdziwe: wszystko w aplikacji) ---
+    "OLX: kupujacy oplacil przedmiot przez Przesylki OLX. Nadaj paczke w ciagu 3 dni, szczegoly w aplikacji OLX.",
+    "OLX: Twoje konto zostalo zweryfikowane. Mozesz juz sprzedawac z Przesylkami OLX.",
+
+    # --- Subskrypcje (prawdziwe: oficjalna domena albo aplikacja) ---
+    "Netflix: nie udalo sie pobrac platnosci za subskrypcje. Zaktualizuj metode platnosci w aplikacji Netflix "
+    "lub na netflix.com",
+    "Netflix: Twoja subskrypcja odnowi sie 05.12. Kwota 43 zl zostanie pobrana z karty zapisanej na koncie.",
+
+    # --- Reklamy oszczędzania i inwestycji banków (oprocentowanie w skali roku) ---
+    "PKO BP: Inwestuj w obligacje skarbowe od 100 zl. Oprocentowanie 6,5% w pierwszym roku. "
+    "Szczegoly w aplikacji IKO.",
+    "mBank: konto oszczednosciowe z zyskiem 5% w skali roku. Otworz je w aplikacji mBank.",
+
+    # --- Prawdziwe oferty pracy ---
+    "Pracuj.pl: nowa oferta dla Ciebie: magazynier, 32 zl brutto za godzine. Zobacz w aplikacji Pracuj.pl",
+    "Hej, szukamy kogos do pomocy w kawiarni w weekendy, 30 zl za godzine. Wpadnij pogadac w sobote.",
+
+    # --- Kredyt lub pożyczka, o którą klient sam wnioskował (bez linku) ---
+    "Bank Polnocny: Twoj wniosek kredytowy zostal rozpatrzony pozytywnie. Umowe podpiszesz w aplikacji banku.",
+    "Santander: wniosek o pozyczke gotowkowa zostal zaakceptowany. Srodki 5000 zl trafia na Twoje konto do 24h.",
 ]
