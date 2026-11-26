@@ -95,8 +95,9 @@ RULES: list[Rule] = [
        # Sam "zwrot podatku/środków" to zwykła informacja (sklep, urząd).
        # Podejrzany jest zwrot, po który trzeba coś zrobić: wybrać bank, podać dane, kliknąć.
        r"|(otrzymac|odebrac) zwrot\w*.{0,40}(wybierz|podaj|potwierdz|kliknij|wejdz)"
-       # "odbierz 250 zl", "odbierz 10 euro na start": darmowe pieniądze za nic
-       r"|odbierz \d+(?:[.,]\d{1,2})? ?(zl|pln|euro|eur)\b)"),
+       # "odbierz 250 zl na swoje konto", "odbierz 10 euro na start": darmowe pieniądze za nic.
+       # Musi być "na konto/rachunek/start", bo "odbierz 20 zl na zakupy w aplikacji" to zwykły rabat sklepu.
+       r"|odbierz \d+(?:[.,]\d{1,2})? ?(zl|pln|euro|eur) na (swoje |twoje )?(konto|rachunek|start)\b)"),
     _r("install_app", 30,
        "Prośba o zainstalowanie aplikacji z linku. Aplikacje instaluj tylko ze Sklepu Play lub App Store.",
        # "zainstal\w*" łapie każdą formę: zainstaluj, zainstalowac, zainstaluje
