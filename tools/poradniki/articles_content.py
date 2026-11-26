@@ -1,0 +1,420 @@
+# Treść poradników. Domeny w przykładach są ZMYŚLONE, numery i kwoty też.
+S = " · Czy to oszustwo?"
+
+ARTICLES = [
+# ------------------------------------------------------------------ 1. paczka
+{
+"slug": "sms-doplata-do-paczki",
+"title": "SMS o dopłacie do paczki to oszustwo" + S,
+"desc": "SMS o dopłacie 1,99 zł do paczki od InPostu, DPD albo Poczty Polskiej? Zobacz, jak rozpoznać oszustwo i co zrobić, jeśli już kliknąłeś link.",
+"h1": "SMS o dopłacie do paczki: jak rozpoznać oszustwo",
+"card": "„Paczka wstrzymana, dopłać 1,99 zł” – dlaczego to prawie zawsze oszustwo i jak sprawdzić prawdziwą przesyłkę.",
+"lead": "Krótki SMS, mała kwota i link. To jedno z najczęstszych oszustw w Polsce. Wyjaśniamy, jak je rozpoznać i jak bezpiecznie sprawdzić, czy na paczkę naprawdę trzeba coś dopłacić.",
+"short": [
+  "Firmy kurierskie nie proszą SMS-em o dopłatę przez link.",
+  "Mała kwota to przynęta. Oszustom chodzi o dane karty albo logowania do banku.",
+  "Status paczki sprawdzaj w aplikacji firmy albo na stronie wpisanej samodzielnie.",
+  "Podejrzany SMS przekaż na numer 8080 (CERT Polska).",
+],
+"example_intro": "Wiadomość zwykle podszywa się pod znaną firmę: InPost, DPD, Pocztę Polską albo DHL. Jest krótka, czasem bez polskich liter, i zawsze ma link. Na przykład:",
+"examples": [
+  ("SMS od nadawcy „InPost”", "InPost: Twoja paczka nr 58213 zostala wstrzymana z powodu niedoplaty 1,99 zl. Oplac do 24h, inaczej wroci do nadawcy: inpost-doplata24.top/p"),
+  ("SMS od nieznanego numeru", "Poczta Polska: przesylka czeka na oplate celna 3,40 zl. Szczegoly: pocztapl-odbior.click"),
+],
+"how_it_works": [
+  "Prawie każdy czeka na jakąś paczkę, więc taki SMS łatwo wziąć za prawdziwy. Kwota jest śmieszna, więc nie chce się nad nią długo zastanawiać.",
+  "Link prowadzi do strony, która wygląda jak strona firmy kurierskiej. Po kliknięciu „Zapłać” pojawia się fałszywa strona banku albo formularz karty. Oszust zbiera numer karty, kod z odwrotu i kod z SMS-a z banku. Potem płaci Twoją kartą albo loguje się na Twoje konto. Zamiast 1,99 zł możesz stracić dużo więcej.",
+],
+"signs": [
+  "<strong>Adres strony nie jest oficjalny.</strong> Ma dziwną końcówkę (.top, .click, .info), myślniki albo dopiski typu „doplata”, „odbior”, „24”.",
+  "<strong>Pośpiech.</strong> „Do 24 godzin”, „paczka wróci do nadawcy”, „ostatnie przypomnienie”.",
+  "<strong>Mała, nietypowa kwota:</strong> 1,99 zł, 2,40 zł, 3,18 zł.",
+  "<strong>Nie czekasz na paczkę</strong> od tej firmy albo w SMS-ie nie ma żadnych szczegółów przesyłki.",
+  "<strong>Strona prosi o dane karty lub logowanie do banku</strong>, żeby zapłacić kilka złotych.",
+],
+"todo": [
+  "Nie klikaj linku. Nie odpisuj.",
+  "Otwórz aplikację firmy kurierskiej albo wpisz jej adres samodzielnie (np. inpost.pl, poczta-polska.pl) i sprawdź numer przesyłki.",
+  "Przekaż SMS na numer <strong>8080</strong>. To bezpłatne. Specjaliści CERT Polska sprawdzą link i mogą zablokować stronę.",
+  "Usuń wiadomość po przekazaniu.",
+],
+"clicked": [
+  "<strong>Tylko kliknąłeś, nic nie wpisałeś?</strong> Zamknij stronę. Zwykle nic się nie stało. Nie instaluj niczego, o co prosi strona.",
+  "<strong>Wpisałeś dane karty?</strong> Od razu zadzwoń do banku (numer jest na odwrocie karty i na stronie banku) i zastrzeż kartę. Możesz też zablokować ją w aplikacji banku.",
+  "<strong>Zalogowałeś się do banku albo podałeś kod z SMS-a?</strong> Zadzwoń do banku natychmiast. Powiedz, że dane mogły trafić do oszustów. Zmień hasło.",
+  "Sprawdź historię konta. Każdą operację, której nie robiłeś, zgłoś w banku.",
+  "Zgłoś sprawę na policji. W pilnej sytuacji dzwoń na <strong>112</strong>.",
+],
+"faq": [
+  ("Czy kurier w ogóle może chcieć dopłaty?", "Tak, na przykład cło za paczkę spoza Unii Europejskiej. Wtedy jednak informację znajdziesz w oficjalnej aplikacji albo na stronie firmy po wpisaniu numeru przesyłki. Nie płać przez link z SMS-a."),
+  ("SMS przyszedł w tej samej rozmowie co prawdziwe wiadomości od firmy. Czy to coś zmienia?", "Nie. Oszuści potrafią podać jako nadawcę nazwę firmy, więc telefon wrzuca SMS do tej samej rozmowy. Nazwa nadawcy nie jest dowodem."),
+  ("Skąd oszuści mają mój numer?", "Często nie mają żadnej wiedzy o Tobie. Wysyłają tysiące SMS-ów na przypadkowe numery i liczą, że ktoś akurat czeka na paczkę."),
+  ("Czy przekazanie SMS-a na 8080 coś kosztuje?", "Nie. Przekazanie wiadomości na 8080 jest bezpłatne w polskich sieciach."),
+],
+"related": ["oszustwo-na-blik-od-znajomego", "sms-odciecie-pradu-gazu", "olx-vinted-odbierz-platnosc"],
+"sources": ["gov-sms", "cert-lista", "cert-incydent"],
+},
+# ------------------------------------------------------------------ 2. BLIK
+{
+"slug": "oszustwo-na-blik-od-znajomego",
+"title": "Oszustwo na BLIK od znajomego" + S,
+"desc": "Znajomy pisze na Messengerze lub WhatsAppie i prosi o kod BLIK? To częste oszustwo. Sprawdź, jak je rozpoznać i co zrobić, gdy kod już podałeś.",
+"h1": "Oszustwo „na BLIK” od znajomego",
+"card": "„Pożyczysz 500 zł? Wyślij mi kod BLIK” – jak oszuści przejmują konta znajomych i jak się bronić.",
+"lead": "Piszesz ze znajomym od lat, a on nagle prosi o pilną pożyczkę przez BLIK. Bardzo często to nie on, tylko ktoś, kto przejął jego konto. Wyjaśniamy, jak to sprawdzić w minutę.",
+"short": [
+  "Kod BLIK jest jak gotówka. Kto go zna, może wypłacić Twoje pieniądze z bankomatu.",
+  "Zanim pomożesz, zadzwoń do tej osoby na numer, który znasz.",
+  "Zawsze czytaj w aplikacji banku, na co i na jaką kwotę potwierdzasz BLIK.",
+  "Bank i policja nigdy nie proszą o kod BLIK.",
+],
+"example_intro": "Wiadomość przychodzi z prawdziwego konta znajomego, na przykład na Messengerze, WhatsAppie albo w SMS-ie. Wygląda zwyczajnie:",
+"examples": [
+  ("Messenger, od znajomej", "Hej, masz chwilkę? Głupia sprawa, muszę pilnie zapłacić za zakupy, a bank mi zablokował aplikację. Wygenerujesz mi kod BLIK na 600 zł? Oddam jutro rano, przysięgam 🙏"),
+  ("Chwilę później", "Wpisz kod tutaj, ja potwierdzę u siebie. Tylko szybko, bo kod ważny 2 minuty."),
+],
+"how_it_works": [
+  "Oszust najpierw przejmuje konto w komunikatorze, często przez fałszywą stronę logowania albo wykradzione hasło. Potem pisze do wszystkich znajomych z listy tę samą historię.",
+  "Kod BLIK działa przez 2 minuty i pozwala zapłacić albo wypłacić gotówkę. Gdy go podasz, oszust idzie do bankomatu albo płaci w sklepie internetowym. W Twojej aplikacji pojawia się prośba o potwierdzenie i wiele osób zatwierdza ją bez czytania.",
+],
+"signs": [
+  "<strong>Prośba o pieniądze przez komunikator</strong>, a nie w rozmowie telefonicznej.",
+  "<strong>Pośpiech i wymówki:</strong> „bank mi zablokował aplikację”, „nie mogę rozmawiać”, „oddam jutro”.",
+  "<strong>Prośba o kod BLIK</strong> zamiast numeru konta do przelewu.",
+  "<strong>Inny styl pisania</strong> niż zwykle: inne powitanie, brak polskich znaków, dziwne słowa.",
+  "<strong>W aplikacji banku widać bankomat albo nieznany sklep</strong> zamiast tego, o czym mówił znajomy.",
+],
+"todo": [
+  "Nie podawaj kodu. Zadzwoń do znajomego na jego zwykły numer (nie odpisuj w tej samej rozmowie).",
+  "Możesz też zadać pytanie, na które zna odpowiedź tylko ta osoba, na przykład o wspólne wakacje.",
+  "Gdy okaże się, że to oszust, powiedz o tym znajomemu. Niech odzyska konto i ostrzeże innych.",
+  "Zgłoś konto do serwisu (Messenger, WhatsApp) przez opcję „Zgłoś”.",
+],
+"clicked": [
+  "<strong>Podałeś kod, ale nie potwierdziłeś w aplikacji?</strong> Nic nie potwierdzaj. Kod wygaśnie sam po 2 minutach.",
+  "<strong>Potwierdziłeś płatność?</strong> Zadzwoń od razu do swojego banku. Czasem da się zatrzymać wypłatę.",
+  "Zgłoś sprawę na policji. Zabierz zrzuty ekranu rozmowy.",
+  "Jeśli to Twoje konto w komunikatorze ktoś przejął, zmień hasło i włącz logowanie dwuetapowe.",
+],
+"faq": [
+  ("Przecież pisał z prawdziwego konta. Jak to możliwe?", "Oszust zalogował się na konto Twojego znajomego. Zdjęcie, imię i stare wiadomości są prawdziwe, ale pisze ktoś inny."),
+  ("Czy mogę komuś pomóc BLIK-iem bezpiecznie?", "Tak, jeśli wcześniej porozmawiasz z tą osobą przez telefon i rozpoznasz jej głos. Bezpieczniej jest jednak zrobić zwykły przelew na jej konto."),
+  ("Czy bank zwróci pieniądze?", "To zależy od sprawy. Jeśli sam podałeś kod i zatwierdziłeś płatność, bank może odmówić. Dlatego tak ważne jest czytanie, co potwierdzasz."),
+],
+"related": ["mamo-to-moj-nowy-numer", "falszywy-pracownik-banku", "olx-vinted-odbierz-platnosc"],
+"sources": ["mbank-blik", "erste-blik", "mbank-rodzina"],
+},
+# ------------------------------------------------------------------ 3. nowy numer
+{
+"slug": "mamo-to-moj-nowy-numer",
+"title": "„Mamo, to mój nowy numer” – oszustwo" + S,
+"desc": "SMS „Mamo, to mój nowy numer, napisz na WhatsAppie” to oszustwo na wnuczka w nowej wersji. Zobacz, jak je rozpoznać i jak sprawdzić, kto pisze.",
+"h1": "„Mamo, to mój nowy numer”: oszustwo na dziecko i wnuczka",
+"card": "SMS od „dziecka” z nowego numeru, a potem prośba o przelew. Jak sprawdzić, kto naprawdę pisze.",
+"lead": "Stare oszustwo „na wnuczka” przeniosło się do SMS-ów i WhatsAppa. Oszust udaje dziecko albo wnuczka, który zgubił telefon. Najprostsza obrona to jeden telefon na stary numer.",
+"short": [
+  "Słowa „mamo” czy „babciu” nie dowodzą, kto pisze. Oszust wysyła je do tysięcy osób.",
+  "Zadzwoń na stary, znany Ci numer dziecka albo wnuczka. To wystarczy.",
+  "Nie wysyłaj pieniędzy, zdjęć karty ani kodów, dopóki nie porozmawiasz z bliską osobą.",
+  "Nie przenoś rozmowy do WhatsAppa na prośbę nieznanego numeru.",
+],
+"example_intro": "Pierwsza wiadomość jest krótka i ciepła. Pieniądze pojawiają się dopiero w kolejnych:",
+"examples": [
+  ("SMS z nieznanego numeru", "Mamo, to moj nowy numer, stary telefon mi wpadl do wody. Zapisz ten i napisz do mnie na WhatsAppie 😘"),
+  ("Następnego dnia, na WhatsAppie", "Mamusiu mam problem, musze dzis zaplacic dwie faktury a nie dziala mi jeszcze bank na nowym telefonie. Przelejesz za mnie 2 860 zl? Oddam w piatek. Nie moge teraz rozmawiac."),
+],
+"how_it_works": [
+  "Oszust nie musi wiedzieć, kim jesteś. Wysyła tę samą wiadomość na wiele numerów. Ktoś, kto ma dziecko lub wnuka, czasem odpisze: „Kasia, to ty?”. Wtedy oszust już zna imię i gra dalej.",
+  "Potem pojawia się powód, żeby nie dzwonić: zepsuty mikrofon, praca, spotkanie. I prośba o przelew za „fakturę” albo nowy telefon. Czasem oszust prosi też o zdjęcie karty albo dane do bankowości, „żeby sam zapłacił”.",
+],
+"signs": [
+  "<strong>Nowy, nieznany numer</strong> i historia o zgubionym albo zepsutym telefonie.",
+  "<strong>Prośba o przeniesienie rozmowy</strong> na WhatsAppa lub inny komunikator.",
+  "<strong>Unikanie rozmowy głosowej:</strong> „nie mogę teraz rozmawiać”, „mikrofon nie działa”.",
+  "<strong>Prośba o przelew</strong> na cudze konto, „bo to konto sklepu” albo „kolegi”.",
+  "<strong>Pośpiech:</strong> „dziś mija termin”, „zablokują mi konto”.",
+],
+"todo": [
+  "Nie odpisuj z imieniem bliskiej osoby. Zapytaj raczej: „Kto mówi?”.",
+  "Zadzwoń na stary numer dziecka albo wnuczka. Telefon często wcale nie zginął.",
+  "Gdy nie możesz się dodzwonić, zadzwoń do kogoś z rodziny, kto ma z tą osobą kontakt.",
+  "Przekaż SMS na <strong>8080</strong>, a numer zablokuj.",
+],
+"clicked": [
+  "<strong>Wysłałeś przelew?</strong> Zadzwoń natychmiast do swojego banku i poproś o zatrzymanie przelewu. Im szybciej, tym większa szansa.",
+  "<strong>Wysłałeś zdjęcie karty lub dane do banku?</strong> Zastrzeż kartę i zmień hasło. Powiedz bankowi, co się stało.",
+  "Zgłoś sprawę na policji. Zachowaj całą rozmowę i numer telefonu oszusta.",
+  "Opowiedz o tym rodzinie. To nie wstyd, a inni mogą dostać ten sam SMS.",
+],
+"faq": [
+  ("Skąd oszust wie, że mam dziecko?", "Zwykle nie wie. Wysyła wiadomość na losowe numery. Czasem korzysta też z informacji, które ktoś pokazał w internecie."),
+  ("A jeśli to naprawdę moje dziecko z nowym numerem?", "Prawdziwe dziecko nie obrazi się, że zadzwonisz na stary numer albo poprosisz o rozmowę głosową. Oszust będzie się wykręcał."),
+  ("Czy warto ustalić hasło rodzinne?", "Tak. Proste słowo, które zna tylko rodzina, pomaga szybko sprawdzić, kto pisze lub dzwoni."),
+],
+"related": ["oszustwo-na-blik-od-znajomego", "falszywy-pracownik-banku", "sms-doplata-do-paczki"],
+"sources": ["wroclaw-tato", "policja-tychy", "mbank-rodzina"],
+},
+# ------------------------------------------------------------------ 4. bank
+{
+"slug": "falszywy-pracownik-banku",
+"title": "Telefon z banku i „bezpieczne konto”" + S,
+"desc": "Dzwoni „pracownik banku” i każe przelać pieniądze na bezpieczne konto albo zainstalować aplikację? To oszustwo. Zobacz, jak się bronić.",
+"h1": "Fałszywy pracownik banku i „bezpieczne konto”",
+"card": "Dzwoni „bank”, mówi o włamaniu na konto i każe przelać pieniądze albo zainstalować aplikację. Rozłącz się.",
+"lead": "Ktoś dzwoni z numeru, który wygląda jak numer banku. Mówi spokojnie i fachowo, że ktoś próbuje ukraść Twoje pieniądze. To scenariusz oszustwa. Prawdziwy bank nigdy nie każe przenosić pieniędzy ani instalować programów.",
+"short": [
+  "Nie ma czegoś takiego jak „bezpieczne konto”. Bank nie przenosi Twoich pieniędzy na inne konto.",
+  "Bank nie każe instalować aplikacji do zdalnej pomocy (np. AnyDesk, TeamViewer, QuickSupport).",
+  "Numer na ekranie można podrobić. Rozłącz się i zadzwoń do banku sam.",
+  "Nikomu nie podawaj PIN-u, hasła, kodu BLIK ani kodu z SMS-a.",
+],
+"example_intro": "Często wszystko zaczyna się od SMS-a, a potem dzwoni „konsultant”. Czasem przełącza Cię do „policjanta” albo „pracownika KNF”:",
+"examples": [
+  ("SMS od nadawcy podobnego do banku", "Bank: wykryto probe logowania z nowego urzadzenia. Jesli to nie Ty, oczekuj na kontakt dzialu bezpieczenstwa lub wejdz: bank-weryfikacja-konta.online"),
+  ("Fragment rozmowy telefonicznej", "Dzień dobry, dział bezpieczeństwa. Ktoś właśnie zaciąga kredyt na Pani dane. Musimy przenieść Pani oszczędności na bezpieczne konto techniczne. Proszę zainstalować aplikację, którą podam, a pomogę krok po kroku."),
+],
+"how_it_works": [
+  "Oszust wzbudza strach („ktoś kradnie Twoje pieniądze”), a potem podaje „ratunek”. Może to być przelew na „bezpieczne konto”, wzięcie kredytu „żeby zablokować oszusta” albo wypłata gotówki i wpłata we wpłatomacie kryptowalut.",
+  "Aplikacja do zdalnej pomocy pozwala oszustowi widzieć Twój ekran i sterować telefonem lub komputerem. Wtedy sam zaloguje się do banku i zatwierdzi przelewy. Oszuści potrafią też pokazać na ekranie prawdziwy numer banku (tzw. spoofing).",
+],
+"signs": [
+  "<strong>Prośba o przelew na „bezpieczne”, „techniczne” albo „tymczasowe” konto.</strong>",
+  "<strong>Prośba o instalację aplikacji</strong> lub o „weryfikację” w programie do zdalnej pomocy.",
+  "<strong>Prośba o kody:</strong> BLIK, PIN, hasło, kod z SMS-a, pełny PESEL.",
+  "<strong>Zakaz mówienia innym:</strong> „nie mówi Pani nic w oddziale, tam może być wspólnik”.",
+  "<strong>Przełączanie do policji, prokuratury albo KNF.</strong> Te instytucje nie prowadzą akcji przez telefon z klientami banku.",
+],
+"todo": [
+  "Rozłącz się. To nie jest niegrzeczne.",
+  "Zadzwoń do banku sam: numer jest na odwrocie karty, w aplikacji i na stronie banku. Wybierz go ręcznie, nie oddzwaniaj.",
+  "Wiele banków pozwala sprawdzić w aplikacji, czy dzwoni prawdziwy pracownik. Skorzystaj z tego.",
+  "Nie instaluj niczego na prośbę rozmówcy.",
+],
+"clicked": [
+  "<strong>Zainstalowałeś aplikację?</strong> Wyłącz internet w telefonie (tryb samolotowy) i z innego telefonu zadzwoń do banku. Potem odinstaluj aplikację.",
+  "<strong>Zrobiłeś przelew?</strong> Natychmiast zadzwoń do banku i poproś o zablokowanie konta oraz zatrzymanie przelewu.",
+  "<strong>Podałeś dane osobowe?</strong> Zastrzeż numer PESEL w aplikacji mObywatel albo w urzędzie gminy. Utrudni to wzięcie kredytu na Twoje dane.",
+  "Zgłoś przestępstwo na policji. W pilnej sytuacji dzwoń na <strong>112</strong>.",
+],
+"faq": [
+  ("Na ekranie był prawdziwy numer banku. Jak to możliwe?", "Oszuści potrafią podszyć się pod dowolny numer. Dlatego zawsze rozłącz się i zadzwoń do banku sam."),
+  ("Czy bank w ogóle dzwoni do klientów?", "Tak, ale prawdziwy pracownik nie poprosi o przelew na inne konto, kody ani instalację programu. Możesz zawsze przerwać rozmowę i oddzwonić na oficjalny numer."),
+  ("Dzwoni „policjant” i prosi o pomoc w akcji przeciw oszustom. Co robić?", "Rozłącz się i zadzwoń na 112. Policja nie prosi o przelewy, wypłatę gotówki ani udział w „akcji” przez telefon."),
+],
+"related": ["oszustwo-na-blik-od-znajomego", "falszywy-zwrot-podatku-mandat", "mamo-to-moj-nowy-numer"],
+"sources": ["pko-pracownik", "mbank-aplikacje", "pko-zglos"],
+},
+# ------------------------------------------------------------------ 5. prąd
+{
+"slug": "sms-odciecie-pradu-gazu",
+"title": "SMS o odcięciu prądu lub gazu" + S,
+"desc": "SMS „dziś odłączymy prąd, zapłać zaległość” to częste oszustwo. Zobacz, jak naprawdę wygląda wezwanie od dostawcy i jak bezpiecznie sprawdzić rachunek.",
+"h1": "SMS o odcięciu prądu lub gazu: to zwykle oszustwo",
+"card": "„Dziś o 21:00 odłączymy prąd, zapłać 4,80 zł” – jak naprawdę wygląda wezwanie do zapłaty.",
+"lead": "Groźba, że dziś wieczorem zostaniesz bez prądu, ma Cię przestraszyć i skłonić do szybkiej płatności przez link. Prawdziwe odłączenie tak nie wygląda.",
+"short": [
+  "Dostawca nie odcina prądu z dnia na dzień po jednym SMS-ie. Najpierw wysyła pismo i daje czas na zapłatę.",
+  "Dostawcy energii nie wysyłają SMS-ów z linkiem do zapłaty zaległości.",
+  "Rachunek sprawdź w oficjalnej aplikacji, na koncie klienta albo na papierowej fakturze.",
+  "Płać tylko na numer konta z faktury.",
+],
+"example_intro": "Wiadomości podszywają się pod dużych dostawców prądu i gazu. Zawierają godzinę odłączenia i małą kwotę:",
+"examples": [
+  ("SMS od nieznanego numeru", "PGE: Z powodu braku wplaty dzis o 21:00 nastapi odlaczenie energii elektrycznej. Ureguluj 4,80 zl: pge-rozliczenie.online"),
+  ("SMS od nadawcy „Gaz”", "Informujemy o zaleglosci za gaz. Dostawa zostanie wstrzymana w ciagu 12h. Sprawdz saldo: gaz-saldo-klient.top"),
+],
+"how_it_works": [
+  "Strach przed zimnym mieszkaniem albo zepsutym jedzeniem w lodówce działa szybko. Kwota jest mała, więc wiele osób płaci od razu, „dla świętego spokoju”.",
+  "Link prowadzi do fałszywej strony płatności. Strona prosi o kartę albo udaje logowanie do banku. Dane trafiają do oszustów, którzy potem wypłacają pieniądze z konta.",
+],
+"signs": [
+  "<strong>Odłączenie „dziś” albo „w ciągu kilku godzin”.</strong> Prawdziwa procedura trwa dłużej i zaczyna się od pisma.",
+  "<strong>Link do płatności</strong> w SMS-ie.",
+  "<strong>Brak numeru klienta</strong> albo numeru faktury.",
+  "<strong>Adres strony nie jest adresem dostawcy</strong> (np. końcówki .online, .top, dopiski „rozliczenie”, „saldo”).",
+  "<strong>Kwota nie zgadza się</strong> z Twoimi rachunkami albo wiesz, że wszystko masz zapłacone.",
+],
+"todo": [
+  "Nie klikaj linku i nie płać.",
+  "Sprawdź saldo w aplikacji dostawcy albo na koncie klienta. Adres strony wpisz sam.",
+  "Masz wątpliwość? Zadzwoń na infolinię z faktury albo ze strony dostawcy.",
+  "Przekaż SMS na <strong>8080</strong>.",
+],
+"clicked": [
+  "<strong>Wpisałeś dane karty?</strong> Zadzwoń do banku i zastrzeż kartę.",
+  "<strong>Zalogowałeś się do banku przez link?</strong> Zadzwoń do banku od razu, zmień hasło i sprawdź, czy nie ma nowych przelewów.",
+  "Zgłoś sprawę na policji i zachowaj SMS.",
+],
+"faq": [
+  ("Jak naprawdę wygląda wezwanie do zapłaty za prąd?", "Dostawca wysyła pismo z kwotą zaległości i terminem na zapłatę, zwykle co najmniej 14 dni. Dopiero gdy ten czas minie, może wstrzymać dostawy."),
+  ("Dostaję od dostawcy SMS-y z przypomnieniem. Czy wszystkie są fałszywe?", "Nie. Prawdziwe przypomnienia istnieją, ale zwykle zawierają numer klienta i nie mają linku do płatności. Zawsze sprawdzaj sprawę w aplikacji albo na fakturze."),
+  ("Ktoś przyszedł do domu i chce gotówkę za zaległy rachunek. Co robić?", "Nie płać gotówką osobom, które przyszły do drzwi. Zadzwoń na infolinię dostawcy i zapytaj, czy kogoś wysłali."),
+],
+"related": ["sms-doplata-do-paczki", "falszywy-zwrot-podatku-mandat", "falszywe-kody-qr"],
+"sources": ["wroclaw-tauron", "gov-sms", "cert-lista"],
+},
+# ------------------------------------------------------------------ 6. OLX
+{
+"slug": "olx-vinted-odbierz-platnosc",
+"title": "OLX i Vinted: „odbierz płatność”" + S,
+"desc": "Kupujący z OLX lub Vinted przysyła link, żeby „odebrać płatność”? To oszustwo na kupującego. Zobacz, jak je rozpoznać i bezpiecznie sprzedawać.",
+"h1": "OLX i Vinted: link „odbierz płatność” to oszustwo",
+"card": "Sprzedajesz w internecie, a „kupujący” przysyła link do odbioru pieniędzy. Dlaczego nie wolno w niego klikać.",
+"lead": "Wystawiasz rzecz na sprzedaż i prawie od razu pisze chętny. Mówi, że już zapłacił, i przysyła link, żeby „odebrać pieniądze”. To pułapka na sprzedających.",
+"short": [
+  "Żeby dostać pieniądze, nigdy nie musisz podawać danych karty, kodu CVV ani logować się do banku.",
+  "OLX i Vinted nie wysyłają linków do „odbioru płatności” przez WhatsApp ani SMS.",
+  "Rozmawiaj i rozliczaj się tylko w aplikacji serwisu.",
+  "Zawsze czytaj SMS z banku: czy potwierdzasz wpłatę, czy płatność z Twojego konta.",
+],
+"example_intro": "„Kupujący” często prosi o przejście na WhatsAppa. Potem przysyła link i zrzut ekranu „potwierdzenia płatności”:",
+"examples": [
+  ("WhatsApp, od „kupującej”", "Dzień dobry, kupiłam Pana rower i opłaciłam razem z kurierem. Proszę odebrać pieniądze tutaj: olx-odbior-platnosci.shop/k/2219 Kurier przyjedzie jutro."),
+  ("SMS od nadawcy „Vinted”", "Vinted: Kupujacy oplacil zamowienie. Aby otrzymac srodki, potwierdz dane karty: vinted-wyplata-srodkow.top"),
+],
+"how_it_works": [
+  "Link prowadzi do strony, która wygląda jak OLX, Vinted albo firma kurierska. Jest na niej przycisk „Odbierz środki”. Potem strona prosi o dane karty albo pokazuje listę banków do zalogowania.",
+  "W rzeczywistości nie odbierasz pieniędzy, tylko zatwierdzasz płatność ze swojego konta albo podajesz oszustowi dane do bankowości. Kod z SMS-a z banku, który wpisujesz, służy do potwierdzenia jego operacji.",
+],
+"signs": [
+  "<strong>Kupujący nie targuje się</strong> i nie pyta o szczegóły, tylko chce szybko „zapłacić”.",
+  "<strong>Prośba o kontakt poza serwisem</strong> (WhatsApp, SMS, e-mail).",
+  "<strong>Link do strony z dziwnym adresem</strong>, np. z dopiskami „odbior”, „wyplata”, „dostawa” i końcówką .shop, .top.",
+  "<strong>Prośba o dane karty, kod CVV albo logowanie do banku</strong>, żeby przyjąć pieniądze.",
+  "<strong>SMS z banku mówi o płatności</strong> z Twojej karty, a nie o wpłacie.",
+],
+"todo": [
+  "Nie klikaj linku. Wróć do rozmowy w aplikacji OLX albo Vinted.",
+  "Sprawdź w aplikacji serwisu, czy jest prawdziwe zamówienie. Tylko tam.",
+  "Zgłoś użytkownika w serwisie.",
+  "Przekaż SMS na <strong>8080</strong>, a stronę zgłoś na incydent.cert.pl.",
+],
+"clicked": [
+  "<strong>Podałeś dane karty?</strong> Zastrzeż kartę w aplikacji banku albo przez infolinię banku.",
+  "<strong>Zalogowałeś się do banku albo wpisałeś kod z SMS-a?</strong> Zadzwoń do banku od razu i poproś o blokadę konta.",
+  "Zmień hasło do konta w serwisie ogłoszeniowym, jeśli je wpisałeś.",
+  "Zgłoś sprawę na policji. Zachowaj rozmowę, link i dane „kupującego”.",
+],
+"faq": [
+  ("Czy jako sprzedający muszę kiedykolwiek podać dane karty?", "Nie. Do otrzymania przelewu wystarczy numer konta. Danych karty, kodu CVV i PIN-u nie podawaj nigdy."),
+  ("„Kupujący” przysłał zrzut ekranu z potwierdzeniem płatności. To nie dowód?", "Nie. Taki obrazek łatwo podrobić. Wierz tylko temu, co widzisz w aplikacji serwisu albo na swoim koncie w banku."),
+  ("Kupuję, a sprzedawca przysyła link do płatności. Co wtedy?", "To też częsty schemat. Płać tylko przez aplikację serwisu albo przelewem po rozmowie telefonicznej, nigdy przez link z komunikatora."),
+],
+"related": ["sms-doplata-do-paczki", "oszustwo-na-blik-od-znajomego", "falszywy-pracownik-banku"],
+"sources": ["erste-kupujacy", "cert-incydent", "cert-lista"],
+},
+# ------------------------------------------------------------------ 7. podatek / mandat
+{
+"slug": "falszywy-zwrot-podatku-mandat",
+"title": "Fałszywy zwrot podatku, mandat i e-TOLL" + S,
+"desc": "SMS lub e-mail o zwrocie podatku, mandacie w mObywatelu albo opłacie e-TOLL z linkiem? Urzędy tak nie piszą. Zobacz, jak to sprawdzić.",
+"h1": "Fałszywy zwrot podatku, mandat i opłata e-TOLL",
+"card": "„Masz zwrot podatku”, „niezapłacony mandat”, „opłata za autostradę” – jak urzędy naprawdę się kontaktują.",
+"lead": "Oszuści chętnie podszywają się pod urzędy: skarbówkę, mObywatela, system e-TOLL. Raz obiecują pieniądze, raz straszą karą. Za każdym razem chodzi o kliknięcie w link.",
+"short": [
+  "Urzędy nie wysyłają SMS-ów ani e-maili z linkiem do zapłaty mandatu czy „odbioru zwrotu”.",
+  "Zwrot podatku sprawdzisz w e-Urzędzie Skarbowym, a mandaty w aplikacji mObywatel.",
+  "Strona urzędu ma adres kończący się dokładnie na „.gov.pl”.",
+  "Nie podawaj danych karty, żeby „otrzymać” zwrot podatku.",
+],
+"example_intro": "Wiadomości wyglądają urzędowo. Mają numer sprawy, kwotę i termin:",
+"examples": [
+  ("E-mail od „e-Urząd Skarbowy”", "Szanowny Podatniku, w wyniku weryfikacji zeznania PIT przysługuje Panu/Pani zwrot 418,50 zł. Aby go otrzymać, potwierdź numer rachunku w ciągu 48 godzin: e-urzad-zwrot.info/pit"),
+  ("SMS od „mObywatel”", "mObywatel: Masz nieoplacony mandat nr 77/2026 za przekroczenie predkosci. Zaplac do jutra, aby uniknac podwyzszenia kary: mobywatel-mandaty.top"),
+  ("SMS od „e-TOLL”", "e-TOLL: brak oplaty za przejazd autostrada A2. Oplac 21,40 zl, aby uniknac kary: etoll-oplata-przejazd.click"),
+],
+"how_it_works": [
+  "Fałszywa strona wygląda jak strona rządowa: ma godło, kolory i znane logo. Prosi o PESEL, dane karty albo o logowanie przez bank.",
+  "Przy „zwrocie podatku” oszust prosi o dane karty, „żeby przelać pieniądze”. Przy mandacie straszy wyższą karą. W obu przypadkach dane trafiają do przestępców.",
+],
+"signs": [
+  "<strong>Adres nie kończy się na „.gov.pl”.</strong> Uwaga na sztuczki typu „gov-pl.info” albo „podatki.gov.pl.zwrot.top”. Liczy się to, co stoi tuż przed pierwszym ukośnikiem.",
+  "<strong>Krótki termin:</strong> „48 godzin”, „do jutra”, „inaczej kara wzrośnie”.",
+  "<strong>Prośba o dane karty</strong>, żeby otrzymać pieniądze.",
+  "<strong>Nie jeździłeś autostradą</strong> albo nie masz żadnej sprawy w urzędzie.",
+  "<strong>Błędy językowe</strong> i dziwne zwroty.",
+],
+"todo": [
+  "Nie klikaj linku.",
+  "Zwrot podatku sprawdź w e-Urzędzie Skarbowym: wpisz sam adres podatki.gov.pl.",
+  "Mandaty i punkty karne sprawdź w aplikacji mObywatel pobranej ze sklepu Google Play albo App Store.",
+  "Przekaż SMS na <strong>8080</strong>. W aplikacji mObywatel możesz też zgłosić podejrzaną wiadomość w usłudze „Bezpiecznie w sieci”.",
+],
+"clicked": [
+  "<strong>Podałeś dane karty?</strong> Zastrzeż kartę i zadzwoń do banku.",
+  "<strong>Podałeś PESEL, numer dowodu albo zdjęcie dokumentu?</strong> Zastrzeż PESEL w mObywatelu, a dowód osobisty zastrzeż w banku albo w urzędzie.",
+  "<strong>Zalogowałeś się przez bank?</strong> Zadzwoń do banku, zmień hasło i sprawdź historię konta.",
+  "Zgłoś sprawę na policji.",
+],
+"faq": [
+  ("Jak dostaję prawdziwy zwrot podatku?", "Urząd przelewa pieniądze na konto podane w zeznaniu PIT albo wysyła przekazem pocztowym. Nie trzeba niczego „potwierdzać” przez link ani podawać karty."),
+  ("Czy urzędy wysyłają SMS-y?", "Niektóre wysyłają powiadomienia, ale bez linku do płatności. Szczegóły zawsze sprawdzisz po zalogowaniu w oficjalnej aplikacji lub serwisie."),
+  ("Jak rozpoznać prawdziwą stronę urzędu?", "Adres musi kończyć się na „.gov.pl” tuż przed pierwszym ukośnikiem, na przykład www.podatki.gov.pl/... Najlepiej wpisz adres sam, zamiast klikać."),
+],
+"related": ["falszywe-kody-qr", "sms-odciecie-pradu-gazu", "falszywy-pracownik-banku"],
+"sources": ["mf-zwrot", "mf-podszywanie", "mobywatel-bws"],
+},
+# ------------------------------------------------------------------ 8. QR
+{
+"slug": "falszywe-kody-qr",
+"title": "Fałszywe kody QR na parkomatach" + S,
+"desc": "Naklejka z kodem QR na parkomacie albo „wezwanie do zapłaty” za wycieraczką? Fałszywe kody QR prowadzą do stron oszustów. Zobacz, jak się chronić.",
+"h1": "Fałszywe kody QR: parkomaty i kartki za wycieraczką",
+"card": "Naklejka „zapłać szybko” na parkomacie albo „mandat” za wycieraczką z kodem QR. Czego nie skanować.",
+"lead": "Kod QR to po prostu link, którego nie widać. Oszuści naklejają swoje kody na parkomaty i zostawiają fałszywe wezwania za wycieraczką. Wystarczy kilka prostych zasad, żeby się nie dać.",
+"short": [
+  "Kod QR może prowadzić do każdej strony, także fałszywej. Przed wejściem sprawdź adres.",
+  "Na parkomacie płać przez sam automat albo przez oficjalną aplikację.",
+  "Urzędy i policja nie zostawiają za wycieraczką wezwań do zapłaty z kodem QR.",
+  "Nie instaluj aplikacji ani plików z kodu QR z ulicy.",
+],
+"example_intro": "Fałszywy kod to zwykle naklejka albo kartka. Napis zachęca do szybkiej płatności albo straszy karą:",
+"examples": [
+  ("Naklejka na parkomacie", "Zapłać szybciej telefonem! Zeskanuj kod i opłać postój bez aplikacji. (kod prowadzi do: parkuj-teraz-oplata.click)"),
+  ("Kartka za wycieraczką", "WEZWANIE DO ZAPŁATY. Stwierdzono wykroczenie drogowe. Opłać karę w ciągu 3 dni, skanując kod QR, aby uniknąć skierowania sprawy do sądu. (kod prowadzi do: mandat-oplata-online.top)"),
+],
+"how_it_works": [
+  "Po zeskanowaniu kodu telefon otwiera stronę podobną do strony płatności za parking albo strony urzędu. Strona prosi o dane karty, PESEL albo o instalację „aplikacji do płatności”.",
+  "Dane karty trafiają do oszustów, a zainstalowana aplikacja może podglądać telefon, także SMS-y z kodami z banku.",
+],
+"signs": [
+  "<strong>Naklejka wygląda na doklejoną</strong> na oryginalne oznaczenia parkomatu.",
+  "<strong>Adres strony po zeskanowaniu</strong> nie należy do miasta ani znanej aplikacji parkingowej.",
+  "<strong>Strona prosi o instalację aplikacji</strong> albo pobranie pliku.",
+  "<strong>Kartka za wycieraczką z kodem QR i groźbą sądu.</strong> Prawdziwe mandaty tak nie wyglądają.",
+],
+"todo": [
+  "Na parkingu płać w samym parkomacie albo w aplikacji parkingowej pobranej ze sklepu Google Play lub App Store.",
+  "Zanim otworzysz stronę z kodu QR, zobacz adres, który pokazuje telefon.",
+  "Podejrzaną naklejkę zgłoś zarządcy strefy parkowania albo straży miejskiej.",
+  "Kartkę za wycieraczką możesz zgłosić na policji. Nie skanuj kodu.",
+],
+"clicked": [
+  "<strong>Podałeś dane karty?</strong> Zastrzeż kartę i zadzwoń do banku.",
+  "<strong>Zainstalowałeś aplikację z kodu?</strong> Włącz tryb samolotowy, odinstaluj aplikację i zadzwoń do banku z innego telefonu.",
+  "<strong>Podałeś PESEL albo dane dowodu?</strong> Zastrzeż PESEL w mObywatelu.",
+  "Zgłoś sprawę na policji i, jeśli możesz, zrób zdjęcie naklejki lub kartki.",
+],
+"faq": [
+  ("Czy wszystkie kody QR są niebezpieczne?", "Nie. Kody w restauracjach, na biletach czy fakturach są zwykle w porządku. Zawsze jednak patrz na adres strony, zanim cokolwiek wpiszesz."),
+  ("Jak sprawdzić adres z kodu QR?", "Większość telefonów pokazuje adres pod podglądem aparatu, zanim otworzysz stronę. Jeśli adres jest dziwny, nie otwieraj go."),
+  ("Dostałem prawdziwy mandat. Jak go zapłacić?", "Mandat wystawiony przez policję sprawdzisz i opłacisz w aplikacji mObywatel albo przelewem na numer konta z dokumentów, które dostałeś od funkcjonariusza."),
+],
+"related": ["falszywy-zwrot-podatku-mandat", "sms-doplata-do-paczki", "sms-odciecie-pradu-gazu"],
+"sources": ["wroclaw-qr", "kas-wycieraczka", "cert-incydent"],
+},
+]
+
+# Opisy ilustracji (atrybut alt): mówią, co jest na obrazku, i zawierają temat poradnika.
+IMG_ALT = {
+    "sms-doplata-do-paczki": "Telefon z podejrzanym SMS-em o dopłacie do paczki i karton przesyłki",
+    "oszustwo-na-blik-od-znajomego": "Telefon z prośbą o kod BLIK od znajomego i kod zabezpieczony kłódką",
+    "mamo-to-moj-nowy-numer": "Telefon z wiadomością „Mamo, to mój nowy numer” i dymki rozmowy ze znakiem zapytania",
+    "falszywy-pracownik-banku": "Telefon z ostrzeżeniem i budynek banku ze słuchawką: fałszywy pracownik banku",
+    "sms-odciecie-pradu-gazu": "Telefon z SMS-em o odcięciu prądu, błyskawica i płomień gazu",
+    "olx-vinted-odbierz-platnosc": "Telefon z wiadomością „odbierz płatność” i metka z ceną z monetami: oszustwo na OLX i Vinted",
+    "falszywy-zwrot-podatku-mandat": "Telefon z SMS-em o zwrocie podatku i dokument z czerwoną pieczątką",
+    "falszywe-kody-qr": "Kod QR z naklejonym na wierzch fałszywym kodem QR i telefon z ostrzeżeniem",
+}
+for _a in ARTICLES:
+    _a["img_alt"] = IMG_ALT[_a["slug"]]

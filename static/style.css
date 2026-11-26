@@ -4,17 +4,18 @@
    Kolory, odstępy, rozmiary czcionek i czasy animacji są TYLKO w zmiennych niżej. */
 :root {
   /* --- Kolory --- */
-  --bg: #f4f2ed;           /* tło strony: ciepła, jasna szarość */
+  --bg: #ffffff;           /* tło strony */
   --surface: #ffffff;      /* karty i pola */
+  --surface-2: #f5f7fa;    /* delikatnie wyróżnione sekcje i tło kart */
   --text: #16191d;
-  --muted: #4b5563;        /* tekst pomocniczy: 6.8:1 na tle */
-  --line: #ddd8cd;         /* delikatne linie i ramki */
+  --muted: #4b5563;        /* tekst pomocniczy: 7.6:1 na tle, 7.1:1 na --surface-2 */
+  --line: #e3e7ec;         /* delikatne linie i ramki */
   --field-border: #6b7280; /* ramka pola: min. 3:1 (WCAG 1.4.11) */
   --primary: #1f4fa3;      /* biały tekst na nim: 7.8:1 */
   --primary-hover: #183f84;
   --primary-active: #12306a;
   --on-primary: #ffffff;
-  --primary-soft: #e8eef9;
+  --primary-soft: #edf2fb;
   --focus: #1f4fa3;
   --link-visited: #5b3a9e;
 
@@ -39,7 +40,7 @@
   --text-base: 1rem;    /* zwykły tekst */
   --text-md: 1.15rem;   /* główny przycisk, wstęp */
   --text-lg: 1.5rem;    /* tytuł werdyktu */
-  --text-xl: clamp(1.6rem, 5vw, 2.1rem); /* nagłówek strony */
+  --text-xl: clamp(1.8rem, 6vw, 2.6rem); /* nagłówek strony */
   --weight-semibold: 600;
   --weight-bold: 700;
   --weight-heavy: 800;
@@ -47,9 +48,10 @@
   --leading-tight: 1.2;
 
   /* --- Kształt i głębia --- */
-  --radius: 16px;
+  --radius: 20px;
   --radius-sm: 12px;
-  --shadow: 0 1px 2px rgb(22 25 29 / 0.06), 0 8px 24px rgb(22 25 29 / 0.06);
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 12px 32px rgb(16 24 40 / 0.06);
 
   /* --- Ruch --- */
   --duration-spin: 0.8s;
@@ -61,12 +63,13 @@
   --icon-sm: 1.1em;
   --icon-lg: 44px;
   --content-width: 680px;
+  --wide-width: 1080px;   /* nagłówek, stopka, siatka kart */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1216; --surface: #181c22; --text: #eef0f3; --muted: #b4bcc8;
-    --line: #2e353f; --field-border: #8a94a3;
+    --bg: #0d0f12; --surface: #15181d; --surface-2: #1a1e24; --text: #eef0f3; --muted: #b4bcc8;
+    --line: #2a3038; --field-border: #8a94a3;
     /* Jasnoniebieski przycisk z ciemnym tekstem (9.9:1) */
     --primary: #9cc0ff; --primary-hover: #c2d8ff; --primary-active: #dbe8ff;
     --on-primary: #0b1626; --primary-soft: #1c2a42; --focus: #c2d8ff;
@@ -110,13 +113,46 @@ a:hover { text-decoration-thickness: 3px; }
 
 /* ===== Nagłówek ===== */
 .site-header {
-  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
+/* Nagłówek i stopka są szersze niż tekst: logo przy lewej krawędzi, menu przy prawej */
+.site-header .wrap,
+.site-footer .wrap { max-width: var(--wide-width); }
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: var(--tap-main);
+}
+/* Przycisk "Poradniki" w nagłówku: zaokrąglona pigułka, cel dotyku min. 48 px */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-link:visited { color: var(--primary); }
+.nav-link:hover { border-color: var(--primary); }
+.nav-link[aria-current="page"] { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+.nav-link .icon { color: var(--primary); }
 .brand { display: flex; align-items: center; gap: var(--space-3); min-height: var(--tap-main); }
 .brand-logo { width: 32px; height: 32px; color: var(--primary); }
 .logo-check { stroke: var(--surface); } /* ptaszek w kolorze tła, także w ciemnym motywie */
-.brand-name { font-weight: var(--weight-heavy); letter-spacing: -0.01em; }
+.brand-name { font-weight: var(--weight-heavy); letter-spacing: -0.02em; white-space: nowrap; }
 
 /* Logo jest linkiem do strony głównej. Wygląda jak napis, nie jak link:
    bez podkreślenia i bez fioletu odwiedzonego linku. Klikalny jest tylko
@@ -167,13 +203,26 @@ h1 {
   text-wrap: balance; /* równe linie zamiast jednego słowa w ostatniej */
 }
 .lead { color: var(--muted); margin: 0; max-width: 34em; }
+h1 { font-weight: var(--weight-heavy); letter-spacing: -0.03em; }
+/* Mała etykieta nad tytułem, np. "Bezpłatnie · bez logowania" */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
 
 /* ===== Formularz ===== */
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   padding: var(--space-5);
 }
 .field-head {
@@ -402,6 +451,7 @@ textarea[aria-invalid="true"] { border-color: var(--scam); }
   margin-top: var(--space-8);
   padding: var(--space-6) 0 var(--space-8);
   border-top: 1px solid var(--line);
+  background: var(--surface-2);
   color: var(--muted);
   font-size: var(--text-sm);
 }
@@ -496,40 +546,94 @@ textarea[aria-invalid="true"] { border-color: var(--scam); }
   margin: var(--space-7) 0;
   padding: var(--space-5);
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--primary);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: var(--primary-soft);
 }
 .prose .article-cta h2 { margin-top: 0; }
 /* Link wyglądający jak przycisk: bez podkreślenia i bez koloru odwiedzonego linku */
 a.btn { text-decoration: none; }
 a.btn--primary:visited { color: var(--on-primary); }
 
-/* Spis poradników: kafelki jeden pod drugim, cały kafelek jest linkiem */
-.prose .article-list { list-style: none; padding: 0; margin: var(--space-6) 0; max-width: none; }
-.prose .article-list li { margin-bottom: var(--space-3); }
-.article-list a {
-  display: block;
-  min-height: var(--tap-main);
-  padding: var(--space-4) var(--space-5);
-  background: var(--surface);
+
+/* ===== Karty poradników (strona główna, spis, "Przeczytaj też") =====
+   Cała karta jest jednym linkiem: ilustracja, tytuł i opis. */
+.wrap--wide { max-width: var(--wide-width); }
+.section { margin-top: var(--space-8); }
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.section-head h2 { margin: 0; font-size: var(--text-lg); line-height: var(--leading-tight); letter-spacing: -0.02em; }
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+.link-arrow:visited { color: var(--primary); }
+.link-arrow:hover { text-decoration: underline; }
+
+/* .prose .card-grid: karty w artykule bez wcięcia listy */
+.card-grid,
+.prose .card-grid { max-width: none; padding: 0; }
+.card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5);
+  /* tyle kolumn, ile się zmieści, ale każda min. 280 px (na telefonie jedna) */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  text-decoration: none;
+  background: var(--surface);
   color: var(--text);
+  text-decoration: none;
 }
-.article-list a:visited { color: var(--text); }
-.article-list a:hover { border-color: var(--primary); }
-.article-list a:hover .article-list-title { text-decoration: underline; }
-.article-list-title {
+.card:visited { color: var(--text); }
+.card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.card:hover .card-title { text-decoration: underline; }
+.card img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; background: var(--surface-2); }
+.card-body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-5); }
+.card-title { font-weight: var(--weight-bold); line-height: var(--leading-tight); color: var(--text); }
+.card-desc { color: var(--muted); font-size: var(--text-sm); }
+.card-meta { margin-top: auto; color: var(--primary); font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+
+/* ===== Spis poradników i artykuł ===== */
+.page-hero { padding: var(--space-7) 0 var(--space-6); }
+.page-hero .lead { font-size: var(--text-md); }
+.breadcrumbs { margin: var(--space-5) 0 0; font-size: var(--text-sm); color: var(--muted); }
+.breadcrumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+.breadcrumbs li { display: inline-flex; align-items: center; }
+.breadcrumbs li + li::before { content: "›"; content: "›" / ""; margin: 0 var(--space-2); }
+.breadcrumbs a { display: inline-flex; align-items: center; min-height: var(--tap-min); }
+.breadcrumbs a:visited { color: var(--primary); }
+.breadcrumbs [aria-current="page"] { color: var(--muted); }
+
+/* Ilustracja na górze artykułu */
+.article-hero { margin: var(--space-5) 0 var(--space-6); }
+.article-hero img {
   display: block;
-  color: var(--primary);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  margin-bottom: var(--space-2);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
 }
-.article-list-desc { display: block; color: var(--muted); font-size: var(--text-sm); }
+.article .lead { font-size: var(--text-md); }
 
 /* Linki "Przeczytaj też" i "Źródła": każdy w osobnej linii, łatwy do trafienia */
 .prose .article-related li,

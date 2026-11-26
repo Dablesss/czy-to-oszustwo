@@ -13,12 +13,12 @@
   <meta property="og:title" content="Czy to oszustwo? Sprawdź podejrzany SMS albo link">
   <meta property="og:description" content="Wklej podejrzany SMS, wiadomość albo link i w kilka sekund sprawdź, czy to oszustwo. Za darmo, bez logowania, bez zapisywania treści.">
   <meta property="og:url" content="https://domena.example/">
-  <meta property="og:image" content="https://domena.example/icons/icon-512.png">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Logo Czy to oszustwo?: tarcza z ptaszkiem">
+  <meta property="og:image" content="https://domena.example/img/og/strona-glowna.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Czy to oszustwo? Sprawdź podejrzany SMS albo link. Telefon z podejrzanym SMS-em">
   <meta property="og:locale" content="pl_PL">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
@@ -62,16 +62,21 @@
   </svg>
 
   <header class="site-header">
-    <div class="wrap">
+    <div class="wrap header-bar">
       <a class="brand" href="/" aria-label="Czy to oszustwo? – strona główna" aria-current="page">
         <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
         <span class="brand-name">Czy to oszustwo?</span>
       </a>
+      <nav aria-label="Główne menu">
+        <a class="nav-link" href="/artykuly/">Poradniki</a>
+      </nav>
     </div>
   </header>
 
-  <main id="tresc" class="wrap">
+  <main id="tresc">
+   <div class="wrap">
     <section class="hero">
+      <p class="eyebrow">Bezpłatnie · bez logowania · nic nie zapisujemy</p>
       <h1>Sprawdź podejrzany SMS albo link</h1>
       <p class="lead">Wklej wiadomość, a w kilka sekund powiemy, czy wygląda na oszustwo i co zrobić dalej.</p>
     </section>
@@ -148,6 +153,46 @@
         <button type="button" id="ios-hint-close" class="btn btn--secondary">Zamknij wskazówkę</button>
       </div>
     </aside>
+   </div>
+
+    <section class="wrap wrap--wide section" aria-labelledby="poradniki-tytul">
+      <div class="section-head">
+        <h2 id="poradniki-tytul">Poradniki: poznaj najczęstsze oszustwa</h2>
+        <a class="link-arrow" href="/artykuly/">Wszystkie poradniki <span aria-hidden="true">&nbsp;→</span></a>
+      </div>
+      <ul class="card-grid">
+        <li>
+          <a class="card" href="/artykuly/sms-doplata-do-paczki.html">
+            <img src="/img/artykuly/sms-doplata-do-paczki.svg" alt="Telefon z podejrzanym SMS-em o dopłacie do paczki i karton przesyłki" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">SMS o dopłacie do paczki: jak rozpoznać oszustwo</span>
+              <span class="card-desc">„Paczka wstrzymana, dopłać 1,99 zł” – dlaczego to prawie zawsze oszustwo i jak sprawdzić prawdziwą przesyłkę.</span>
+              <span class="card-meta">Czytaj · 3 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/oszustwo-na-blik-od-znajomego.html">
+            <img src="/img/artykuly/oszustwo-na-blik-od-znajomego.svg" alt="Telefon z prośbą o kod BLIK od znajomego i kod zabezpieczony kłódką" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">Oszustwo „na BLIK” od znajomego</span>
+              <span class="card-desc">„Pożyczysz 500 zł? Wyślij mi kod BLIK” – jak oszuści przejmują konta znajomych i jak się bronić.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/falszywy-pracownik-banku.html">
+            <img src="/img/artykuly/falszywy-pracownik-banku.svg" alt="Telefon z ostrzeżeniem i budynek banku ze słuchawką: fałszywy pracownik banku" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">Fałszywy pracownik banku i „bezpieczne konto”</span>
+              <span class="card-desc">Dzwoni „bank”, mówi o włamaniu na konto i każe przelać pieniądze albo zainstalować aplikację. Rozłącz się.</span>
+              <span class="card-meta">Czytaj · 3 min</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </section>
   </main>
 
   <footer class="site-footer">

@@ -161,3 +161,21 @@ Każdy plik HTML w `static/` musi mieć (pilnuje tego `tests/test_guards.py`):
 2. Sprawdź kontrast nowych kolorów (min. 4.5:1).
 3. Zdefiniuj stany: hover, active, focus, a jeśli trzeba, ładowanie i błąd.
 4. Dopisz element do tego dokumentu.
+
+## Wygląd 2.0: nowoczesny i minimalistyczny
+
+- **Tło białe** (`--bg`), sekcje wyróżnione delikatną szarością (`--surface-2`), ramki cienką linią (`--line`) zamiast cieni. Cień (`--shadow`) tylko po najechaniu na kartę.
+- **Nagłówek** (`.site-header`) jest przyklejony do góry i szerszy niż tekst (`--wide-width`): logo po lewej, przycisk **„Poradniki”** (`.nav-link`, pigułka 48 px) po prawej na każdej stronie. W dziale poradników ma `aria-current="page"`.
+- **Etykieta** nad tytułem strony głównej (`.eyebrow`), większy nagłówek (`--text-xl` do 2,6 rem, grubość 800).
+- **Karty poradników** (`.card-grid` + `.card`): ilustracja 1200×630, tytuł, opis, „Czytaj · N min”. Cała karta jest jednym linkiem. Siatka sama dobiera liczbę kolumn (min. 280 px).
+- **Okruszki** (`.breadcrumbs`) na spisie i w poradnikach, **ilustracja na górze artykułu** (`.article-hero`).
+
+## Obrazy i SEO obrazów
+
+- Ilustracje są w SVG (1,5–5 KB): ostre na każdym ekranie, bez tekstu w obrazku (znaczenie niesie `alt`).
+- Każdy `<img>` ma `alt` (opis tego, co widać, z tematem poradnika), `width` i `height` (strona nie „skacze”) oraz istniejący plik. Pilnuje tego `tests/test_guards.py`.
+- Ilustracja na górze artykułu ładuje się od razu (`fetchpriority="high"`), karty niżej leniwie (`loading="lazy"`).
+- Nazwy plików = adres poradnika (`sms-doplata-do-paczki.svg`), czyli słowa, których ludzie szukają.
+- Każdy poradnik ma własny obraz do podglądu linku `static/img/og/<slug>.png` (1200×630, `twitter:card` = `summary_large_image`).
+- `sitemap.xml` zawiera obrazy (`<image:image>`), więc Google może je pokazać w wyszukiwarce grafiki.
+- Generatory: `tools/poradniki/`.
