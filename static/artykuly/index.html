@@ -13,12 +13,12 @@
   <meta property="og:title" content="Poradniki: jak rozpoznać oszustwo · Czy to oszustwo?">
   <meta property="og:description" content="Proste poradniki o najczęstszych oszustwach: SMS o dopłacie do paczki, BLIK od znajomego, telefon z banku, fałszywy mandat. Jak rozpoznać i co zrobić.">
   <meta property="og:url" content="https://domena.example/artykuly/">
-  <meta property="og:image" content="https://domena.example/icons/icon-512.png">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Logo Czy to oszustwo?: tarcza z ptaszkiem">
+  <meta property="og:image" content="https://domena.example/img/og/poradniki.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ilustracje poradników: telefon z podejrzanym SMS-em, paczka, kod BLIK i bank">
   <meta property="og:locale" content="pl_PL">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
@@ -36,72 +36,112 @@
   </svg>
 
   <header class="site-header">
-    <div class="wrap">
+    <div class="wrap header-bar">
       <a class="brand" href="/" aria-label="Czy to oszustwo? – strona główna">
         <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
         <span class="brand-name">Czy to oszustwo?</span>
       </a>
+      <nav aria-label="Główne menu">
+        <a class="nav-link" href="/artykuly/" aria-current="page">Poradniki</a>
+      </nav>
     </div>
   </header>
 
-  <main id="tresc" class="wrap prose article">
-    <a class="back-link" href="/"><span aria-hidden="true">←</span> Wróć do sprawdzania</a>
+  <main id="tresc">
+   <div class="wrap wrap--wide">
+    <nav class="breadcrumbs" aria-label="Jesteś tutaj"><ol><li><a href="/">Strona główna</a></li><li><span aria-current="page">Poradniki</span></li></ol></nav>
 
-    <h1>Poradniki: jak rozpoznać oszustwo</h1>
-    <p class="lead">Krótko i prostym językiem o oszustwach, które najczęściej trafiają do skrzynek SMS i komunikatorów. Każdy poradnik mówi, po czym poznać sztuczkę i co zrobić.</p>
-    <p class="article-meta">Zaktualizowano <time datetime="2026-11-27">27.11.2026</time></p>
+    <section class="page-hero">
+      <h1>Poradniki: jak rozpoznać oszustwo</h1>
+      <p class="lead">Krótko i prostym językiem o oszustwach, które najczęściej trafiają do skrzynek SMS i komunikatorów. Każdy poradnik mówi, po czym poznać sztuczkę i co zrobić.</p>
+      <p class="article-meta">Zaktualizowano <time datetime="2026-11-27">27.11.2026</time></p>
+    </section>
 
     <h2 class="visually-hidden">Lista poradników</h2>
-    <ul class="article-list">
-      <li>
-        <a href="/artykuly/sms-doplata-do-paczki.html">
-          <span class="article-list-title">SMS o dopłacie do paczki: jak rozpoznać oszustwo</span>
-          <span class="article-list-desc">„Paczka wstrzymana, dopłać 1,99 zł” – dlaczego to prawie zawsze oszustwo i jak sprawdzić prawdziwą przesyłkę.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/oszustwo-na-blik-od-znajomego.html">
-          <span class="article-list-title">Oszustwo „na BLIK” od znajomego</span>
-          <span class="article-list-desc">„Pożyczysz 500 zł? Wyślij mi kod BLIK” – jak oszuści przejmują konta znajomych i jak się bronić.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/mamo-to-moj-nowy-numer.html">
-          <span class="article-list-title">„Mamo, to mój nowy numer”: oszustwo na dziecko i wnuczka</span>
-          <span class="article-list-desc">SMS od „dziecka” z nowego numeru, a potem prośba o przelew. Jak sprawdzić, kto naprawdę pisze.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/falszywy-pracownik-banku.html">
-          <span class="article-list-title">Fałszywy pracownik banku i „bezpieczne konto”</span>
-          <span class="article-list-desc">Dzwoni „bank”, mówi o włamaniu na konto i każe przelać pieniądze albo zainstalować aplikację. Rozłącz się.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/sms-odciecie-pradu-gazu.html">
-          <span class="article-list-title">SMS o odcięciu prądu lub gazu: to zwykle oszustwo</span>
-          <span class="article-list-desc">„Dziś o 21:00 odłączymy prąd, zapłać 4,80 zł” – jak naprawdę wygląda wezwanie do zapłaty.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/olx-vinted-odbierz-platnosc.html">
-          <span class="article-list-title">OLX i Vinted: link „odbierz płatność” to oszustwo</span>
-          <span class="article-list-desc">Sprzedajesz w internecie, a „kupujący” przysyła link do odbioru pieniędzy. Dlaczego nie wolno w niego klikać.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/falszywy-zwrot-podatku-mandat.html">
-          <span class="article-list-title">Fałszywy zwrot podatku, mandat i opłata e-TOLL</span>
-          <span class="article-list-desc">„Masz zwrot podatku”, „niezapłacony mandat”, „opłata za autostradę” – jak urzędy naprawdę się kontaktują.</span>
-        </a>
-      </li>
-      <li>
-        <a href="/artykuly/falszywe-kody-qr.html">
-          <span class="article-list-title">Fałszywe kody QR: parkomaty i kartki za wycieraczką</span>
-          <span class="article-list-desc">Naklejka „zapłać szybko” na parkomacie albo „mandat” za wycieraczką z kodem QR. Czego nie skanować.</span>
-        </a>
-      </li>
+    <ul class="card-grid">
+        <li>
+          <a class="card" href="/artykuly/sms-doplata-do-paczki.html">
+            <img src="/img/artykuly/sms-doplata-do-paczki.svg" alt="Telefon z podejrzanym SMS-em o dopłacie do paczki i karton przesyłki" width="1200" height="630" decoding="async">
+            <span class="card-body">
+              <span class="card-title">SMS o dopłacie do paczki: jak rozpoznać oszustwo</span>
+              <span class="card-desc">„Paczka wstrzymana, dopłać 1,99 zł” – dlaczego to prawie zawsze oszustwo i jak sprawdzić prawdziwą przesyłkę.</span>
+              <span class="card-meta">Czytaj · 3 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/oszustwo-na-blik-od-znajomego.html">
+            <img src="/img/artykuly/oszustwo-na-blik-od-znajomego.svg" alt="Telefon z prośbą o kod BLIK od znajomego i kod zabezpieczony kłódką" width="1200" height="630" decoding="async">
+            <span class="card-body">
+              <span class="card-title">Oszustwo „na BLIK” od znajomego</span>
+              <span class="card-desc">„Pożyczysz 500 zł? Wyślij mi kod BLIK” – jak oszuści przejmują konta znajomych i jak się bronić.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/mamo-to-moj-nowy-numer.html">
+            <img src="/img/artykuly/mamo-to-moj-nowy-numer.svg" alt="Telefon z wiadomością „Mamo, to mój nowy numer” i dymki rozmowy ze znakiem zapytania" width="1200" height="630" decoding="async">
+            <span class="card-body">
+              <span class="card-title">„Mamo, to mój nowy numer”: oszustwo na dziecko i wnuczka</span>
+              <span class="card-desc">SMS od „dziecka” z nowego numeru, a potem prośba o przelew. Jak sprawdzić, kto naprawdę pisze.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/falszywy-pracownik-banku.html">
+            <img src="/img/artykuly/falszywy-pracownik-banku.svg" alt="Telefon z ostrzeżeniem i budynek banku ze słuchawką: fałszywy pracownik banku" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">Fałszywy pracownik banku i „bezpieczne konto”</span>
+              <span class="card-desc">Dzwoni „bank”, mówi o włamaniu na konto i każe przelać pieniądze albo zainstalować aplikację. Rozłącz się.</span>
+              <span class="card-meta">Czytaj · 3 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/sms-odciecie-pradu-gazu.html">
+            <img src="/img/artykuly/sms-odciecie-pradu-gazu.svg" alt="Telefon z SMS-em o odcięciu prądu, błyskawica i płomień gazu" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">SMS o odcięciu prądu lub gazu: to zwykle oszustwo</span>
+              <span class="card-desc">„Dziś o 21:00 odłączymy prąd, zapłać 4,80 zł” – jak naprawdę wygląda wezwanie do zapłaty.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/olx-vinted-odbierz-platnosc.html">
+            <img src="/img/artykuly/olx-vinted-odbierz-platnosc.svg" alt="Telefon z wiadomością „odbierz płatność” i metka z ceną z monetami: oszustwo na OLX i Vinted" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">OLX i Vinted: link „odbierz płatność” to oszustwo</span>
+              <span class="card-desc">Sprzedajesz w internecie, a „kupujący” przysyła link do odbioru pieniędzy. Dlaczego nie wolno w niego klikać.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/falszywy-zwrot-podatku-mandat.html">
+            <img src="/img/artykuly/falszywy-zwrot-podatku-mandat.svg" alt="Telefon z SMS-em o zwrocie podatku i dokument z czerwoną pieczątką" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">Fałszywy zwrot podatku, mandat i opłata e-TOLL</span>
+              <span class="card-desc">„Masz zwrot podatku”, „niezapłacony mandat”, „opłata za autostradę” – jak urzędy naprawdę się kontaktują.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="/artykuly/falszywe-kody-qr.html">
+            <img src="/img/artykuly/falszywe-kody-qr.svg" alt="Kod QR z naklejonym na wierzch fałszywym kodem QR i telefon z ostrzeżeniem" width="1200" height="630" loading="lazy" decoding="async">
+            <span class="card-body">
+              <span class="card-title">Fałszywe kody QR: parkomaty i kartki za wycieraczką</span>
+              <span class="card-desc">Naklejka „zapłać szybko” na parkomacie albo „mandat” za wycieraczką z kodem QR. Czego nie skanować.</span>
+              <span class="card-meta">Czytaj · 2 min</span>
+            </span>
+          </a>
+        </li>
     </ul>
+   </div>
+   <div class="wrap prose article">
 
     <section class="summary" aria-labelledby="zasady">
       <h2 id="zasady">Trzy zasady, które chronią przed większością oszustw</h2>
@@ -116,6 +156,7 @@
       <p>Wklej ją na stronie głównej. W kilka sekund zobaczysz, czy ma oznaki oszustwa. Nie zapisujemy treści.</p>
       <a class="btn btn--primary" href="/">Sprawdź swoją wiadomość</a>
     </aside>
+   </div>
   </main>
 
   <footer class="site-footer">

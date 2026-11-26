@@ -340,3 +340,44 @@ def test_internal_links_exist(path):
     reader.feed(path.read_text(encoding="utf-8"))
     broken = [href for href in reader.links if not static_file_for(href).is_file()]
     assert broken == [], f"Linki do nieistniejących plików: {broken}"
+
+
+# ---------------------------------------------------------------- 9. Obrazy i SEO obrazów
+
+
+class ImageReader(HTMLParser):
+    """Zbiera atrybuty każdego znacznika <img>."""
+
+    def __init__(self):
+        super().__init__()
+        self.images = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "img":
+            self.images.append(dict(attrs))
+
+
+@pytest.mark.parametrize("path", HTML_FILES, ids=html_id)
+def test_images_are_accessible_and_seo_friendly(path):
+    """Każdy obrazek ma opis (alt) dla czytnika ekranu i wyszukiwarki grafiki,
+    wymiary (width, height), żeby strona nie "skakała" przy wczytywaniu,
+    i istniejący plik w static/."""
+    reader = ImageReader()
+    reader.feed(path.read_text(encoding="utf-8"))
+    for img in reader.images:
+        src = img.get("src", "")
+        assert len(img.get("alt", "").strip()) >= 10, f"{src}: brak opisu alt (min. 10 znaków)"
+        assert img.get("width") and img.get("height"), f"{src}: brak width/height"
+        assert static_file_for(src).is_file(), f"{src}: nie ma takiego pliku"
+
+
+@pytest.mark.parametrize("path", sorted((STATIC / "artykuly").glob("*.html")), ids=html_id)
+def test_article_has_own_share_image(path):
+    """Każdy poradnik ma własny obraz 1200x630 do podglądu linku (Open Graph)
+    i duży podgląd na Twitterze/X. Plik obrazu musi istnieć."""
+    head = read_head(path)
+    image = head.meta.get("og:image", "")
+    assert image.startswith(SITE_URL + "/img/og/") and image.endswith(".png"), image
+    assert static_file_for(image[len(SITE_URL):]).is_file(), f"brak pliku {image}"
+    assert head.meta.get("og:image:width") == "1200" and head.meta.get("og:image:height") == "630"
+    assert head.meta.get("twitter:card") == "summary_large_image"

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img">
+  <rect width="1200" height="630" fill="#fff4d6"/>
+  <circle cx="860" cy="315" r="220" fill="#ffffff" opacity="0.7"/>
+  <g transform="translate(150 70)">
+    <rect x="0" y="0" width="300" height="490" rx="44" fill="#16191d"/>
+    <rect x="14" y="14" width="272" height="462" rx="32" fill="#ffffff"/>
+    <rect x="115" y="30" width="70" height="10" rx="5" fill="#d5dae1"/>
+    <rect x="40" y="110" width="220" height="150" rx="22" fill="#eef1f5"/>
+    <rect x="62" y="136" width="150" height="14" rx="7" fill="#d5dae1"/>
+    <rect x="62" y="164" width="176" height="14" rx="7" fill="#d5dae1"/>
+    <rect x="62" y="192" width="120" height="14" rx="7" fill="#d5dae1"/>
+    <rect x="62" y="222" width="150" height="14" rx="7" fill="#1f4fa3"/>
+    <rect x="40" y="290" width="160" height="60" rx="22" fill="#eef1f5"/>
+    <rect x="62" y="313" width="110" height="14" rx="7" fill="#d5dae1"/>
+    <circle cx="262" cy="104" r="34" fill="#d93a2b"/>
+    <rect x="257" y="84" width="10" height="26" rx="5" fill="#ffffff"/>
+    <circle cx="262" cy="122" r="6" fill="#ffffff"/>
+  </g>
+  <g transform="translate(710 165)">
+    <polygon points="140,20 50,170 120,170 90,290 220,120 145,120 190,20" fill="#f2b705"/>
+    <path d="M250 290 c-50 0 -70 -40 -55 -80 c10 -26 30 -38 30 -70 c30 20 55 55 55 95 c0 30 -10 55 -30 55z" fill="#e8662c"/>
+    <path d="M250 290 c-22 0 -30 -18 -24 -36 c5 -14 15 -18 17 -34 c16 12 26 28 26 44 c0 16 -6 26 -19 26z" fill="#ffd36b"/>
+  </g>
+</svg>

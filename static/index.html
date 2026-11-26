@@ -13,12 +13,12 @@
   <meta property="og:title" content="Czy to oszustwo? Sprawdź podejrzany SMS albo link">
   <meta property="og:description" content="Wklej podejrzany SMS, wiadomość albo link i w kilka sekund sprawdź, czy to oszustwo. Za darmo, bez logowania, bez zapisywania treści.">
   <meta property="og:url" content="https://domena.example/">
-  <meta property="og:image" content="https://domena.example/icons/icon-512.png">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Logo Czy to oszustwo?: tarcza z ptaszkiem">
+  <meta property="og:image" content="https://domena.example/img/og/strona-glowna.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Czy to oszustwo? Sprawdź podejrzany SMS albo link. Telefon z podejrzanym SMS-em">
   <meta property="og:locale" content="pl_PL">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
@@ -62,92 +62,159 @@
   </svg>
 
   <header class="site-header">
-    <div class="wrap">
+    <div class="wrap header-bar">
       <a class="brand" href="/" aria-label="Czy to oszustwo? – strona główna" aria-current="page">
         <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
         <span class="brand-name">Czy to oszustwo?</span>
       </a>
+      <nav aria-label="Główne menu">
+        <a class="nav-link" href="/artykuly/">Poradniki</a>
+      </nav>
     </div>
   </header>
 
-  <main id="tresc" class="wrap">
-    <section class="hero">
-      <h1>Sprawdź podejrzany SMS albo link</h1>
-      <p class="lead">Wklej wiadomość, a w kilka sekund powiemy, czy wygląda na oszustwo i co zrobić dalej.</p>
-    </section>
+  <main id="tresc">
+   <div class="wrap wrap--wide home">
+    <div class="home-top">
+      <section class="hero">
+        <h1>Dostałeś <span class="hl">dziwnego</span> SMS-a?</h1>
+        <p class="lead">Wklej go tutaj. Sprawdzimy link i treść, zanim w cokolwiek klikniesz.
+          Za darmo, bez zakładania konta.</p>
+      </section>
+      <div class="home-check">
+      <form id="check-form" class="panel" novalidate>
+        <div class="field-head">
+          <label for="message">Treść wiadomości albo link</label>
+          <button type="button" id="paste-btn" class="btn btn--ghost">
+            <svg class="icon" aria-hidden="true"><use href="#i-paste"/></svg>
+            Wklej ze schowka
+          </button>
+        </div>
+        <!-- Bez maxlength: przeglądarka ucinałaby tekst po cichu. Limit pilnuje app.js. -->
+        <!-- aria-describedby ustawia app.js: tylko na widoczny licznik i błąd -->
+        <textarea id="message" name="text" rows="6"
+          placeholder="Na przykład: Twoja paczka czeka na dopłatę 1,99 zł…"></textarea>
+        <p id="counter" class="counter" hidden></p>
+        <p id="error" class="error" role="alert" hidden></p>
 
-    <form id="check-form" class="panel" novalidate>
-      <div class="field-head">
-        <label for="message">Treść wiadomości albo link</label>
-        <button type="button" id="paste-btn" class="btn btn--ghost">
-          <svg class="icon" aria-hidden="true"><use href="#i-paste"/></svg>
-          Wklej ze schowka
+        <button type="submit" id="check-btn" class="btn btn--primary">
+          <span class="spinner" aria-hidden="true"></span>
+          <span id="check-label">Sprawdź wiadomość</span>
         </button>
-      </div>
-      <!-- Bez maxlength: przeglądarka ucinałaby tekst po cichu. Limit pilnuje app.js. -->
-      <!-- aria-describedby ustawia app.js: tylko na widoczny licznik i błąd -->
-      <textarea id="message" name="text" rows="6"
-        placeholder="Na przykład: Twoja paczka czeka na dopłatę 1,99 zł…"></textarea>
-      <p id="counter" class="counter" hidden></p>
-      <p id="error" class="error" role="alert" hidden></p>
+      </form>
 
-      <button type="submit" id="check-btn" class="btn btn--primary">
-        <span class="spinner" aria-hidden="true"></span>
-        <span id="check-label">Sprawdź wiadomość</span>
-      </button>
-    </form>
+      <!-- Niewidoczny komunikat dla czytnika ekranu: "Sprawdzam…", "Wynik gotowy". -->
+      <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
 
-    <!-- Niewidoczny komunikat dla czytnika ekranu: "Sprawdzam…", "Wynik gotowy". -->
-    <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
-
-    <section id="result" class="result" aria-labelledby="verdict-title" hidden>
-      <!-- Klasa scam / suspicious / no_signs (z app.js) wybiera kolor i ikonę. -->
-      <div class="verdict" id="verdict">
-        <div class="verdict-head">
-          <span class="verdict-icon" aria-hidden="true">
-            <svg class="only-scam"><use href="#i-scam"/></svg>
-            <svg class="only-suspicious"><use href="#i-warn"/></svg>
-            <svg class="only-no_signs"><use href="#i-ok"/></svg>
-          </span>
-          <div>
-            <p class="overline">Wynik sprawdzenia</p>
-            <!-- tabindex="-1": po sprawdzeniu przenosimy tu fokus z JS -->
-            <h2 id="verdict-title" tabindex="-1"></h2>
+      <section id="result" class="result" aria-labelledby="verdict-title" hidden>
+        <!-- Klasa scam / suspicious / no_signs (z app.js) wybiera kolor i ikonę. -->
+        <div class="verdict" id="verdict">
+          <div class="verdict-head">
+            <span class="verdict-icon" aria-hidden="true">
+              <svg class="only-scam"><use href="#i-scam"/></svg>
+              <svg class="only-suspicious"><use href="#i-warn"/></svg>
+              <svg class="only-no_signs"><use href="#i-ok"/></svg>
+            </span>
+            <div>
+              <p class="overline">Wynik sprawdzenia</p>
+              <!-- tabindex="-1": po sprawdzeniu przenosimy tu fokus z JS -->
+              <h2 id="verdict-title" tabindex="-1"></h2>
+            </div>
+          </div>
+          <div class="verdict-body">
+            <h3>Co zrobić teraz</h3>
+            <ul id="advice" class="steps"></ul>
           </div>
         </div>
-        <div class="verdict-body">
-          <h3>Co zrobić teraz</h3>
-          <ul id="advice" class="steps"></ul>
-        </div>
+
+        <details class="reasons">
+          <summary>Dlaczego tak uważamy?</summary>
+          <ul id="reasons"></ul>
+        </details>
+
+        <button type="button" id="again-btn" class="btn btn--secondary btn--full">Sprawdź inną wiadomość</button>
+      </section>
       </div>
+    </div>
 
-      <details class="reasons">
-        <summary>Dlaczego tak uważamy?</summary>
-        <ul id="reasons"></ul>
-      </details>
-
-      <button type="button" id="again-btn" class="btn btn--secondary btn--full">Sprawdź inną wiadomość</button>
+    <!-- Przykłady do kliknięcia: wklejają wiadomość i od razu ją sprawdzają (app.js, data-example).
+         Domeny są zmyślone. -->
+    <section class="block examples" aria-labelledby="przyklady-tytul">
+      <p class="block-label">Wypróbuj</p>
+      <h2 id="przyklady-tytul">Nie masz wiadomości pod ręką? Kliknij przykład</h2>
+      <ul class="examples-list cols">
+        <li><button type="button" class="example-btn" data-example="InPost: Twoja paczka czeka na dopłatę 1,99 zł. Opłać w ciągu 24h: inpost-doplata24.top">
+          <span class="example-from">InPost</span>
+          <span>Twoja paczka czeka na dopłatę 1,99 zł. Opłać w ciągu 24h: inpost-doplata24.top</span>
+          <span class="example-go" aria-hidden="true">Sprawdź ten przykład →</span>
+        </button></li>
+        <li><button type="button" class="example-btn" data-example="Mamo, to mój nowy numer, stary telefon się zepsuł. Możesz mi pilnie przelać 800 zł? Oddam jutro">
+          <span class="example-from">Nieznany numer</span>
+          <span>Mamo, to mój nowy numer, stary telefon się zepsuł. Możesz mi pilnie przelać 800 zł?</span>
+          <span class="example-go" aria-hidden="true">Sprawdź ten przykład →</span>
+        </button></li>
+        <li><button type="button" class="example-btn" data-example="Cześć, będę za 10 minut. Kupić coś jeszcze do sklepu?">
+          <span class="example-from">Ania</span>
+          <span>Cześć, będę za 10 minut. Kupić coś jeszcze do sklepu?</span>
+          <span class="example-go" aria-hidden="true">Sprawdź ten przykład →</span>
+        </button></li>
+      </ul>
     </section>
 
-    <ul class="trust">
-      <li><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>Nie zapisujemy treści wiadomości</li>
-      <li><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>Sprawdzamy na liście ostrzeżeń CERT Polska</li>
-      <li><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>Bez logowania i za darmo</li>
-    </ul>
+    <section class="block how" id="jak-to-dziala" aria-labelledby="jak-tytul">
+      <p class="block-label">Jak to działa</p>
+      <h2 id="jak-tytul">Sprawdzamy wiadomość na trzy sposoby</h2>
+      <ol class="how-list cols">
+        <li><strong>Lista ostrzeżeń CERT Polska</strong>
+          Porównujemy link z ponad 120 tysiącami adresów stron, które specjaliści już uznali za oszustwa.</li>
+        <li><strong>Podróbki znanych firm</strong>
+          Sprawdzamy, czy adres nie udaje firmy. Na przykład <i>inpost-doplata24.top</i> nie należy do InPostu.</li>
+        <li><strong>Sztuczki w treści</strong>
+          Dopłata kilku złotych, kod BLIK, „mamo, to mój nowy numer”, groźba odcięcia prądu.</li>
+      </ol>
+      <p class="how-note">Treści wiadomości nie zapisujemy. Wynik to wskazówka, nie gwarancja.
+        Jeśli coś Cię niepokoi, zadzwoń do firmy albo bliskiej osoby na numer, który znasz.</p>
+    </section>
 
-    <!-- Wskazówka tylko dla iPhone'a/iPada w Safari (pokazuje ją app.js) -->
-    <aside id="ios-hint" class="hint" hidden>
-      <svg class="icon hint-icon" aria-hidden="true"><use href="#i-phone"/></svg>
-      <div>
-        <p>
-          <strong>Dodaj tę stronę do ekranu głównego.</strong>
-          Naciśnij przycisk <strong>Udostępnij</strong>
-          (kwadrat ze strzałką w górę)
-          na dole ekranu, a potem <strong>„Do ekranu początkowego”</strong>.
-        </p>
-        <button type="button" id="ios-hint-close" class="btn btn--secondary">Zamknij wskazówkę</button>
-      </div>
-    </aside>
+    <section class="block guides" aria-labelledby="poradniki-tytul">
+      <p class="block-label">Poradniki</p>
+      <h2 id="poradniki-tytul">Tak oszukują najczęściej</h2>
+      <ul class="guide-list">
+        <li><a href="/artykuly/sms-doplata-do-paczki.html">SMS o dopłacie do paczki</a>
+          <span>„Paczka wstrzymana, dopłać 1,99 zł”. Chodzi o dane karty, nie o kwotę.</span></li>
+        <li><a href="/artykuly/oszustwo-na-blik-od-znajomego.html">Prośba o kod BLIK od znajomego</a>
+          <span>Ktoś przejął konto znajomego i pisze w jego imieniu.</span></li>
+        <li><a href="/artykuly/mamo-to-moj-nowy-numer.html">„Mamo, to mój nowy numer”</a>
+          <span>Wiadomość niby od dziecka, a potem pilna prośba o przelew.</span></li>
+        <li><a href="/artykuly/falszywy-pracownik-banku.html">Telefon od „pracownika banku”</a>
+          <span>„Bezpieczne konto” i instalacja aplikacji. Prawdziwy bank tak nie robi.</span></li>
+        <li><a href="/artykuly/olx-vinted-odbierz-platnosc.html">OLX i Vinted: „odbierz płatność”</a>
+          <span>Fałszywy kupujący przysyła link, który kradnie dane karty.</span></li>
+        <li><a href="/artykuly/sms-odciecie-pradu-gazu.html">SMS o odcięciu prądu lub gazu</a>
+          <span>Groźba odłączenia „dziś o 21:00” i link do zapłaty.</span></li>
+      </ul>
+      <p class="guides-more"><a class="btn btn--outline" href="/artykuly/">Wszystkie poradniki (8)</a></p>
+    </section>
+
+     <!-- Wskazówka tylko dla iPhone'a/iPada w Safari (pokazuje ją app.js) -->
+     <aside id="ios-hint" class="hint" hidden>
+       <svg class="icon hint-icon" aria-hidden="true"><use href="#i-phone"/></svg>
+       <div>
+         <p>
+           <strong>Dodaj tę stronę do ekranu głównego.</strong>
+           Naciśnij przycisk <strong>Udostępnij</strong>
+           (kwadrat ze strzałką w górę)
+           na dole ekranu, a potem <strong>„Do ekranu początkowego”</strong>.
+         </p>
+         <button type="button" id="ios-hint-close" class="btn btn--secondary">Zamknij wskazówkę</button>
+       </div>
+     </aside>
+
+    <p class="author-note">Stronę rozwija student informatyki jako projekt open source. Kod jest
+      <a href="https://github.com/Dablesss/czy-to-oszustwo">publiczny na GitHubie</a>, więc każdy może sprawdzić,
+      co dzieje się z wklejoną wiadomością. Masz oszustwo, którego nie rozpoznaliśmy?
+      <a href="https://github.com/Dablesss/czy-to-oszustwo/issues">Napisz nam o nim</a>.</p>
+   </div>
   </main>
 
   <footer class="site-footer">

@@ -4,18 +4,20 @@
    Kolory, odstępy, rozmiary czcionek i czasy animacji są TYLKO w zmiennych niżej. */
 :root {
   /* --- Kolory --- */
-  --bg: #f4f2ed;           /* tło strony: ciepła, jasna szarość */
+  --bg: #ffffff;           /* tło strony: czysta biel */
   --surface: #ffffff;      /* karty i pola */
-  --text: #16191d;
-  --muted: #4b5563;        /* tekst pomocniczy: 6.8:1 na tle */
-  --line: #ddd8cd;         /* delikatne linie i ramki */
-  --field-border: #6b7280; /* ramka pola: min. 3:1 (WCAG 1.4.11) */
-  --primary: #1f4fa3;      /* biały tekst na nim: 7.8:1 */
-  --primary-hover: #183f84;
-  --primary-active: #12306a;
+  --surface-2: #f2f2f0;    /* delikatnie wyróżnione sekcje i tło kart */
+  --text: #0b0b0c;         /* prawie czarny: 20:1 na bieli */
+  --rule: #0b0b0c;         /* gruba linia oddzielająca sekcje */
+  --muted: #4b5563;        /* tekst pomocniczy: 7.6:1 na tle, 7.1:1 na --surface-2 */
+  --line: #d6d6d3;         /* delikatne linie i ramki */
+  --field-border: #5c5c58; /* ramka pola: min. 3:1 (WCAG 1.4.11) */
+  --primary: #1c45c4;      /* jedyny kolor marki; biały tekst na nim: 7.3:1 */
+  --primary-hover: #15379e;
+  --primary-active: #0f2a7a;
   --on-primary: #ffffff;
-  --primary-soft: #e8eef9;
-  --focus: #1f4fa3;
+  --primary-soft: #eaf0fd;
+  --focus: #1c45c4;
   --link-visited: #5b3a9e;
 
   /* Werdykty (nazwy jak w API): pasek z tytułem i jasne tło treści */
@@ -39,7 +41,7 @@
   --text-base: 1rem;    /* zwykły tekst */
   --text-md: 1.15rem;   /* główny przycisk, wstęp */
   --text-lg: 1.5rem;    /* tytuł werdyktu */
-  --text-xl: clamp(1.6rem, 5vw, 2.1rem); /* nagłówek strony */
+  --text-xl: clamp(2.2rem, 8vw, 3.6rem); /* nagłówek strony: duży, plakatowy */
   --weight-semibold: 600;
   --weight-bold: 700;
   --weight-heavy: 800;
@@ -47,9 +49,10 @@
   --leading-tight: 1.2;
 
   /* --- Kształt i głębia --- */
-  --radius: 16px;
-  --radius-sm: 12px;
-  --shadow: 0 1px 2px rgb(22 25 29 / 0.06), 0 8px 24px rgb(22 25 29 / 0.06);
+  --radius: 4px;          /* proste kąty: modernizm, bez "miękkich" zaokrągleń */
+  --radius-sm: 4px;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 12px 32px rgb(16 24 40 / 0.06);
 
   /* --- Ruch --- */
   --duration-spin: 0.8s;
@@ -61,15 +64,18 @@
   --icon-sm: 1.1em;
   --icon-lg: 44px;
   --content-width: 680px;
+  --font-sans: "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --highlight: #1c45c4;   /* wyróżnione słowo w tytule */
+  --wide-width: 1080px;   /* nagłówek, stopka, siatka kart */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1216; --surface: #181c22; --text: #eef0f3; --muted: #b4bcc8;
-    --line: #2e353f; --field-border: #8a94a3;
+    --bg: #0b0b0c; --surface: #141416; --surface-2: #1b1b1e; --text: #f4f4f2; --muted: #b9b9b4;
+    --line: #34343a; --field-border: #8f8f96; --highlight: #9db5ff; --rule: #f4f4f2;
     /* Jasnoniebieski przycisk z ciemnym tekstem (9.9:1) */
-    --primary: #9cc0ff; --primary-hover: #c2d8ff; --primary-active: #dbe8ff;
-    --on-primary: #0b1626; --primary-soft: #1c2a42; --focus: #c2d8ff;
+    --primary: #9db5ff; --primary-hover: #c3d2ff; --primary-active: #dde6ff;
+    --on-primary: #0b0b0c; --primary-soft: #18213a; --focus: #c3d2ff;
     --link-visited: #c9b2ff;
     --shadow: none;
     --scam: #ffb4ab;       --scam-soft: #2a1513;
@@ -110,13 +116,47 @@ a:hover { text-decoration-thickness: 3px; }
 
 /* ===== Nagłówek ===== */
 .site-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  border-bottom: 2px solid var(--rule);
 }
+/* Nagłówek i stopka są szersze niż tekst: logo przy lewej krawędzi, menu przy prawej */
+.site-header .wrap,
+.site-footer .wrap { max-width: var(--wide-width); }
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: var(--tap-main);
+}
+/* Przycisk "Poradniki" w nagłówku: zaokrąglona pigułka, cel dotyku min. 48 px */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding: 0 var(--space-4);
+  border: 2px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-link:visited { color: var(--text); }
+.nav-link:hover { background: var(--text); color: var(--bg); }
+.nav-link[aria-current="page"] { background: var(--text); color: var(--bg); }
+.nav-link .icon { color: var(--primary); }
 .brand { display: flex; align-items: center; gap: var(--space-3); min-height: var(--tap-main); }
 .brand-logo { width: 32px; height: 32px; color: var(--primary); }
+.brand-name { font-size: var(--text-md); }
 .logo-check { stroke: var(--surface); } /* ptaszek w kolorze tła, także w ciemnym motywie */
-.brand-name { font-weight: var(--weight-heavy); letter-spacing: -0.01em; }
+.brand-name { font-weight: var(--weight-heavy); letter-spacing: -0.02em; white-space: nowrap; }
 
 /* Logo jest linkiem do strony głównej. Wygląda jak napis, nie jak link:
    bez podkreślenia i bez fioletu odwiedzonego linku. Klikalny jest tylko
@@ -167,13 +207,29 @@ h1 {
   text-wrap: balance; /* równe linie zamiast jednego słowa w ostatniej */
 }
 .lead { color: var(--muted); margin: 0; max-width: 34em; }
+/* Nagłówki: ta sama czcionka co tekst, ale bardzo gruba i ciasna (styl szwajcarski) */
+h1, h2 { font-weight: var(--weight-heavy); letter-spacing: -0.035em; }
+/* Jedno wyróżnione słowo w tytule: w kolorze marki */
+.hl { color: var(--highlight); }
+/* Mała etykieta nad tytułem, np. "Bezpłatnie · bez logowania" */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
 
 /* ===== Formularz ===== */
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   padding: var(--space-5);
 }
 .field-head {
@@ -191,7 +247,7 @@ textarea {
   width: 100%;
   font: inherit;
   padding: var(--space-3) var(--space-4);
-  border: 2px solid var(--field-border);
+  border: 2px solid var(--rule);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -402,6 +458,7 @@ textarea[aria-invalid="true"] { border-color: var(--scam); }
   margin-top: var(--space-8);
   padding: var(--space-6) 0 var(--space-8);
   border-top: 1px solid var(--line);
+  background: var(--surface-2);
   color: var(--muted);
   font-size: var(--text-sm);
 }
@@ -496,40 +553,94 @@ textarea[aria-invalid="true"] { border-color: var(--scam); }
   margin: var(--space-7) 0;
   padding: var(--space-5);
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--primary);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: var(--primary-soft);
 }
 .prose .article-cta h2 { margin-top: 0; }
 /* Link wyglądający jak przycisk: bez podkreślenia i bez koloru odwiedzonego linku */
 a.btn { text-decoration: none; }
 a.btn--primary:visited { color: var(--on-primary); }
 
-/* Spis poradników: kafelki jeden pod drugim, cały kafelek jest linkiem */
-.prose .article-list { list-style: none; padding: 0; margin: var(--space-6) 0; max-width: none; }
-.prose .article-list li { margin-bottom: var(--space-3); }
-.article-list a {
-  display: block;
-  min-height: var(--tap-main);
-  padding: var(--space-4) var(--space-5);
-  background: var(--surface);
+
+/* ===== Karty poradników (strona główna, spis, "Przeczytaj też") =====
+   Cała karta jest jednym linkiem: ilustracja, tytuł i opis. */
+.wrap--wide { max-width: var(--wide-width); }
+.section { margin-top: var(--space-8); }
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.section-head h2 { margin: 0; font-size: var(--text-lg); line-height: var(--leading-tight); letter-spacing: -0.02em; }
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+.link-arrow:visited { color: var(--primary); }
+.link-arrow:hover { text-decoration: underline; }
+
+/* .prose .card-grid: karty w artykule bez wcięcia listy */
+.card-grid,
+.prose .card-grid { max-width: none; padding: 0; }
+.card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-5);
+  /* tyle kolumn, ile się zmieści, ale każda min. 280 px (na telefonie jedna) */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  text-decoration: none;
+  background: var(--surface);
   color: var(--text);
+  text-decoration: none;
 }
-.article-list a:visited { color: var(--text); }
-.article-list a:hover { border-color: var(--primary); }
-.article-list a:hover .article-list-title { text-decoration: underline; }
-.article-list-title {
+.card:visited { color: var(--text); }
+.card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.card:hover .card-title { text-decoration: underline; }
+.card img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; background: var(--surface-2); }
+.card-body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-5); }
+.card-title { font-weight: var(--weight-bold); line-height: var(--leading-tight); color: var(--text); }
+.card-desc { color: var(--muted); font-size: var(--text-sm); }
+.card-meta { margin-top: auto; color: var(--primary); font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+
+/* ===== Spis poradników i artykuł ===== */
+.page-hero { padding: var(--space-7) 0 var(--space-6); }
+.page-hero .lead { font-size: var(--text-md); }
+.breadcrumbs { margin: var(--space-5) 0 0; font-size: var(--text-sm); color: var(--muted); }
+.breadcrumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+.breadcrumbs li { display: inline-flex; align-items: center; }
+.breadcrumbs li + li::before { content: "›"; content: "›" / ""; margin: 0 var(--space-2); }
+.breadcrumbs a { display: inline-flex; align-items: center; min-height: var(--tap-min); }
+.breadcrumbs a:visited { color: var(--primary); }
+.breadcrumbs [aria-current="page"] { color: var(--muted); }
+
+/* Ilustracja na górze artykułu */
+.article-hero { margin: var(--space-5) 0 var(--space-6); }
+.article-hero img {
   display: block;
-  color: var(--primary);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  margin-bottom: var(--space-2);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
 }
-.article-list-desc { display: block; color: var(--muted); font-size: var(--text-sm); }
+.article .lead { font-size: var(--text-md); }
 
 /* Linki "Przeczytaj też" i "Źródła": każdy w osobnej linii, łatwy do trafienia */
 .prose .article-related li,
@@ -561,3 +672,82 @@ a.btn--primary:visited { color: var(--on-primary); }
   .steps li::before { background: CanvasText; }
   .verdict-head { border-bottom: 2px solid CanvasText; }
 }
+
+/* ===== Strona główna (modernizm): siatka, grube linie, duże cyfry =====
+   Na telefonie wszystko w jednej kolumnie, od 960 px tytuł obok formularza. */
+.home { padding-bottom: var(--space-8); }
+.home-top { display: grid; gap: var(--space-6); padding: var(--space-7) 0 var(--space-7); }
+.home .hero { padding: 0; }
+.home .lead { font-size: var(--text-md); color: var(--text); margin-top: var(--space-4); }
+.home .panel { border: 2px solid var(--rule); padding: var(--space-5); }
+@media (min-width: 960px) {
+  .home-top { grid-template-columns: 5fr 6fr; gap: var(--space-8); align-items: start; padding-top: var(--space-8); }
+  .home .hero { position: sticky; top: 96px; }
+}
+
+/* Sekcja: gruba linia u góry, mała etykieta z numerem i tytuł */
+.block { border-top: 2px solid var(--rule); padding-top: var(--space-5); margin-top: var(--space-8); }
+.block-label { margin: 0 0 var(--space-2); font-size: var(--text-sm); font-weight: var(--weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.block h2 { margin: 0 0 var(--space-6); font-size: var(--text-lg); line-height: var(--leading-tight); }
+.cols { display: grid; gap: var(--space-5); }
+@media (min-width: 720px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+
+/* Przykłady do kliknięcia: prostokąty z ramką, nadawca nad treścią */
+.examples-list { list-style: none; margin: 0; padding: 0; }
+.example-btn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  height: 100%;
+  min-height: var(--tap-main);
+  padding: var(--space-4);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.example-btn:hover { border-color: var(--rule); }
+.example-from { font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--muted); }
+.example-go { margin-top: auto; font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--primary); }
+
+/* Jak to sprawdzamy: trzy kolumny z wielką cyfrą */
+.how-list { list-style: none; margin: 0; padding: 0; counter-reset: krok; }
+.how-list li { counter-increment: krok; }
+.how-list li::before {
+  content: counter(krok, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 2.6rem;
+  font-weight: var(--weight-heavy);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--primary);
+}
+.how-list strong { display: block; margin-bottom: var(--space-1); }
+.how-note { margin: var(--space-6) 0 0; font-size: var(--text-md); font-weight: var(--weight-semibold); max-width: 40em; }
+
+/* Poradniki: lista w dwóch kolumnach, każda pozycja z cienką linią */
+.guide-list { list-style: none; margin: 0; padding: 0; display: grid; column-gap: var(--space-7); }
+@media (min-width: 720px) { .guide-list { grid-template-columns: 1fr 1fr; } }
+.guide-list li { border-top: 1px solid var(--line); padding: var(--space-3) 0 var(--space-4); }
+.guide-list a { display: inline-flex; align-items: center; min-height: var(--tap-min); font-weight: var(--weight-bold); font-size: var(--text-md); color: var(--text); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.guide-list a:visited { color: var(--text); }
+.guide-list a:hover { color: var(--primary); }
+.guide-list span { display: block; color: var(--muted); }
+.guides-more { margin-top: var(--space-5); }
+.btn--outline {
+  min-height: var(--tap-comfortable);
+  padding: var(--space-3) var(--space-5);
+  border: 2px solid var(--rule);
+  background: var(--bg);
+  color: var(--text);
+  text-decoration: none;
+}
+a.btn--outline:visited { color: var(--text); }
+.btn--outline:hover { background: var(--text); color: var(--bg); }
+
+.author-note { margin-top: var(--space-8); max-width: 40em; color: var(--muted); }

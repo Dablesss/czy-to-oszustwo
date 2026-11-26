@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Mapa strony dla wyszukiwarek. Nowa podstrona = nowy wpis <url>.
      Adres bazowy https://domena.example podmień na prawdziwą domenę (patrz SITE_URL w tests/test_guards.py). -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://domena.example/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
   </url>
   <url>
     <loc>https://domena.example/artykuly/</loc>
@@ -12,42 +13,66 @@
   </url>
   <url>
     <loc>https://domena.example/prywatnosc.html</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
   </url>
   <url>
     <loc>https://domena.example/regulamin.html</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
   </url>
   <url>
     <loc>https://domena.example/artykuly/sms-doplata-do-paczki.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/sms-doplata-do-paczki.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/oszustwo-na-blik-od-znajomego.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/oszustwo-na-blik-od-znajomego.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/mamo-to-moj-nowy-numer.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/mamo-to-moj-nowy-numer.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/falszywy-pracownik-banku.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/falszywy-pracownik-banku.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/sms-odciecie-pradu-gazu.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/sms-odciecie-pradu-gazu.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/olx-vinted-odbierz-platnosc.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/olx-vinted-odbierz-platnosc.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/falszywy-zwrot-podatku-mandat.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/falszywy-zwrot-podatku-mandat.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://domena.example/artykuly/falszywe-kody-qr.html</loc>
     <lastmod>2026-11-27</lastmod>
+    <image:image>
+      <image:loc>https://domena.example/img/artykuly/falszywe-kody-qr.svg</image:loc>
+    </image:image>
   </url>
 </urlset>

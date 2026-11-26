@@ -165,6 +165,17 @@ pasteBtn.addEventListener("click", async () => {
   }
 });
 
+// Przykłady pod polem: kliknięcie wkleja przykładową wiadomość i od razu ją sprawdza.
+// Treść jest w atrybucie data-example przycisku (bez kodu w HTML, zgodnie z CSP).
+document.querySelectorAll("[data-example]").forEach((button) => {
+  button.addEventListener("click", () => {
+    textarea.value = button.dataset.example;
+    updateCounter();
+    hideError();
+    check(textarea.value);
+  });
+});
+
 againBtn.addEventListener("click", () => {
   textarea.value = "";
   updateCounter();
