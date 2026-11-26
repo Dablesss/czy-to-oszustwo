@@ -52,6 +52,11 @@ ASK_VERB = (r"\b(daj|dasz|dajcie|podaj|podasz|podajcie|podeslij|podeslesz|podesl
             r"|wyslij|wyslesz|wyslac|przeslij|przeslesz|przeslac"
             r"|wygeneruj|wygenerujesz|wygenerowac|potrzebuj\w*|pozycz\w*)\b")
 
+# Do reguły fine_or_debt: polecenie zapłaty, ale NIE "zaplac w aplikacji / w eBOK".
+# Prawdziwa firma odsyła do swojej aplikacji albo eBOK (Elektroniczne Biuro Obsługi Klienta),
+# a oszust do linku. (?!...) znaczy "jeśli zaraz potem NIE MA tych słów".
+PAY = r"(zaplac|oplac|uregul)(?!\w* w (aplikacji|ebok|e-bok))"
+
 RULES: list[Rule] = [
     _r("small_payment", 30,
        "Prośba o małą dopłatę to najczęstsza sztuczka: chodzi o dane Twojej karty, nie o kwotę.",
@@ -115,12 +120,12 @@ RULES: list[Rule] = [
     _r("fine_or_debt", 25,
        "Mandat, dług albo opłata wysłana SMS-em z linkiem to oszustwo. Urzędy tak nie ściągają należności.",
        r"(mandat|grzywn|zadluzen|egzekuc|komornik|oplat\w* drogow|e-?toll|nieoplacon|niezaplacon)"
-       r"\w*.{0,80}(zaplac|oplac|uregul|link|kliknij|stron|skan)"
+       rf"\w*.{{0,80}}({PAY}|link|kliknij|stron|skan)"
        # Parking i komunikacja miejska: "brak biletu", "wezwanie do zaplaty", "nieprawidlowe parkowanie".
        # Tu tylko polecenie zapłaty (bez "stron"), bo "brak biletu? sprawdz strone przewoznika"
        # to zwykła informacja.
        r"|(brak\w* (waznego )?biletu|wezwani\w* do zaplaty|nieprawidlow\w* parkowan)"
-       r"\w*.{0,80}(zaplac|oplac|uregul|skan)"),
+       rf"\w*.{{0,80}}({PAY}|skan)"),
     _r("qr_payment", 25,
        "Płatność przez kod QR z wiadomości albo naklejki może prowadzić na fałszywą stronę. "
        "Płać w oficjalnej aplikacji albo w parkomacie.",

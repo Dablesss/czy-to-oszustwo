@@ -44,6 +44,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Ankieta klienta: odpowiedz na 3 pytania i odbierz 200 zl na swoje konto: ankieta-nagrody.site", "scam"),
     ("Kontrola biletow: brak waznego biletu. Oplac wezwanie 120 zl w ciagu 24h: kontrola-biletow.site", "scam"),
     ("Mamo, to moj nowy numer. Napisz do mnie na WhatsApp, wszystko wyjasnie", "suspicious"),
+    ("Wodociagi: nieoplacona faktura 76 zl. Zaplac teraz, aby uniknac odciecia wody: wodociagi-platnosc.top", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -81,4 +82,6 @@ LEGIT: list[str] = [
     "Brak biletu w aplikacji? Sprawdz strone przewoznika albo kup bilet w kasie.",
     # Drugi numer "do pracy / sluzbowy", bez historii o zepsutym telefonie i bez prosby o pieniadze
     "Tato, to moj nowy numer sluzbowy, zapisz go. Prywatny zostaje bez zmian",
+    # Przypomnienie o zaleglej fakturze, ale z odeslaniem do eBOK / aplikacji, a nie w link
+    "Wodociagi Miejskie: faktura 76 zl jest nieoplacona. Zaplac w eBOK lub w aplikacji, aby uniknac odsetek.",
 ]
