@@ -118,6 +118,45 @@ a:hover { text-decoration-thickness: 3px; }
 .logo-check { stroke: var(--surface); } /* ptaszek w kolorze tła, także w ciemnym motywie */
 .brand-name { font-weight: var(--weight-heavy); letter-spacing: -0.01em; }
 
+/* Logo jest linkiem do strony głównej. Wygląda jak napis, nie jak link:
+   bez podkreślenia i bez fioletu odwiedzonego linku. Klikalny jest tylko
+   napis z tarczą (inline-flex), a nie cały pasek nagłówka. */
+a.brand {
+  display: inline-flex;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  /* Odstęp w środku, żeby obwódka fokusu nie dotykała tarczy; ujemny margines
+     zostawia logo w tym samym miejscu co tekst strony. */
+  padding: 0 var(--space-2);
+  margin-left: calc(-1 * var(--space-2));
+}
+a.brand:visited { color: var(--text); }
+/* Obwódka w środku linku: nagłówek ma tę samą wysokość co logo,
+   więc obwódka na zewnątrz zostałaby ucięta przy górnej krawędzi ekranu. */
+a.brand:focus-visible { outline-offset: -3px; }
+a.brand:hover .brand-name { text-decoration: underline; text-decoration-thickness: 2px; }
+
+/* „Przejdź do treści”: niewidoczny, dopóki ktoś nie naciśnie Tab.
+   Wtedy wysuwa się w lewym górnym rogu i pozwala pominąć nagłówek. */
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-2);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: var(--weight-bold);
+  transform: translateY(-200%);
+}
+.skip-link:visited { color: var(--on-primary); }
+.skip-link:focus { transform: none; }
+
 /* ===== Wprowadzenie ===== */
 .hero { padding: var(--space-7) 0 var(--space-5); }
 h1 {

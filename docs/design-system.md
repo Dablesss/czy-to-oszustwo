@@ -62,6 +62,24 @@ Grubości: `--weight-semibold` 600, `--weight-bold` 700, `--weight-heavy` 800. I
 
 ## Komponenty
 
+### Logo w nagłówku `a.brand`
+
+Tarcza i napis „Czy to oszustwo?” w `.site-header` to link do strony głównej, taki sam na każdej stronie:
+
+```html
+<a class="brand" href="/" aria-label="Czy to oszustwo? – strona główna">
+```
+
+- Na stronie głównej ma dodatkowo `aria-current="page"` (czytnik ekranu powie, że to bieżąca strona).
+- Wygląda jak napis, nie jak link: kolor `--text`, bez podkreślenia i bez koloru odwiedzonego linku.
+- Wysokość `--tap-main` (64 px), klikalny jest tylko napis z tarczą, a nie cały pasek.
+- Stany: hover podkreśla nazwę (2 px), focus to obwódka 3 px `--focus` z zaokrągleniem `--radius-sm`, rysowana w środku linku (`outline-offset: -3px`), bo na zewnątrz ucięłaby ją górna krawędź ekranu. Wewnętrzny odstęp `--space-2` z ujemnym marginesem trzyma logo w linii z treścią.
+- `aria-label` zaczyna się od widocznego tekstu, więc sterowanie głosem („kliknij Czy to oszustwo”) działa.
+
+### „Przejdź do treści” `.skip-link`
+
+Pierwszy element w `<body>` każdej strony: `<a class="skip-link" href="#tresc">`, a `<main>` ma `id="tresc"`. Jest schowany nad ekranem i wysuwa się w lewym górnym rogu dopiero po naciśnięciu Tab (tło `--primary`, tekst `--on-primary`, min. 48 px). Osoba z klawiaturą lub czytnikiem ekranu pomija nim nagłówek.
+
 ### Przycisk `.btn`
 
 | Wariant | Kiedy | Wysokość |
@@ -96,7 +114,7 @@ Natywne `<details>`, plus i minus zamiast trójkąta, cały pasek klikalny (56 p
 
 - `.trust`: trzy krótkie zdania z ikoną. Na telefonie są w jednej kolumnie, od 720 px w trzech.
 - `.hint`: wskazówka „dodaj do ekranu głównego”, tylko iOS Safari.
-- `.site-footer`: numer 8080, zastrzeżenie i `.footer-links` (Prywatność, Regulamin, kod na GitHubie). Linki łamią się do nowej linii na wąskim ekranie, każdy ma min. 48 px wysokości, a link do bieżącej strony ma `aria-current="page"` (pogrubiony, bez podkreślenia).
+- `.site-footer`: numer 8080, zastrzeżenie i `.footer-links` (Poradniki, Prywatność, Regulamin, kod na GitHubie). Linki łamią się do nowej linii na wąskim ekranie, każdy ma min. 48 px wysokości, a link do bieżącej strony ma `aria-current="page"` (pogrubiony, bez podkreślenia).
 
 ### Strony z tekstem `.prose`
 
@@ -113,6 +131,16 @@ Natywne `<details>`, plus i minus zamiast trójkąta, cały pasek klikalny (56 p
 - Ikony mają `aria-hidden="true"`, a znaczenie niesie tekst obok.
 - Przy `prefers-reduced-motion` kółko się nie kręci, a przyciski się nie przesuwają.
 - Strona działa bez poziomego przewijania przy 375 px, przy zoomie 200% i przy tekście 200%.
+
+## Nowa podstrona: obowiązkowy `<head>`
+
+Każdy plik HTML w `static/` musi mieć (pilnuje tego `tests/test_guards.py`):
+
+- `<html lang="pl">`, unikalny `<title>` (do 60 znaków) i `<meta name="description">` (do 160 znaków),
+- `<link rel="canonical">` z pełnym adresem na `https://domena.example` (adres bazowy do podmiany po kupnie domeny),
+- Open Graph: `og:type`, `og:title`, `og:description`, `og:url` (taki sam jak canonical), `og:image` (ikona 512 px), `og:locale` = `pl_PL`, oraz `twitter:card` = `summary`,
+- skip link, nagłówek z `a.brand` i stopkę jak na pozostałych stronach,
+- wpis w `static/sitemap.xml`.
 
 ## Jak dodać nowy element
 

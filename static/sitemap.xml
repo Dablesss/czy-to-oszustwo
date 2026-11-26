@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mapa strony dla wyszukiwarek. Nowa podstrona = nowy wpis <url>.
+     Adres bazowy https://domena.example podmień na prawdziwą domenę (patrz SITE_URL w tests/test_guards.py). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://domena.example/</loc>
+    <lastmod>2026-11-26</lastmod>
+  </url>
+  <url>
+    <loc>https://domena.example/artykuly/</loc>
+    <lastmod>2026-11-26</lastmod>
+  </url>
+  <url>
+    <loc>https://domena.example/prywatnosc.html</loc>
+    <lastmod>2026-11-26</lastmod>
+  </url>
+  <url>
+    <loc>https://domena.example/regulamin.html</loc>
+    <lastmod>2026-11-26</lastmod>
+  </url>
+</urlset>

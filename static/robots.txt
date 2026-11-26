@@ -1,0 +1,6 @@
+# Wyszukiwarki mogą czytać całą stronę.
+# Adres bazowy https://domena.example podmień na prawdziwą domenę (patrz SITE_URL w tests/test_guards.py).
+User-agent: *
+Allow: /
+
+Sitemap: https://domena.example/sitemap.xml
