@@ -19,7 +19,7 @@ from .privacy import mask_personal_data
 # Reguły tekstu, które razem z linkiem dają dodatkowe punkty
 _ASKS_FOR_ACTION = {
     "small_payment", "account_blocked", "personal_data_request", "prize_or_refund",
-    "fine_or_debt", "utility_cutoff", "parcel_problem", "install_app",
+    "fine_or_debt", "utility_cutoff", "parcel_problem", "install_app", "security_alert",
 }
 
 TEXTS = {

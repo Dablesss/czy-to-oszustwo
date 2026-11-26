@@ -33,10 +33,19 @@ BRANDS: dict[str, set[str]] = {
     "epuap": {"gov.pl"},
     "zus": {"zus.pl"},
     "podatki": {"podatki.gov.pl", "gov.pl"},
-    "pge": {"gkpge.pl", "pgeobrot.pl", "pge.pl"},
-    "tauron": {"tauron.pl"},
+    # Inspekcja Transportu Drogowego: oszuści wysyłają fałszywe mandaty "z GITD".
+    # "gitd" jest krótkie (4 litery), więc łapie się tylko jako osobny człon: gitd-mandaty.online
+    "gitd": {"gitd.gov.pl", "gov.pl"},
+    # Operatorzy komórkowi. Bez "play" i "plus": to zwykłe słowa (np. "playlista", "plusy"),
+    # więc dawałyby fałszywe alarmy na zwykłych adresach.
+    "orange": {"orange.pl", "orange.com"},
+    "tmobile": {"t-mobile.pl", "t-mobile.com"},
+    # Firmy energetyczne mają osobne domeny dla operatora sieci (dystrybucji),
+    # który wysyła np. SMS-y o planowanych przerwach w dostawie prądu.
+    "pge": {"gkpge.pl", "pgeobrot.pl", "pge.pl", "pgedystrybucja.pl"},
+    "tauron": {"tauron.pl", "tauron-dystrybucja.pl"},
     "enea": {"enea.pl"},
-    "energa": {"energa.pl"},
+    "energa": {"energa.pl", "energa-operator.pl"},
     "orlen": {"orlen.pl"},
     "netflix": {"netflix.com"},
     "facebook": {"facebook.com", "fb.com"},
@@ -48,6 +57,7 @@ ALL_OFFICIAL: set[str] = set().union(*BRANDS.values())
 SUSPICIOUS_TLDS = {
     "top", "xyz", "icu", "sbs", "click", "shop", "online", "site", "live", "cfd", "buzz", "rest",
     "monster", "vip", "cyou", "bond", "quest", "lol", "fun", "space", "website", "link", "store",
+    "help",
 }
 
 SHORTENERS = {

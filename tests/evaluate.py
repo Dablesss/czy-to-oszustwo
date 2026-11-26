@@ -2,10 +2,12 @@
 
 Uruchom: python -m tests.evaluate
 
-Są dwa zestawy:
+Są trzy zestawy:
 - podstawowy (tests/examples.py: SCAMS, LEGIT) – ten sam, którego używa pytest,
 - realny (tests/examples_real.py: REAL_SCAMS, REAL_LEGIT) – przykłady wzorowane
-  na prawdziwych kampaniach. Dla niego wypisujemy też listę pomyłek ze szczegółami.
+  na prawdziwych kampaniach. Dla niego wypisujemy też listę pomyłek ze szczegółami,
+- trudne zwykłe wiadomości (tests/examples_real.py: HARD_LEGIT) – same zwykłe SMS-y,
+  które używają słów oszustów (np. ostrzeżenia banków). Liczymy tylko fałszywe alarmy.
 """
 
 import asyncio
@@ -16,7 +18,7 @@ from app.analyzer import analyze
 from app.checks.cert_list import CertList
 from app.models import Verdict
 from tests.examples import LEGIT, SCAMS
-from tests.examples_real import REAL_LEGIT, REAL_SCAMS
+from tests.examples_real import HARD_LEGIT, REAL_LEGIT, REAL_SCAMS
 
 # Werdykty jako liczby, żeby dało się je porównywać: "scam" jest "mocniejszy" niż "suspicious".
 RANK = {Verdict.NO_SIGNS: 0, Verdict.SUSPICIOUS: 1, Verdict.SCAM: 2}
@@ -73,15 +75,17 @@ async def run_set(name: str, scams: list[tuple[str, str]], legit: list[str], cer
 
     print(f"\n--- Podsumowanie: {name} ---")
     print(f"Trafność ogółem:     {correct}/{total} ({correct / total:.0%})")
-    print(f"Wykryte oszustwa:    {caught}/{len(scams)} ({caught / len(scams):.0%})")
-    print(f"Przepuszczone (no_signs): {missed}/{len(scams)} ({missed / len(scams):.0%})")
+    # Zestaw HARD_LEGIT nie ma oszustw, więc nie ma czego liczyć (i nie dzielimy przez zero).
+    if scams:
+        print(f"Wykryte oszustwa:    {caught}/{len(scams)} ({caught / len(scams):.0%})")
+        print(f"Przepuszczone (no_signs): {missed}/{len(scams)} ({missed / len(scams):.0%})")
     print(f"Fałszywe alarmy:     {false_alarms}/{len(legit)} ({false_alarms / len(legit):.0%})")
     return mistakes
 
 
-def print_mistakes(mistakes: list[dict]) -> None:
+def print_mistakes(title: str, mistakes: list[dict]) -> None:
     """Wypisuje pomyłki: tekst, oczekiwany i otrzymany werdykt, punkty i kody sygnałów."""
-    print(f"\n=== POMYŁKI W ZESTAWIE REALNYM ({len(mistakes)}) ===")
+    print(f"\n=== POMYŁKI: {title} ({len(mistakes)}) ===")
     for m in mistakes:
         result = m["result"]
         # Kody sygnałów, np. "parcel_problem(15)". Działa, bo niżej włączamy config.DEBUG.
@@ -100,7 +104,11 @@ async def main() -> None:
 
     await run_set("PODSTAWOWY (examples.py)", SCAMS, LEGIT, cert)
     real_mistakes = await run_set("REALNY (examples_real.py)", REAL_SCAMS, REAL_LEGIT, cert)
-    print_mistakes(real_mistakes)
+    print_mistakes("ZESTAW REALNY", real_mistakes)
+
+    # Trudne zwykłe wiadomości: każda pomyłka w tym zestawie to fałszywy alarm.
+    hard_mistakes = await run_set("TRUDNE ZWYKŁE (HARD_LEGIT)", [], HARD_LEGIT, cert)
+    print_mistakes("TRUDNE ZWYKŁE – FAŁSZYWE ALARMY", hard_mistakes)
 
 
 if __name__ == "__main__":

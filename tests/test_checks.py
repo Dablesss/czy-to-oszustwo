@@ -31,6 +31,8 @@ def test_registrable_domain():
 def test_official_domain_is_trusted():
     assert analyze_host("allegro.pl") == ("official", [])
     assert analyze_host("login.ipko.pl")[0] == "official"
+    assert analyze_host("www.gitd.gov.pl")[0] == "official"
+    assert analyze_host("www.t-mobile.pl")[0] == "official"
 
 
 def test_brand_in_foreign_domain():
@@ -43,6 +45,7 @@ def test_brand_in_foreign_domain():
 def test_brand_typo_and_leetspeak():
     assert "brand_typo" in {s.code for s in analyze_host("alegro.pl")[1]}
     assert "brand_in_foreign_domain" in {s.code for s in analyze_host("a11egro-oferta.com")[1]}
+    assert "brand_in_foreign_domain" in {s.code for s in analyze_host("t-mobile-oplata.top")[1]}
 
 
 def test_short_brand_needs_separate_token():
@@ -79,6 +82,24 @@ def test_text_rules_find_typical_scams():
 def test_text_rules_quiet_on_normal_messages():
     assert check_text("Będę za 10 minut, kupić chleb?") == []
     assert check_text("Kod odbioru paczki: 123456") == []
+
+
+def test_text_rules_ignore_warnings():
+    # Ostrzeżenie banku to nie prośba oszusta ...
+    assert check_text("Pracownik banku nigdy nie poprosi Cię o kod BLIK.") == []
+    assert check_text("Nigdy nie przelewaj pieniędzy na tzw. bezpieczne konto.") == []
+    # ... ale samo "nie" przy prośbie niczego nie zmienia
+    assert "blik_request" in {s.code for s in check_text("Podeślij mi kod BLIK, nie mam kasy")}
+
+
+def test_warning_from_another_sentence_does_not_hide_scam():
+    # Oszust dopisuje ostrzeżenie w osobnym zdaniu, żeby wyłączyć regułę: to nie może działać
+    codes = lambda t: {s.code for s in check_text(t)}
+    assert "blik_request" in codes("Nigdy nie podawaj hasła. Podaj mi teraz kod BLIK, pilne!")
+    assert "remote_access_call" in codes("Pamiętaj, nigdy nie klikaj w linki. Zainstaluj AnyDesk, konsultant banku pomoże.")
+    assert "remote_access_call" in codes("Nigdy nie podawaj PIN-u, przelej środki na bezpieczne konto.")
+    # "nigdy" za dopasowaniem, ale po przecinku i bez czasownika ostrzeżenia
+    assert "remote_access_call" in codes("Przelej pieniądze na bezpieczne konto, nigdy nie mów o tym nikomu.")
 
 
 # --- prywatność ---

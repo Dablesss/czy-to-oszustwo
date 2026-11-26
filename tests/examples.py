@@ -25,6 +25,30 @@ SCAMS: list[tuple[str, str]] = [
     ("Dzien dobry, tu pracownik banku. Panstwa srodki sa zagrozone, prosze przelac je na bezpieczne konto.", "scam"),
     ("DPD: nie mozemy doreczyc paczki, adres nieprawidlowy. Zaktualizuj dane: dpd-paczka.top", "scam"),
     ("Urzad Skarbowy: nalezy ci sie zwrot podatku 412 zl. Wypelnij formularz: podatki-zwrot.net", "scam"),
+    # Podróbka domeny operatora sieci (prawdziwa to energa-operator.pl)
+    ("Energa Operator: zaleglosc 3,80 zl. Jutro odlaczenie pradu. Oplac: energa-operator-platnosc.top", "scam"),
+    ("Bank Polnocny: Twoja karta zostala zablokowana. Potwierdz dane karty: bankpolnocny-karta.top", "scam"),
+    ("Skarbowka: aby otrzymac zwrot nadplaty 318 zl, wybierz swoj bank i zaloguj sie: zwrot-nadplaty.site", "scam"),
+    ("Program Bon Rodzinny: wypelnij formularz i odbierz 300 zl na konto: bon-rodzinny.online", "scam"),
+    ("Tu konsultantka z banku. Prosze zainstalowac TeamViewer, pomoge zablokowac podejrzany przelew.", "scam"),
+    ("Telefon mi sie zepsul, pisze z telefonu kolegi. Mamo, przelej mi 600 zl na rachunek, to pilne", "scam"),
+    ("Siema, podeslij mi szybko kod na 200 zl, nie dziala mi karta w sklepie. Zaraz oddam", "scam"),
+    ("Straz Miejska: wezwanie do zaplaty za nieprawidlowe parkowanie. Oplac w ciagu 24h: strazmiejska-oplaty.top", "scam"),
+    ("Parking Miejski: nieoplacony postoj. Zaplac teraz, aby uniknac dodatkowych oplat: parking-miasto.help", "scam"),
+    ("Nowy system oplat w strefie: zeskanuj kod QR na parkomacie i zaplac karta na stronie.", "suspicious"),
+    ("Bank Polnocny: wykryto podejrzana transakcje 1499 zl. Jesli to nie Ty, anuluj ja tutaj: bankpolnocny-anuluj.top", "scam"),
+    # Ostrzezenie w pierwszym zdaniu nie "wylacza" prosby o bezpieczne konto w drugim
+    ("Pracownik banku: nigdy nie podawaj nikomu hasla. Teraz prosze przelac srodki na bezpieczne konto.", "scam"),
+    ("Dasz mi BLIKa na 200 zl? Karta mi nie dziala, oddam jutro", "scam"),
+    ("Bank Polnocny: wykryto podejrzana transakcje 2300 zl. Zweryfikuj konto: bankpolnocny-weryfikacja.top", "scam"),
+    ("Ankieta klienta: odpowiedz na 3 pytania i odbierz 200 zl na swoje konto: ankieta-nagrody.site", "scam"),
+    ("Kontrola biletow: brak waznego biletu. Oplac wezwanie 120 zl w ciagu 24h: kontrola-biletow.site", "scam"),
+    ("Mamo, to moj nowy numer. Napisz do mnie na WhatsApp, wszystko wyjasnie", "suspicious"),
+    ("Wodociagi: nieoplacona faktura 76 zl. Zaplac teraz, aby uniknac odciecia wody: wodociagi-platnosc.top", "scam"),
+    # Podrobki domen GITD, Orange i T-Mobile (prawdziwe: gitd.gov.pl, orange.pl, t-mobile.pl)
+    ("GITD: zarejestrowano przekroczenie predkosci. Sprawdz mandat i zaplac online: gitd-mandat.online", "scam"),
+    ("Orange: Twoja karta SIM zostanie zablokowana. Zaktualizuj dane: orange-karta-sim.com", "scam"),
+    ("T-Mobile: nie udalo sie pobrac platnosci za abonament. Zaplac 4,99 zl: t-mobile-oplata.top", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -40,4 +64,31 @@ LEGIT: list[str] = [
     "Twoja faktura za listopad jest dostepna w aplikacji. Termin platnosci: 10.12.",
     "Biblioteka: termin zwrotu ksiazki mija za 3 dni. Mozesz ja przedluzyc w katalogu online.",
     "Witaj.Dziekujemy za zakupy w naszym sklepie, zapraszamy ponownie!",
+    "Energa Operator: 3.12 w godz. 9-13 planowana przerwa w dostawie pradu przy ul. Polnej. Wiecej: energa-operator.pl",
+    "Bank Polnocny: Twoja karta debetowa wygasa 05/2027. Nowa karta zostanie wyslana poczta.",
+    "Sklep Zielony Koszyk: zwrot srodkow 59,90 zl za anulowane zamowienie zostal zlecony na Twoja karte.",
+    "Odbierz paczke z automatu do 12.12. Za pobraniem: 45 zl, platne karta przy automacie.",
+    "Pan z serwisu zainstalowal juz pralke, dziala bez zarzutu. Dzwonil tez pracownik spoldzielni.",
+    "Mam nowy numer do pracy, zapisz go sobie. Do zobaczenia w poniedzialek, Ola",
+    "Oddalam Ci za bilety BLIKiem na telefon, sprawdz czy doszlo 80 zl",
+    "Parkowanie oplacone do 15:30 w strefie A. Przedluz postoj w aplikacji, jesli potrzebujesz.",
+    "Wodociagi: faktura 89 zl z terminem 10.12 jest w eBOK. Oplac w terminie, aby uniknac odsetek.",
+    "Zeskanuj kod QR na ulotce, aby zobaczyc menu naszej restauracji. Smacznego!",
+    "Bank Polnocny: logowanie z nowego urzadzenia 3.12 o 8:15. Jesli to nie Ty, zadzwon na numer z odwrotu karty.",
+    # Prawdziwe ostrzezenie banku: "nigdy nie poprosi", "nie przelewaj"
+    "Bank Polnocny: pracownik banku nigdy nie poprosi Cie o kod BLIK. Nie przelewaj pieniedzy na bezpieczne konto.",
+    # Sklep DAJE kod rabatowy ("dajemy"), nikt nie prosi o kod BLIK
+    "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
+    # Prawdziwy bank kieruje do aplikacji i na numer z karty, a nie w link
+    "Bank Polnocny: zablokowalismy podejrzana transakcje 2300 zl. Sprawdz ja w aplikacji albo zadzwon na numer z karty.",
+    # Rabat sklepu "na zakupy", a nie pieniadze "na konto"
+    "Zielony Koszyk: odbierz 15 zl na pierwsze zakupy w naszej aplikacji.",
+    "Brak biletu w aplikacji? Sprawdz strone przewoznika albo kup bilet w kasie.",
+    # Drugi numer "do pracy / sluzbowy", bez historii o zepsutym telefonie i bez prosby o pieniadze
+    "Tato, to moj nowy numer sluzbowy, zapisz go. Prywatny zostaje bez zmian",
+    # Przypomnienie o zaleglej fakturze, ale z odeslaniem do eBOK / aplikacji, a nie w link
+    "Wodociagi Miejskie: faktura 76 zl jest nieoplacona. Zaplac w eBOK lub w aplikacji, aby uniknac odsetek.",
+    "GITD: informacje o punktach karnych i mandatach znajdziesz tylko na https://www.gitd.gov.pl",
+    "Orange: faktura za grudzien 49,99 zl jest dostepna na https://www.orange.pl/moj-orange",
+    "T-Mobile: Twoj pakiet internetu odnowi sie 01.12. Szczegoly: https://www.t-mobile.pl",
 ]
