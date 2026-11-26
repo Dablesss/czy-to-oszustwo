@@ -23,9 +23,22 @@ let busy = false; // true, gdy czekamy na odpowiedź serwera
 // Zamiast cicho ucinać tekst (atrybut maxlength), pokazujemy licznik i ostrzegamy.
 function updateCounter() {
   const length = textarea.value.length;
+  const over = length > MAX_LENGTH;
   counter.hidden = length < COUNTER_FROM;
-  counter.textContent = `${length} / ${MAX_LENGTH} znaków`;
-  counter.classList.toggle("is-over", length > MAX_LENGTH);
+  // Pełne zdanie zamiast "3100 / 3000": senior od razu wie, o co chodzi.
+  counter.textContent = counter.hidden ? ""
+    : over ? `Za długo o ${length - MAX_LENGTH} znaków (mieści się ${MAX_LENGTH}).`
+    : `Wpisano ${length} z ${MAX_LENGTH} znaków.`;
+  counter.classList.toggle("is-over", over);
+  updateDescription();
+}
+
+// Czytnik ekranu czyta opis pola z aria-describedby. Wpisujemy tam tylko to,
+// co jest widoczne: inaczej przeczytałby ukryty, stary komunikat o błędzie.
+function updateDescription() {
+  const ids = [counter, errorBox].filter((el) => !el.hidden).map((el) => el.id);
+  if (ids.length) textarea.setAttribute("aria-describedby", ids.join(" "));
+  else textarea.removeAttribute("aria-describedby");
 }
 
 // Gdy ktoś wyłączył animacje w systemie, przewijamy od razu, bez płynnego ruchu.
@@ -33,15 +46,20 @@ function scrollBehavior() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 }
 
-function showError(message) {
+// invalid = false dla podpowiedzi, które nie są błędem w treści (np. nieudane wklejanie).
+function showError(message, invalid = true) {
   errorBox.textContent = message;
   errorBox.hidden = false;
-  textarea.setAttribute("aria-invalid", "true");
+  if (invalid) textarea.setAttribute("aria-invalid", "true");
+  else textarea.removeAttribute("aria-invalid");
+  updateDescription();
 }
 
 function hideError() {
   errorBox.hidden = true;
+  errorBox.textContent = ""; // czyścimy, żeby stary komunikat nigdzie nie wrócił
   textarea.removeAttribute("aria-invalid");
+  updateDescription();
 }
 
 function fillList(id, items) {
@@ -130,7 +148,10 @@ form.addEventListener("submit", (event) => {
 });
 
 // Licznik odświeżamy przy każdej zmianie w polu (pisanie, wklejanie, usuwanie).
-textarea.addEventListener("input", updateCounter);
+textarea.addEventListener("input", () => {
+  updateCounter();
+  if (!errorBox.hidden) hideError(); // ktoś poprawia tekst, więc stary błąd znika
+});
 
 pasteBtn.addEventListener("click", async () => {
   try {
@@ -139,7 +160,8 @@ pasteBtn.addEventListener("click", async () => {
     hideError();
     textarea.focus();
   } catch {
-    showError("Nie udało się wkleić automatycznie. Przytrzymaj palec w polu tekstowym i wybierz „Wklej”.");
+    showError("Nie udało się wkleić automatycznie. Wklej sam: przytrzymaj palec w polu i wybierz „Wklej” "
+      + "albo na komputerze naciśnij Ctrl+V.", false);
   }
 });
 

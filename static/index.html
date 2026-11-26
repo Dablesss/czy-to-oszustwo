@@ -17,7 +17,7 @@
   <svg class="sprite" aria-hidden="true" focusable="false">
     <symbol id="i-logo" viewBox="0 0 32 32">
       <path d="M16 3 27 7v8.5c0 6.6-4.6 11.6-11 13.5C9.6 27.1 5 22.1 5 15.5V7Z" fill="currentColor"/>
-      <path class="logo-check" d="m11 16 3.5 3.5L21.5 12" fill="none" stroke="#fff"stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="logo-check" d="m11 16 3.5 3.5L21.5 12" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
     <symbol id="i-paste" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="8" y="2" width="8" height="4" rx="1"/>
@@ -68,7 +68,8 @@
         </button>
       </div>
       <!-- Bez maxlength: przeglądarka ucinałaby tekst po cichu. Limit pilnuje app.js. -->
-      <textarea id="message" name="text" rows="6" aria-describedby="counter error"
+      <!-- aria-describedby ustawia app.js: tylko na widoczny licznik i błąd -->
+      <textarea id="message" name="text" rows="6"
         placeholder="Na przykład: Twoja paczka czeka na dopłatę 1,99 zł…"></textarea>
       <p id="counter" class="counter" hidden></p>
       <p id="error" class="error" role="alert" hidden></p>
