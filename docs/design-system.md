@@ -125,6 +125,18 @@ Natywne `<details>`, plus i minus zamiast trójkąta, cały pasek klikalny (56 p
 - `mark` oznacza pola `[DO UZUPEŁNIENIA: …]` (tło `--suspicious-soft`, obwódka `--suspicious`), żeby nie przeoczyć ich przed startem.
 - `.updated`: data ostatniej zmiany, mały szary tekst.
 
+### Poradniki `.article`
+
+Spis `static/artykuly/index.html` i artykuły `static/artykuly/<slug>.html` (slug bez polskich znaków). Treść w `<main class="wrap prose article">`, więc działają wszystkie zasady `.prose`. Dodatki:
+
+- `.article-meta`: data publikacji i aktualizacji w `<time datetime>`, mały szary tekst.
+- `.example-msg`: przykład podejrzanej wiadomości (`figure` z podpisem i `blockquote`). Tło `--surface`, lewa krawędź 4 px `--suspicious`. Długie adresy łamią się (`overflow-wrap: anywhere`), żeby nie było poziomego przewijania. Domeny w przykładach są zawsze zmyślone. Pod przykładami `.example-note`.
+- `.article-cta`: ramka „Masz podobną wiadomość?” z jedynym na stronie przyciskiem `a.btn.btn--primary` do `/`. Link wyglądający jak przycisk nie ma podkreślenia ani koloru odwiedzonego linku.
+- `.article-list`: kafelki w spisie. Cały kafelek jest linkiem (min. `--tap-main`), tytuł w `--primary`, opis w `--muted`. Hover: ramka `--primary` i podkreślony tytuł.
+- `.article-related` i `.article-sources`: listy „Przeczytaj też” i „Źródła”, odstęp `--space-3` między linkami.
+- Kolejność sekcji artykułu: H1, „W skrócie” (`.summary`), „Jak wygląda taka wiadomość”, „Na czym polega ta sztuczka”, „Po czym poznać oszustwo”, „Co zrobić…”, „Co zrobić, jeśli już kliknąłem…”, `.article-cta`, FAQ (H3), „Przeczytaj też”, „Źródła”.
+- Artykułów nie ma w `SHELL` service workera (nie zapychamy pamięci telefonu). Nowy artykuł = wpis w `sitemap.xml` i kafelek w spisie. `tests/test_guards.py` sprawdza go sam (szuka HTML rekurencyjnie, także linki wewnętrzne).
+
 ## Dostępność
 
 - `role="status"` ogłasza „Sprawdzam…” i „Wynik jest gotowy”, a `aria-busy` jest na formularzu podczas sprawdzania.
@@ -140,7 +152,8 @@ Każdy plik HTML w `static/` musi mieć (pilnuje tego `tests/test_guards.py`):
 - `<link rel="canonical">` z pełnym adresem na `https://domena.example` (adres bazowy do podmiany po kupnie domeny),
 - Open Graph: `og:type`, `og:title`, `og:description`, `og:url` (taki sam jak canonical), `og:image` (ikona 512 px), `og:locale` = `pl_PL`, oraz `twitter:card` = `summary`,
 - skip link, nagłówek z `a.brand` i stopkę jak na pozostałych stronach,
-- wpis w `static/sitemap.xml`.
+- wpis w `static/sitemap.xml`,
+- linki wewnętrzne (`href="/..."`) tylko do istniejących plików (test `test_internal_links_exist`).
 
 ## Jak dodać nowy element
 

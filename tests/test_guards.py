@@ -26,7 +26,14 @@ from app import config  # noqa: E402
 from app.main import app, cert  # noqa: E402
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
-HTML_FILES = sorted(STATIC.glob("*.html"))
+# rglob szuka także w podkatalogach (np. static/artykuly/), więc nowe poradniki
+# automatycznie przechodzą przez wszystkie testy HTML poniżej.
+HTML_FILES = sorted(STATIC.rglob("*.html"))
+
+
+def html_id(path):
+    """Nazwa testu, np. "artykuly/index.html" (same "index.html" powtarzałoby się)."""
+    return path.relative_to(STATIC).as_posix()
 
 
 @pytest.fixture()
@@ -73,10 +80,10 @@ class InlineFinder(HTMLParser):
 
 def test_there_are_html_files():
     """Zabezpieczenie testu poniżej: gdyby glob nic nie znalazł, tamten test nic by nie sprawdzał."""
-    assert HTML_FILES, "Nie znaleziono żadnego static/*.html"
+    assert HTML_FILES, "Nie znaleziono żadnego pliku HTML w static/"
 
 
-@pytest.mark.parametrize("path", HTML_FILES, ids=lambda p: p.name)
+@pytest.mark.parametrize("path", HTML_FILES, ids=html_id)
 def test_html_has_no_inline_code(path):
     """Zasada: CSP bez inline. Nagłówek CSP (script-src 'self', style-src 'self')
     blokuje w przeglądarce kod wpisany prosto w HTML. Gdyby ktoś dodał np. onclick=
@@ -254,7 +261,7 @@ def read_head(path):
     return reader
 
 
-@pytest.mark.parametrize("path", HTML_FILES, ids=lambda p: p.name)
+@pytest.mark.parametrize("path", HTML_FILES, ids=html_id)
 def test_html_has_seo_basics(path):
     """Każda strona ma to, czego potrzebuje wyszukiwarka: język polski, tytuł
     (do 60 znaków, dłuższy Google utnie), opis (do 160 znaków), adres kanoniczny
@@ -271,7 +278,7 @@ def test_html_has_seo_basics(path):
         assert head.meta.get(key), f"Brak {key}"
 
 
-@pytest.mark.parametrize("path", HTML_FILES, ids=lambda p: p.name)
+@pytest.mark.parametrize("path", HTML_FILES, ids=html_id)
 def test_logo_links_home_and_skip_link_works(path):
     """Logo w nagłówku prowadzi na stronę główną z każdej podstrony, a link
     „Przejdź do treści” wskazuje element, który naprawdę istnieje."""
@@ -300,3 +307,36 @@ def test_robots_and_sitemap(client):
     assert "xml" in sitemap.headers["content-type"]
     for path in HTML_FILES:
         assert f"<loc>{read_head(path).canonical}</loc>" in sitemap.text
+
+
+class LinkReader(HTMLParser):
+    """Zbiera adresy linków wewnętrznych (href zaczynający się od "/")."""
+
+    def __init__(self):
+        super().__init__()
+        self.links = []
+
+    def handle_starttag(self, tag, attrs):
+        href = dict(attrs).get("href")
+        # "//" na początku to adres innej strony bez https:, więc go pomijamy
+        if tag in ("a", "link") and href and href.startswith("/") and not href.startswith("//"):
+            self.links.append(href)
+
+
+def static_file_for(href):
+    """Zamienia adres strony na plik w static/, tak jak robi to serwer:
+    "/artykuly/" -> static/artykuly/index.html, "/style.css" -> static/style.css."""
+    path = href.split("#")[0].split("?")[0]
+    if path.endswith("/"):
+        path += "index.html"
+    return STATIC / path.lstrip("/")
+
+
+@pytest.mark.parametrize("path", HTML_FILES, ids=html_id)
+def test_internal_links_exist(path):
+    """Każdy link wewnętrzny prowadzi do istniejącego pliku. Literówka w adresie
+    poradnika dałaby błąd 404, a senior nie wiedziałby, co dalej."""
+    reader = LinkReader()
+    reader.feed(path.read_text(encoding="utf-8"))
+    broken = [href for href in reader.links if not static_file_for(href).is_file()]
+    assert broken == [], f"Linki do nieistniejących plików: {broken}"
