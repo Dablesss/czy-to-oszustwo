@@ -175,13 +175,26 @@ WARNING_WORDS = (r"(\bnigdy\b|\bnie (poprosi|prosi|prosimy|podawaj|przekazuj|udo
                  r"|falszyw\w* (sms|wiadomos|mail))")
 # Ostrzeżenie stoi tuż PRZED dopasowaniem (do 40 znaków): "nigdy nie podawaj nikomu kodu BLIK"
 WARNING_BEFORE = re.compile(WARNING_WORDS)
-# ... albo zaraz ZA nim: "pracownik banku nigdy nie poprosi", "kodu BLIK nie podawaj"
-WARNING_AFTER = re.compile(r"[\s,]*" + WARNING_WORDS)
+# ... albo zaraz ZA nim: "pracownik banku nigdy nie poprosi", "kodu BLIK nie podawaj".
+# Za dopasowaniem samo "nigdy" nie wystarczy i nie może być przecinka:
+# "przelej na bezpieczne konto, nigdy nie mów nikomu" to dalej prośba oszusta.
+WARNING_AFTER = re.compile(r"\s*(nigdy )?nie (poprosi|prosi|prosimy|podawaj|przekazuj|udostepniaj"
+                           r"|przelewaj|wysylaj|instaluj|klikaj)")
+# Skróty z kropką, które nie kończą zdania ("na tzw. bezpieczne konto")
+ABBREVIATIONS = re.compile(r"\b(tzw|np|ok|tj|wg)\.")
+# Koniec zdania albo zdania składowego: ostrzeżenie z innego zdania się nie liczy
+CLAUSE_END = re.compile(r"[.!?,;:]")
 
 
 def _is_warning(normalized: str, match: re.Match[str]) -> bool:
-    """Czy to dopasowanie jest częścią ostrzeżenia ("nigdy nie..."), a nie prośbą oszusta."""
+    """Czy to dopasowanie jest częścią ostrzeżenia ("nigdy nie..."), a nie prośbą oszusta.
+
+    Ostrzeżenie musi być w TYM SAMYM zdaniu. Inaczej oszust mógłby dopisać
+    "Nigdy nie podawaj hasła." przed "Podaj mi kod BLIK" i wyłączyć regułę.
+    """
     before = normalized[max(0, match.start() - 40):match.start()]
+    before = ABBREVIATIONS.sub(lambda m: m.group(1), before)  # "tzw." -> "tzw"
+    before = CLAUSE_END.split(before)[-1]  # tylko tekst od ostatniej kropki/przecinka
     after = normalized[match.end():]
     return bool(WARNING_BEFORE.search(before) or WARNING_AFTER.match(after))
 

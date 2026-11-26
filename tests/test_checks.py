@@ -92,6 +92,16 @@ def test_text_rules_ignore_warnings():
     assert "blik_request" in {s.code for s in check_text("Podeślij mi kod BLIK, nie mam kasy")}
 
 
+def test_warning_from_another_sentence_does_not_hide_scam():
+    # Oszust dopisuje ostrzeżenie w osobnym zdaniu, żeby wyłączyć regułę: to nie może działać
+    codes = lambda t: {s.code for s in check_text(t)}
+    assert "blik_request" in codes("Nigdy nie podawaj hasła. Podaj mi teraz kod BLIK, pilne!")
+    assert "remote_access_call" in codes("Pamiętaj, nigdy nie klikaj w linki. Zainstaluj AnyDesk, konsultant banku pomoże.")
+    assert "remote_access_call" in codes("Nigdy nie podawaj PIN-u, przelej środki na bezpieczne konto.")
+    # "nigdy" za dopasowaniem, ale po przecinku i bez czasownika ostrzeżenia
+    assert "remote_access_call" in codes("Przelej pieniądze na bezpieczne konto, nigdy nie mów o tym nikomu.")
+
+
 # --- prywatność ---
 
 def test_masks_personal_data():
