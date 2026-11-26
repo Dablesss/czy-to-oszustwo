@@ -49,6 +49,8 @@ SCAMS: list[tuple[str, str]] = [
     ("GITD: zarejestrowano przekroczenie predkosci. Sprawdz mandat i zaplac online: gitd-mandat.online", "scam"),
     ("Orange: Twoja karta SIM zostanie zablokowana. Zaktualizuj dane: orange-karta-sim.com", "scam"),
     ("T-Mobile: nie udalo sie pobrac platnosci za abonament. Zaplac 4,99 zl: t-mobile-oplata.top", "scam"),
+    # Ostrzezenie ze zdaniem "ktore..." w pierwszym zdaniu nie wylacza prosby o AnyDesk w drugim
+    ("Nigdy nie podawaj hasla osobom, ktore dzwonia. Tu konsultant banku: prosze zainstalowac AnyDesk.", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -78,6 +80,8 @@ LEGIT: list[str] = [
     # Prawdziwe ostrzezenie banku: "nigdy nie poprosi", "nie przelewaj"
     "Bank Polnocny: pracownik banku nigdy nie poprosi Cie o kod BLIK. Nie przelewaj pieniedzy na bezpieczne konto.",
     # Sklep DAJE kod rabatowy ("dajemy"), nikt nie prosi o kod BLIK
+    # Ostrzezenie rozciaga sie na zdanie "ktora dzwoni jako konsultant banku" (po przecinku)
+    "Bank Polnocny: nie instaluj AnyDesk na prosbe osoby, ktora dzwoni jako konsultant banku.",
     "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
     # Prawdziwy bank kieruje do aplikacji i na numer z karty, a nie w link
     "Bank Polnocny: zablokowalismy podejrzana transakcje 2300 zl. Sprawdz ja w aplikacji albo zadzwon na numer z karty.",

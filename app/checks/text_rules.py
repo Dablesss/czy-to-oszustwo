@@ -184,6 +184,12 @@ WARNING_AFTER = re.compile(r"\s*(nigdy )?nie (poprosi|prosi|prosimy|podawaj|prze
 ABBREVIATIONS = re.compile(r"\b(tzw|np|ok|tj|wg)\.")
 # Koniec zdania albo zdania składowego: ostrzeżenie z innego zdania się nie liczy
 CLAUSE_END = re.compile(r"[.!?,;:]")
+# Zdanie podrzędne "który/która..." tuż przed dopasowaniem:
+# "Nie instaluj AnyDesk na prośbę osoby, która dzwoni jako konsultant banku".
+# "która dzwoni..." dopowiada coś o "osobie", więc należy do zdania z ostrzeżeniem.
+# Grupa 1 to część zdania przed przecinkiem (bez kropki, dwukropka i innego przecinka),
+# a po "który" do dopasowania może być najwyżej 40 znaków, też bez kropki ani przecinka.
+RELATIVE_CLAUSE = re.compile(r"([^.!?;:,]{0,60}), ktor\w*\b[^.!?;:,]{0,40}$")
 
 
 def _is_warning(normalized: str, match: re.Match[str]) -> bool:
@@ -196,7 +202,13 @@ def _is_warning(normalized: str, match: re.Match[str]) -> bool:
     before = ABBREVIATIONS.sub(lambda m: m.group(1), before)  # "tzw." -> "tzw"
     before = CLAUSE_END.split(before)[-1]  # tylko tekst od ostatniej kropki/przecinka
     after = normalized[match.end():]
-    return bool(WARNING_BEFORE.search(before) or WARNING_AFTER.match(after))
+    if WARNING_BEFORE.search(before) or WARNING_AFTER.match(after):
+        return True
+    # Dopasowanie w zdaniu "która...": ostrzeżenie może stać tuż przed przecinkiem.
+    longer = normalized[max(0, match.start() - 120):match.start()]
+    longer = ABBREVIATIONS.sub(lambda m: m.group(1), longer)
+    relative = RELATIVE_CLAUSE.search(longer)
+    return bool(relative and WARNING_BEFORE.search(relative.group(1)))
 
 
 def _rule_matches(rule: Rule, normalized: str) -> bool:
