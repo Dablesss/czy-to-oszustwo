@@ -43,6 +43,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Bank Polnocny: wykryto podejrzana transakcje 2300 zl. Zweryfikuj konto: bankpolnocny-weryfikacja.top", "scam"),
     ("Ankieta klienta: odpowiedz na 3 pytania i odbierz 200 zl na swoje konto: ankieta-nagrody.site", "scam"),
     ("Kontrola biletow: brak waznego biletu. Oplac wezwanie 120 zl w ciagu 24h: kontrola-biletow.site", "scam"),
+    ("Mamo, to moj nowy numer. Napisz do mnie na WhatsApp, wszystko wyjasnie", "suspicious"),
 ]
 
 LEGIT: list[str] = [
@@ -78,4 +79,6 @@ LEGIT: list[str] = [
     # Rabat sklepu "na zakupy", a nie pieniadze "na konto"
     "Zielony Koszyk: odbierz 15 zl na pierwsze zakupy w naszej aplikacji.",
     "Brak biletu w aplikacji? Sprawdz strone przewoznika albo kup bilet w kasie.",
+    # Drugi numer "do pracy / sluzbowy", bez historii o zepsutym telefonie i bez prosby o pieniadze
+    "Tato, to moj nowy numer sluzbowy, zapisz go. Prywatny zostaje bez zmian",
 ]

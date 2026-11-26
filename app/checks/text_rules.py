@@ -38,8 +38,11 @@ AMOUNT = r"\d{1,3}(?:[.,]\d{1,2})?\s?(?:zl|pln)"
 
 # Do reguły family_new_number: kto pisze i co się "stało" z telefonem.
 FAMILY = r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie)"
-NEW_NUMBER = (r"(nowy numer|zmienil\w* numer|zepsul\w* (mi )?(sie )?telefon|telefon (mi )?(sie )?zepsul"
-              r"|stary telefon|to moj nowy)")
+# "Nowy numer do pracy" albo "numer służbowy" to DRUGI numer, a nie historia o zepsutym telefonie.
+# (?!...) znaczy "jeśli zaraz potem (do 10 znaków) NIE MA tych słów".
+NOT_WORK = r"(?!.{0,10}(do pracy|sluzbow))"
+NEW_NUMBER = (rf"(nowy numer{NOT_WORK}|zmienil\w* numer|zepsul\w* (mi )?(sie )?telefon|telefon (mi )?(sie )?zepsul"
+              rf"|stary telefon|to moj nowy{NOT_WORK})")
 
 # Do reguły blik_request: prośba skierowana do Ciebie ("daj", "podeślesz", "wygenerujesz").
 # Formy są wypisane, a nie zrobione przez \w*, bo "dajemy", "podajemy", "wyślemy"
@@ -71,7 +74,7 @@ RULES: list[Rule] = [
        rf"{FAMILY}.{{0,120}}{NEW_NUMBER}"
        # Odwrotna kolejność: "mam nowy numer. Tato, ..." (tu tylko zwroty do kogoś: mamo, tato)
        rf"|{NEW_NUMBER}.{{0,80}}(mamo|tato|babciu|dziadku|synu|corko)"
-       r"|(to moj nowy numer|pisze z nowego numeru|pisze z innego numeru)"),
+       rf"|(to moj nowy numer{NOT_WORK}|pisze z nowego numeru|pisze z innego numeru)"),
     _r("money_request", 25,
        "Prośba o szybki przelew lub pożyczkę. Upewnij się telefonicznie, kto naprawdę pisze.",
        r"(pozycz\w*|przelej\w*|przelew\w*|wyslij\w*|potrzebuj\w*).{0,40}(\d+\s?(zl|pln)|pieniadz|kas[ey])"),
