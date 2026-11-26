@@ -111,10 +111,13 @@ RULES: list[Rule] = [
        r"(dziennie|tygodniowo|gwarant|bez ryzyka|\d+ ?%|pasywn)"),
     _r("fine_or_debt", 25,
        "Mandat, dług albo opłata wysłana SMS-em z linkiem to oszustwo. Urzędy tak nie ściągają należności.",
-       r"(mandat|grzywn|zadluzen|egzekuc|komornik|oplat\w* drogow|e-?toll|nieoplacon|niezaplacon"
-       # parking i komunikacja miejska: "brak biletu", "wezwanie do zaplaty", "nieprawidlowe parkowanie"
-       r"|brak\w* (waznego )?biletu|wezwani\w* do zaplaty|nieprawidlow\w* parkowan)"
-       r"\w*.{0,80}(zaplac|oplac|uregul|link|kliknij|stron|skan)"),
+       r"(mandat|grzywn|zadluzen|egzekuc|komornik|oplat\w* drogow|e-?toll|nieoplacon|niezaplacon)"
+       r"\w*.{0,80}(zaplac|oplac|uregul|link|kliknij|stron|skan)"
+       # Parking i komunikacja miejska: "brak biletu", "wezwanie do zaplaty", "nieprawidlowe parkowanie".
+       # Tu tylko polecenie zapłaty (bez "stron"), bo "brak biletu? sprawdz strone przewoznika"
+       # to zwykła informacja.
+       r"|(brak\w* (waznego )?biletu|wezwani\w* do zaplaty|nieprawidlow\w* parkowan)"
+       r"\w*.{0,80}(zaplac|oplac|uregul|skan)"),
     _r("qr_payment", 25,
        "Płatność przez kod QR z wiadomości albo naklejki może prowadzić na fałszywą stronę. "
        "Płać w oficjalnej aplikacji albo w parkomacie.",
