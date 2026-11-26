@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+  UWAGA: Ten tekst NIE jest poradą prawną. Przed publicznym startem musi go
+  sprawdzić prawnik, a wszystkie pola [DO UZUPEŁNIENIA: …] trzeba wypełnić.
+  Limity (liczba sprawdzeń na minutę, długość wiadomości) są w app/config.py.
+-->
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regulamin · Czy to oszustwo?</title>
+  <meta name="description" content="Zasady korzystania ze strony Czy to oszustwo?">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-logo" viewBox="0 0 32 32">
+      <path d="M16 3 27 7v8.5c0 6.6-4.6 11.6-11 13.5C9.6 27.1 5 22.1 5 15.5V7Z" fill="currentColor"/>
+      <path class="logo-check" d="m11 16 3.5 3.5L21.5 12" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="wrap brand">
+      <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
+      <span class="brand-name">Czy to oszustwo?</span>
+    </div>
+  </header>
+
+  <main class="wrap prose">
+    <a class="back-link" href="/"><span aria-hidden="true">←</span> Wróć do sprawdzania</a>
+
+    <h1>Regulamin</h1>
+    <p class="lead">Strona jest darmowa i nie wymaga konta. Prowadzi ją
+      <mark>[DO UZUPEŁNIENIA: imię i nazwisko]</mark>, kontakt: <mark>[DO UZUPEŁNIENIA: adres e-mail]</mark>.</p>
+
+    <h2>To pomoc, nie gwarancja</h2>
+    <p>Wynik to ocena automatyczna: sprawdzamy linki na Liście Ostrzeżeń CERT Polska,
+      szukamy typowych sztuczek oszustów, a czasem pytamy AI. Taka ocena może się pomylić.</p>
+    <p>Zielony wynik znaczy „nie znaleźliśmy oznak oszustwa”, a nie „to jest bezpieczne”.</p>
+
+    <h2>Decyzja należy do Ciebie</h2>
+    <p>Sam decydujesz, co zrobisz z wiadomością. Nie odpowiadamy za skutki tych decyzji
+      w zakresie, na jaki pozwala prawo. W razie wątpliwości zadzwoń do firmy na numer, który znasz.</p>
+
+    <h2>Gdy to oszustwo</h2>
+    <ul>
+      <li>Nie klikaj w link i nie odpisuj.</li>
+      <li>Przekaż SMS na numer <strong>8080</strong> (CERT Polska).</li>
+      <li>Jeśli podałeś dane karty, logowania albo kod BLIK, od razu zadzwoń do swojego banku.</li>
+      <li>Jeśli straciłeś pieniądze, zgłoś to na policji. W nagłej sytuacji dzwoń pod <strong>112</strong>.</li>
+    </ul>
+
+    <h2>Czego nie wolno</h2>
+    <ul>
+      <li>Wysyłać zapytań automatycznie (programami, botami) ani obchodzić limitu sprawdzeń.</li>
+      <li>Przeciążać strony ani próbować jej zepsuć lub oszukać.</li>
+    </ul>
+    <p>Liczba sprawdzeń na minutę i długość wiadomości są ograniczone. Za nadużycia możemy zablokować dostęp.</p>
+
+    <h2>Zmiany</h2>
+    <p>Strona może czasem nie działać, a regulamin może się zmienić. Aktualna wersja jest zawsze tutaj.</p>
+
+    <p class="updated">Ostatnia zmiana: <mark>[DO UZUPEŁNIENIA: data]</mark></p>
+
+    <a class="back-link" href="/"><span aria-hidden="true">←</span> Wróć do sprawdzania</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="report">
+        Podejrzany SMS zgłoś do CERT Polska: przekaż go na numer <strong>8080</strong>.
+      </p>
+      <ul class="footer-links">
+        <li><a href="/prywatnosc.html">Prywatność</a></li>
+        <li><a href="/regulamin.html" aria-current="page">Regulamin</a></li>
+        <li><a href="https://github.com/Dablesss/czy-to-oszustwo">Kod źródłowy na GitHubie</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

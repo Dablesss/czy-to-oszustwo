@@ -96,7 +96,16 @@ Natywne `<details>`, plus i minus zamiast trójkąta, cały pasek klikalny (56 p
 
 - `.trust`: trzy krótkie zdania z ikoną. Na telefonie są w jednej kolumnie, od 720 px w trzech.
 - `.hint`: wskazówka „dodaj do ekranu głównego”, tylko iOS Safari.
-- `.site-footer`: numer 8080, zastrzeżenie, link do kodu.
+- `.site-footer`: numer 8080, zastrzeżenie i `.footer-links` (Prywatność, Regulamin, kod na GitHubie). Linki łamią się do nowej linii na wąskim ekranie, każdy ma min. 48 px wysokości, a link do bieżącej strony ma `aria-current="page"` (pogrubiony, bez podkreślenia).
+
+### Strony z tekstem `.prose`
+
+`prywatnosc.html` i `regulamin.html` mają ten sam nagłówek i stopkę co strona główna, a treść w `<main class="wrap prose">`. Nie potrzebują JS.
+
+- `h2` w rozmiarze `--text-md`, akapity i listy maks. 34em szerokości, krótkie zdania.
+- `.back-link` „← Wróć do sprawdzania” na górze i na dole: pogrubiony link, min. 48 px wysokości.
+- `mark` oznacza pola `[DO UZUPEŁNIENIA: …]` (tło `--suspicious-soft`, obwódka `--suspicious`), żeby nie przeoczyć ich przed startem.
+- `.updated`: data ostatniej zmiany, mały szary tekst.
 
 ## Dostępność
 
