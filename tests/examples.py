@@ -51,6 +51,9 @@ SCAMS: list[tuple[str, str]] = [
     ("T-Mobile: nie udalo sie pobrac platnosci za abonament. Zaplac 4,99 zl: t-mobile-oplata.top", "scam"),
     # Ostrzezenie ze zdaniem "ktore..." w pierwszym zdaniu nie wylacza prosby o AnyDesk w drugim
     ("Nigdy nie podawaj hasla osobom, ktore dzwonia. Tu konsultant banku: prosze zainstalowac AnyDesk.", "scam"),
+    # Inwestycja jak pensja ("miesiecznie") i reklama z "ekspertami z telewizji"
+    ("Inwestycja w nowy terminal LNG pozwala zarabiac od 3500 zl miesiecznie. Zapisz sie: lng-zysk.top", "scam"),
+    ("Inwestuj w akcje spolek energetycznych. Polecaja to znani eksperci z telewizji: energia-inwest.vip", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -82,6 +85,8 @@ LEGIT: list[str] = [
     # Sklep DAJE kod rabatowy ("dajemy"), nikt nie prosi o kod BLIK
     # Ostrzezenie rozciaga sie na zdanie "ktora dzwoni jako konsultant banku" (po przecinku)
     "Bank Polnocny: nie instaluj AnyDesk na prosbe osoby, ktora dzwoni jako konsultant banku.",
+    # Reklama lokaty: oprocentowanie "w skali roku" to nie obietnica szybkiego zysku
+    "Bank Polnocny: lokata z zyskiem 6% w skali roku. Zaloz ja w aplikacji banku.",
     "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
     # Prawdziwy bank kieruje do aplikacji i na numer z karty, a nie w link
     "Bank Polnocny: zablokowalismy podejrzana transakcje 2300 zl. Sprawdz ja w aplikacji albo zadzwon na numer z karty.",

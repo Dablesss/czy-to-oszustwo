@@ -35,6 +35,12 @@ def _r(code: str, points: int, reason: str, pattern: str) -> Rule:
 
 
 AMOUNT = r"\d{1,3}(?:[.,]\d{1,2})?\s?(?:zl|pln)"
+# Dowolna kwota, też duża i w euro: "4000 zl", "25 euro", "300 pln"
+AMOUNT_BIG = r"\d+\s?(?:zl|pln|euro|eur)"
+
+# Do reguły investment: słowa o zarabianiu i inwestowaniu.
+# "zarabia\w*" łapie każdą formę: zarabiaj, zarabiac, zarabiasz.
+INVEST = r"(inwest\w*|zarabia\w*|zarobek|zysk\w*|kryptowalut\w*|bitcoin)"
 
 # Do reguły family_new_number: kto pisze i co się "stało" z telefonem.
 FAMILY = r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie)"
@@ -115,8 +121,14 @@ RULES: list[Rule] = [
        r"(odlaczen\w*|odciec\w*|wstrzyman\w*|zaleglos\w*).{0,60}(prad|energi|gaz|dostaw)"),
     _r("investment", 45,
        "Obietnica łatwego zysku z inwestycji to bardzo częste oszustwo.",
-       r"(inwest\w*|zarabiaj\w*|zarobek|zysk\w*|kryptowalut\w*|bitcoin).{0,80}"
-       r"(dziennie|tygodniowo|gwarant|bez ryzyka|\d+ ?%|pasywn)"),
+       rf"{INVEST}.{{0,80}}(dziennie|tygodniowo|gwarant|bez ryzyka|pasywn"
+       # Procent zysku, ale nie oprocentowanie "w skali roku" z reklamy lokaty albo obligacji.
+       # (?!...) znaczy "jeśli zaraz potem NIE MA tych słów".
+       r"|\d+ ?%(?! (w skali roku|rocznie|w pierwszym roku)))"
+       # "Inwestycja ... pozwala zarabiac od 4000 zl miesiecznie": pensja z inwestycji
+       rf"|inwest\w*.{{0,80}}{AMOUNT_BIG} miesiecznie"
+       # "Polecaja ja znani eksperci z telewizji": reklama z twarzami znanych osob
+       rf"|{INVEST}.{{0,120}}(znan\w* (eksper|osob|celebryt)|celebryt\w*|z telewizji)"),
     _r("fine_or_debt", 25,
        "Mandat, dług albo opłata wysłana SMS-em z linkiem to oszustwo. Urzędy tak nie ściągają należności.",
        r"(mandat|grzywn|zadluzen|egzekuc|komornik|oplat\w* drogow|e-?toll|nieoplacon|niezaplacon)"
