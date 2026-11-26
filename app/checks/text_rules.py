@@ -41,6 +41,14 @@ FAMILY = r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie)"
 NEW_NUMBER = (r"(nowy numer|zmienil\w* numer|zepsul\w* (mi )?(sie )?telefon|telefon (mi )?(sie )?zepsul"
               r"|stary telefon|to moj nowy)")
 
+# Do reguły blik_request: prośba skierowana do Ciebie ("daj", "podeślesz", "wygenerujesz").
+# Formy są wypisane, a nie zrobione przez \w*, bo "dajemy", "podajemy", "wyślemy"
+# to sklep, który DAJE Tobie kod rabatowy, a nie ktoś, kto prosi o Twój kod.
+# \b z obu stron: całe słowo, więc "daj" nie pasuje w środku "dajemy".
+ASK_VERB = (r"\b(daj|dasz|dajcie|podaj|podasz|podajcie|podeslij|podeslesz|podeslac"
+            r"|wyslij|wyslesz|wyslac|przeslij|przeslesz|przeslac"
+            r"|wygeneruj|wygenerujesz|wygenerowac|potrzebuj\w*|pozycz\w*)\b")
+
 RULES: list[Rule] = [
     _r("small_payment", 30,
        "Prośba o małą dopłatę to najczęstsza sztuczka: chodzi o dane Twojej karty, nie o kwotę.",
@@ -52,12 +60,12 @@ RULES: list[Rule] = [
        r"(wstrzyman|zatrzyman|nie moze zostac|niedostarcz|adres\w* (nieprawidl|niepeln)|potwierdz|aktualizuj|oczekuj\w* na (oplat|doplat))"),
     _r("blik_request", 60,
        "Nigdy nie podawaj nikomu kodu BLIK. Oszuści podszywają się pod znajomych i proszą o kod.",
-       r"(kod\w* blik|blik\w*.{0,40}(podaj|wyslij|przeslij|daj|potrzebuj|pozycz)"
-       # "wygenerujesz mi BLIKa", "podeslesz BLIKa": czasownik w dowolnej formie przed "blik"
-       r"|(podaj|podesl|wyslij|przeslij|wygeneruj|potrzebuj)\w*.{0,40}blik"
+       rf"(kod\w* blik|blik\w*.{{0,40}}{ASK_VERB}"
+       # "wygenerujesz mi BLIKa", "podeslesz BLIKa": prośba przed słowem "blik"
+       rf"|{ASK_VERB}.{{0,40}}blik"
        # Prośba o "kod na 300 zl" bez słowa BLIK: kod z kwotą to właśnie kod BLIK.
        # (\w+ ){0,2} pozwala na 0-2 słowa pomiędzy: "podeslij mi szybko kod na 200 zl"
-       rf"|(podaj|podesl|wyslij|przeslij|wygeneruj|daj)\w* (\w+ ){{0,2}}kod\w* na {AMOUNT})"),
+       rf"|{ASK_VERB} (\w+ ){{0,2}}kod\w* na {AMOUNT})"),
     _r("family_new_number", 40,
        "Wiadomość od „bliskiej osoby z nowego numeru” to znane oszustwo. Zadzwoń na jej stary numer.",
        rf"{FAMILY}.{{0,120}}{NEW_NUMBER}"

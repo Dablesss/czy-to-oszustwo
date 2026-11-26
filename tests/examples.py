@@ -39,6 +39,7 @@ SCAMS: list[tuple[str, str]] = [
     ("Bank Polnocny: wykryto podejrzana transakcje 1499 zl. Jesli to nie Ty, anuluj ja tutaj: bankpolnocny-anuluj.top", "scam"),
     # Ostrzezenie w pierwszym zdaniu nie "wylacza" prosby o bezpieczne konto w drugim
     ("Pracownik banku: nigdy nie podawaj nikomu hasla. Teraz prosze przelac srodki na bezpieczne konto.", "scam"),
+    ("Dasz mi BLIKa na 200 zl? Karta mi nie dziala, oddam jutro", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -67,4 +68,6 @@ LEGIT: list[str] = [
     "Bank Polnocny: logowanie z nowego urzadzenia 3.12 o 8:15. Jesli to nie Ty, zadzwon na numer z odwrotu karty.",
     # Prawdziwe ostrzezenie banku: "nigdy nie poprosi", "nie przelewaj"
     "Bank Polnocny: pracownik banku nigdy nie poprosi Cie o kod BLIK. Nie przelewaj pieniedzy na bezpieczne konto.",
+    # Sklep DAJE kod rabatowy ("dajemy"), nikt nie prosi o kod BLIK
+    "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
 ]
