@@ -224,3 +224,44 @@ REAL_LEGIT: list[str] = [
     "Mamo, dojechalam, wszystko ok. Zadzwonie wieczorem",
     "Kupisz chleb wracajac? I zadzwon do babci, pytala o Ciebie",
 ]
+
+
+# "Trudne" zwykłe wiadomości: prawdziwe w stylu, ale używają tych samych słów co oszuści.
+# Ostrzeżenia banków i policji ("pracownik banku NIGDY nie poprosi o kod BLIK"),
+# kody rabatowe sklepów ("dajemy Ci kod na 20 zł"), powiadomienia banku kierujące
+# do aplikacji, przypomnienia o płatności, rodzina z nowym numerem bez prośby o pieniądze.
+# Każda powinna dostać "no_signs". Teksty są zmyślone, domeny tylko oficjalne.
+HARD_LEGIT: list[str] = [
+    # --- Kody rabatowe sklepów ---
+    "Dajemy Ci kod na 20 zl rabatu w aplikacji Rossmann. Wazny do niedzieli.",
+    "Podajemy kod na 15 zl znizki na kolejne zakupy: ZIMA15",
+    "Przesylamy Ci kod na 25 zl na urodziny! Uzyj go w aplikacji do konca miesiaca.",
+    "Odbierz 20 zl na pierwsze zakupy w aplikacji Zabka.",
+
+    # --- Bank: zablokowana / podejrzana transakcja, kierowanie do aplikacji ---
+    "ING: Zablokowalismy nieautoryzowana transakcje karta. Sprawdz historie w aplikacji Moje ING.",
+    "Santander: Wykrylismy podejrzana transakcje. Potwierdz ja w aplikacji mobilnej lub zadzwon na numer z karty.",
+    "Pekao: wstrzymalismy podejrzana transakcje 349 zl. Jesli to Ty, potwierdz ja w aplikacji PeoPay.",
+    "mBank: wykrylismy logowanie z nowego urzadzenia. Jesli to nie Ty, sprawdz liste urzadzen w aplikacji mBank.",
+
+    # --- Ostrzeżenia banków i policji przed oszustami ---
+    "mBank: Pamietaj, pracownik banku nigdy nie poprosi Cie o kod BLIK ani haslo.",
+    "PKO BP: Nigdy nie przelewaj pieniedzy na tzw. bezpieczne konto. To oszustwo.",
+    "Nigdy nie podawaj nikomu kodu BLIK przez telefon ani SMS. Twoj bank",
+    "Policja: policjant nigdy nie poprosi o przelew pieniedzy ani o kod BLIK. Uwazaj na oszustow.",
+    "ING: Nie instaluj AnyDesk ani TeamViewer na prosbe osoby, ktora dzwoni jako konsultant banku.",
+    "Uwaga na falszywe SMS-y z prosba o doplate 1,99 zl do paczki. Nie klikaj w linki. CERT Polska",
+
+    # --- Przypomnienia o płatności, bilety ---
+    "Orange: przypominamy o terminie platnosci faktury 59,99 zl do 15.12. Zaplac w aplikacji Moj Orange.",
+    "Wodociagi: faktura 89 zl za pazdziernik jest nieoplacona. Zaplac w eBOK albo przelewem na rachunek z faktury.",
+    "Bilet okresowy: brak waznego biletu w aplikacji? Sprawdz strone przewoznika.",
+
+    # --- Paczki ---
+    "Odbierz paczke z Paczkomatu WAW01A do 30.11. Kod odbioru: 482913.",
+    "DHL: przesylka czeka na odbior w punkcie do piatku. Szczegoly na dhl.pl",
+
+    # --- Rodzina z nowym numerem, bez prośby o pieniądze ---
+    "Tato, mam nowy numer do pracy, zapisz go sobie.",
+    "Mamo, to moj nowy numer sluzbowy, prywatny zostaje bez zmian. Buziaki",
+]
