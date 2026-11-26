@@ -48,16 +48,20 @@ się przetestować. Dzięki temu większość sprawdzeń nie kosztuje nic.
 
 ## Trafność
 
-`python -m tests.evaluate` uruchamia same reguły, bez AI i bez listy CERT, na dwóch zestawach.
+`python -m tests.evaluate` uruchamia same reguły, bez AI i bez listy CERT, na trzech zestawach.
 
 | Zestaw | Wykryte oszustwa | Fałszywe alarmy |
 | --- | --- | --- |
-| podstawowy (pisany razem z regułami) | 16/16 | 0/12 |
-| realny (na podstawie ostrzeżeń CERT, banków i policji) | 20/44 | 4/26 |
+| podstawowy (pisany razem z regułami) | 37/37 | 0/33 |
+| realny (na podstawie ostrzeżeń CERT, banków i policji) | 35/44 | 0/26 |
+| trudne zwykłe wiadomości (ostrzeżenia banków, kody rabatowe) | – | 1/21 |
 
-Pierwszy wynik wygląda świetnie, ale tylko dlatego, że reguły powstawały razem z tymi przykładami.
-Drugi zestaw pokazuje, gdzie reguły naprawdę zawodzą: odmiana słów („pracownika banku”),
-schematy bez żadnej reguły (praca za lajki, kody QR) i brak niektórych marek. Te poprawki są w toku.
+Pierwszy zestaw powstawał razem z regułami, więc jego wynik niewiele mówi. Ważniejsze są dwa pozostałe.
+Na zestawie realnym reguły zaczynały od 20/44 wykrytych oszustw i 4 fałszywych alarmów.
+Zestaw „trudnych” zwykłych wiadomości dodałem, gdy okazało się, że prawdziwe ostrzeżenie banku
+(„pracownik banku nigdy nie poprosi o kod BLIK”) dostawało czerwoną kartę. Teraz już nie dostaje.
+
+Reguły wciąż nie łapią m.in. fałszywych ofert pracy, pożyczek i części oszustw na OLX.
 Na produkcji dochodzą jeszcze lista CERT i AI, więc wynik całej aplikacji jest wyższy niż samych reguł.
 
 ## Uruchomienie
