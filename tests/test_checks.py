@@ -31,6 +31,8 @@ def test_registrable_domain():
 def test_official_domain_is_trusted():
     assert analyze_host("allegro.pl") == ("official", [])
     assert analyze_host("login.ipko.pl")[0] == "official"
+    assert analyze_host("www.gitd.gov.pl")[0] == "official"
+    assert analyze_host("www.t-mobile.pl")[0] == "official"
 
 
 def test_brand_in_foreign_domain():
@@ -43,6 +45,7 @@ def test_brand_in_foreign_domain():
 def test_brand_typo_and_leetspeak():
     assert "brand_typo" in {s.code for s in analyze_host("alegro.pl")[1]}
     assert "brand_in_foreign_domain" in {s.code for s in analyze_host("a11egro-oferta.com")[1]}
+    assert "brand_in_foreign_domain" in {s.code for s in analyze_host("t-mobile-oplata.top")[1]}
 
 
 def test_short_brand_needs_separate_token():

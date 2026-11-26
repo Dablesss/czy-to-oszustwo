@@ -45,6 +45,10 @@ SCAMS: list[tuple[str, str]] = [
     ("Kontrola biletow: brak waznego biletu. Oplac wezwanie 120 zl w ciagu 24h: kontrola-biletow.site", "scam"),
     ("Mamo, to moj nowy numer. Napisz do mnie na WhatsApp, wszystko wyjasnie", "suspicious"),
     ("Wodociagi: nieoplacona faktura 76 zl. Zaplac teraz, aby uniknac odciecia wody: wodociagi-platnosc.top", "scam"),
+    # Podrobki domen GITD, Orange i T-Mobile (prawdziwe: gitd.gov.pl, orange.pl, t-mobile.pl)
+    ("GITD: zarejestrowano przekroczenie predkosci. Sprawdz mandat i zaplac online: gitd-mandat.online", "scam"),
+    ("Orange: Twoja karta SIM zostanie zablokowana. Zaktualizuj dane: orange-karta-sim.com", "scam"),
+    ("T-Mobile: nie udalo sie pobrac platnosci za abonament. Zaplac 4,99 zl: t-mobile-oplata.top", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -84,4 +88,7 @@ LEGIT: list[str] = [
     "Tato, to moj nowy numer sluzbowy, zapisz go. Prywatny zostaje bez zmian",
     # Przypomnienie o zaleglej fakturze, ale z odeslaniem do eBOK / aplikacji, a nie w link
     "Wodociagi Miejskie: faktura 76 zl jest nieoplacona. Zaplac w eBOK lub w aplikacji, aby uniknac odsetek.",
+    "GITD: informacje o punktach karnych i mandatach znajdziesz tylko na https://www.gitd.gov.pl",
+    "Orange: faktura za grudzien 49,99 zl jest dostepna na https://www.orange.pl/moj-orange",
+    "T-Mobile: Twoj pakiet internetu odnowi sie 01.12. Szczegoly: https://www.t-mobile.pl",
 ]

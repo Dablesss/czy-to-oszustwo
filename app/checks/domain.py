@@ -33,6 +33,13 @@ BRANDS: dict[str, set[str]] = {
     "epuap": {"gov.pl"},
     "zus": {"zus.pl"},
     "podatki": {"podatki.gov.pl", "gov.pl"},
+    # Inspekcja Transportu Drogowego: oszuści wysyłają fałszywe mandaty "z GITD".
+    # "gitd" jest krótkie (4 litery), więc łapie się tylko jako osobny człon: gitd-mandaty.online
+    "gitd": {"gitd.gov.pl", "gov.pl"},
+    # Operatorzy komórkowi. Bez "play" i "plus": to zwykłe słowa (np. "playlista", "plusy"),
+    # więc dawałyby fałszywe alarmy na zwykłych adresach.
+    "orange": {"orange.pl", "orange.com"},
+    "tmobile": {"t-mobile.pl", "t-mobile.com"},
     # Firmy energetyczne mają osobne domeny dla operatora sieci (dystrybucji),
     # który wysyła np. SMS-y o planowanych przerwach w dostawie prądu.
     "pge": {"gkpge.pl", "pgeobrot.pl", "pge.pl", "pgedystrybucja.pl"},
