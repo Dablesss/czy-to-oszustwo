@@ -88,7 +88,17 @@ RULES: list[Rule] = [
        rf"|(to moj nowy numer{NOT_WORK}|pisze z nowego numeru|pisze z innego numeru)"),
     _r("money_request", 25,
        "Prośba o szybki przelew lub pożyczkę. Upewnij się telefonicznie, kto naprawdę pisze.",
-       r"(pozycz\w*|przelej\w*|przelew\w*|wyslij\w*|potrzebuj\w*).{0,40}(\d+\s?(zl|pln)|pieniadz|kas[ey])"),
+       # "pozycz(?!k)": prośba "pożycz mi", "pożyczysz", ale nie rzeczownik "pożyczka/pożyczkę"
+       # ("wniosek o pożyczkę 5000 zł został zaakceptowany" to informacja banku, nie prośba)
+       r"(pozycz(?!k)\w*|przelej\w*|przelew\w*|wyslij\w*|potrzebuj\w*).{0,40}(\d+\s?(zl|pln)|pieniadz|kas[ey])"),
+    _r("loan_approved", 45,
+       "„Przyznana pożyczka”, którą trzeba potwierdzić przez link, to pułapka. "
+       "Chodzi o dane logowania do banku albo o „opłatę za wypłatę”.",
+       # Pożyczka zaakceptowana ...
+       r"(pozyczk|kredyt|wnios)\w*.{0,60}(zaakceptowan|przyznan|zatwierdzon|rozpatrzon\w* pozytywn)"
+       # ... i polecenie z linkiem: "potwierdz ja tutaj:", "odbierz srodki ponizej".
+       # Bank, u którego sam złożyłeś wniosek, odsyła do aplikacji, a nie do linku.
+       r".{0,100}(potwierdz|odbierz|odebrac|wyplac|aktywuj)\w*[^.:]{0,30}(:|tutaj|link|ponizej)"),
     _r("urgency", 15,
        "Wiadomość wywiera presję czasu. Prawdziwe firmy i urzędy nie wymagają reakcji w kilka godzin.",
        r"(natychmiast|pilne|pilnie|w ciagu (24|48|12) ?(h|godz)|do konca dnia|dzisiaj do"
