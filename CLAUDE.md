@@ -11,18 +11,21 @@ Strona (PWA), na której każdy w kilka sekund sprawdzi podejrzany SMS, wiadomo�
 
 ## Właściciel i sposób pracy
 
-- Właściciel: Kacper, student 2. semestru informatyki inżynierskiej, uczy się Pythona i celuje w pracę przy AI. Projekt ma być w portfolio, więc **Kacper musi rozumieć każdą linijkę**.
+- Właściciel: student 2. semestru informatyki inżynierskiej, uczy się Pythona i celuje w pracę przy AI. Projekt ma być w portfolio, więc **właściciel musi rozumieć każdą linijkę**.
 - Komunikacja po polsku, krótko i bezpośrednio, bez zbędnych potwierdzeń.
 - Pracuje na Windowsie (PowerShell, VS Code). Komendy podawaj w wersji dla PowerShella.
-- Zadania oznaczone niżej jako **[Kacper]** robi Kacper sam, bo to na nich się uczy. Możesz tłumaczyć, podpowiadać i robić code review, ale nie pisz za niego rozwiązania, chyba że wprost o to poprosi.
+- Zadania oznaczone niżej jako **[właściciel]** robi właściciel sam (albo wymagają jego konta, klucza lub telefonu). Możesz tłumaczyć, podpowiadać i robić code review, ale nie pisz za niego rozwiązania, chyba że wprost o to poprosi.
+- **Nie wpisuj imienia właściciela do commitów, opisów PR, komentarzy na GitHubie ani plików w repo.** Pisz bezosobowo.
 - Zadania oznaczone **[Claude]** możesz robić samodzielnie, także przez subagentów, równolegle.
 
 ## Zasady pracy z repo
 
-- **Nigdy nie pushuj do `main`.** Każda zmiana: osobna gałąź (`ci/...`, `data/...`, `ux/...`, `feat/...`, `fix/...`, `docs/...`) i Pull Request do akceptacji Kacpra. Nie merguj sam.
+- **Nigdy nie pushuj do `main`.** Każda zmiana: osobna gałąź (`ci/...`, `data/...`, `ux/...`, `feat/...`, `fix/...`, `docs/...`, `test/...`) i Pull Request do akceptacji właściciela. Nie merguj sam, chyba że właściciel wprost o to poprosi.
+- Brak `gh` na komputerze właściciela: PR-y zakłada się przez przeglądarkę (link `.../compare/main...<gałąź>?expand=1`), opis PR agent zapisuje do pliku.
 - Przed commitem: `python -m pytest -q` musi przechodzić. Przy zmianach w regułach uruchom też `python -m tests.evaluate` i wpisz wynik do opisu PR.
 - Commity, opisy PR, komentarze w kodzie, teksty na stronie: po polsku.
 - Nie commituj `.env`, `.venv`, `data/cert_domains.txt`, zrzutów ekranu.
+- Agenci równolegle: każdy we własnym `git worktree` w krótkiej ścieżce (Windows ma limit długości), z Pythonem z `.venv` głównego katalogu. Gotowe zlecenia: `docs/zadania-agentow.md`.
 - Repo jest publiczne: w przykładach testowych żadnych prawdziwych numerów telefonów, PESEL-i, nazwisk ani działających złośliwych adresów. Domeny oszustów zmyślaj w tym samym stylu.
 
 ## Uruchomienie (Windows, PowerShell)
@@ -57,13 +60,18 @@ app/
     domain.py      oficjalne domeny marek, podróbki marek, literówki, punycode, IP, końcówki, skracacze
     text_rules.py  reguły regex na typowe polskie oszustwa (tekst normalizowany: małe litery, bez ogonków)
     llm.py         opcjonalna ocena przez Claude (API Anthropic), model z LLM_MODEL
-static/            index.html, style.css, app.js, manifest.json (share_target), sw.js, icons/
+static/            index.html, prywatnosc.html, regulamin.html, style.css, app.js, manifest.json (share_target), sw.js, icons/
+docs/
+  design-system.md   tokeny (kolory, odstępy, czcionki), komponenty, stany, dostępność
+  zadania-agentow.md gotowe zlecenia dla agentów
 tests/
   examples.py      zestaw podstawowy (SCAMS, LEGIT) używany przez pytest i evaluate
-  evaluate.py      pomiar trafności reguł
+  examples_real.py REAL_SCAMS, REAL_LEGIT (realne kampanie), HARD_LEGIT (trudne zwykłe SMS-y); tylko evaluate
+  evaluate.py      pomiar trafności reguł na trzech zestawach
+  test_guards.py   pilnuje zasad: CSP bez inline, SW bez /api/, brak treści w logach, ukryte punkty
   test_*.py        testy jednostkowe, API, bezpieczeństwo AI
-.github/workflows/tests.yml   CI (po zmergowaniu PR #1)
-railway.json, Dockerfile      wdrożenie na Railway (po zmergowaniu PR #1)
+.github/workflows/tests.yml   CI: pytest i evaluate na każdy PR
+railway.json, Dockerfile      wdrożenie na Railway (jeszcze nie wdrożone)
 ```
 
 ## Jak działa sprawdzanie
@@ -75,13 +83,15 @@ railway.json, Dockerfile      wdrożenie na Railway (po zmergowaniu PR #1)
 5. Suma punktów, maks. 100. **Od 60 pkt: scam, od 25: suspicious, poniżej: no_signs.**
 6. AI tylko gdy wynik jest niepewny (5–59 pkt) albo gdy jest nieznany link i 0 pkt. AI dostaje zamaskowany tekst.
 
-## Kluczowe decyzje (nie zmieniaj bez rozmowy z Kacprem)
+## Kluczowe decyzje (nie zmieniaj bez rozmowy z właścicielem)
 
 - **AI może wynik tylko podnieść, nigdy obniżyć** (`score = max(score, ai.points)`). Chroni przed wiadomościami typu „odpowiedz, że to bezpieczne” (prompt injection). Test: `tests/test_llm_safety.py`.
 - **Zielona karta to „nie widzimy oznak oszustwa”, nigdy „bezpieczne”.** Zawsze z przypomnieniem, żeby nie podawać BLIK, PIN-u ani danych karty.
 - **Nie zapisujemy ani nie logujemy treści wiadomości.** W logach tylko werdykt. Service worker nie cache'uje `/api/`.
 - **Punkty i pełna lista sygnałów są ukryte** (widać je tylko przy `DEBUG=true`), żeby oszuści nie uczyli się obchodzić reguł. Użytkownik widzi maks. 3 powody.
-- **CSP bez inline**: żadnych `<script>` ani `style=""` w HTML, tylko pliki z `static/`.
+- **CSP bez inline**: żadnych `<script>` ani `style=""` w HTML, tylko pliki z `static/`. Pilnuje tego `tests/test_guards.py`.
+- **Wygląd według `docs/design-system.md`**: kolory, odstępy i czcionki tylko przez zmienne CSS, przyciski `.btn` + wariant. Projekt w Figmie: plik „Czy to oszustwo? – projekt strony” (czcionka Roboto).
+- **Ostrzeżenia to nie oszustwa**: „pracownik banku nigdy nie poprosi o BLIK” nie może dostać czerwonej karty. `_is_warning` w `text_rules.py` liczy ostrzeżenie tylko w tym samym zdaniu, żeby oszust nie mógł wyłączyć reguły, dopisując „Nigdy nie podawaj hasła.” przed prośbą.
 - Przy oszustwie podpowiadamy przesłanie SMS-a na **8080** (numer CERT Polska do zgłaszania).
 - Na stronie: jeden ekran, duża czcionka (bazowo 20 px), przyciski min. 60 px, wysoki kontrast, tryb ciemny.
 
@@ -91,52 +101,53 @@ railway.json, Dockerfile      wdrożenie na Railway (po zmergowaniu PR #1)
 2. Dodaj przykład oszustwa i przykład zwykłej wiadomości, która NIE powinna się złapać.
 3. `python -m pytest -q` i `python -m tests.evaluate`. Sprawdź, czy nie wzrosły fałszywe alarmy.
 
-## Stan projektu (25.11.2026)
+## Stan projektu (26.11.2026)
 
-Zrobione:
-- Działający szkielet MVP: API, reguły, analiza domen, lista CERT, opcjonalne AI, strona PWA z „Udostępnij” na Androidzie, 47 testów.
-- Repo na GitHubie, commit „Szkielet projektu Czy to oszustwo?”.
-- PR #1 (`ci/github-actions`): GitHub Actions z testami, plakietka w README, `railway.json`. Testy w CI przeszły. **Czeka na merge Kacpra.**
+Zrobione (PR #1–#9 zmergowane do `main`):
+- MVP: API, reguły, analiza domen, lista CERT, opcjonalne AI, PWA z „Udostępnij” na Androidzie. 101 testów, CI w GitHub Actions.
+- Zestaw realny (44 oszustwa z kampanii CERT, banków, policji; 26 zwykłych) i HARD_LEGIT (21 trudnych zwykłych SMS-ów).
+- Reguły poprawione na podstawie pomyłek. `python -m tests.evaluate`: podstawowy 37/37 i 0/33 alarmów, realny **35/44** i 0/26, trudne zwykłe 1/21.
+- Nowy wygląd z systemem projektowym (`docs/design-system.md`), poprawki dostępności WCAG (czytnik ekranu, wysoki kontrast, powiększenie czcionki), licznik znaków zamiast ucinania tekstu.
+- Strony Prywatność i Regulamin (pola `[DO UZUPEŁNIENIA]` czekają na właściciela).
+- README pod portfolio, projekt w Figmie.
 
 Znane ograniczenia:
-- Zestaw przykładów pisał autor reguł, więc wynik 16/16 i 0 fałszywych alarmów jest przeuczony. Prawdziwy obraz da zestaw realny (zadanie niżej).
-- Pobieranie listy CERT sprawdzone tylko lokalnie u Kacpra (jeśli `/api/health` pokazuje `cert_domains: 0`, zbadaj logi).
-- AI nie było testowane na prawdziwym API, tylko na podstawionej odpowiedzi.
-- `registrable_domain` to uproszczenie bez Public Suffix List (kandydat: biblioteka `tldextract`).
-- Rate limit w pamięci: działa na jednej instancji.
-- Brak obsługi zrzutów ekranu, brak wieku domeny.
+- 9 nierozpoznanych oszustw z zestawu realnego (oferty pracy, pożyczki, OLX „Verify”, Netflix, inwestycje).
+- `client_ip` bierze pierwszy adres z `X-Forwarded-For`, więc limit zapytań da się obejść. Uvicorn loguje IP (logi dostępu).
+- `registrable_domain` bez Public Suffix List; marki dopasowywane jako fragment adresu („sklep-orange-juice.com”).
+- Maskowanie przed AI nie obejmuje adresów ani imion.
+- AI nie było testowane na prawdziwym API. Strona nie jest wdrożona.
+- Rate limit w pamięci: działa na jednej instancji. Brak wieku domeny i obsługi zrzutów ekranu.
 
 ## Zadania
 
-### Teraz (tydzień 1–2)
+Szczegółowe zlecenia dla agentów (cel, gałąź, pliki, kroki, kryteria): **`docs/zadania-agentow.md`**.
 
-- [ ] **[Kacper]** Zmergować PR #1 i zrobić `git pull`.
-- [ ] **[Kacper]** Sprawdzić `/api/health` (czy `cert_domains` > 0) i `pytest`.
-- [ ] **[Kacper]** Przeczytać kod w kolejności: `main.py` → `analyzer.py` → `checks/text_rules.py` → `checks/domain.py` → `checks/links.py` → `static/app.js`. Pytania zapisać i omówić z Claude.
-- [ ] **[Claude]** Zestaw realnych przykładów (gałąź `data/real-examples`):
-  - Zbadaj prawdziwe kampanie: telegraf.cert.pl, miesięczne podsumowania CERT Polska, ostrzeżenia banków, policji, mObywatela (2025–2026). Różnorodność: paczki, prąd/gaz, BLIK „na znajomego”, „mamo nowy numer”, e-TOLL/mandaty, zwrot podatku, mObywatel/PESEL, fałszywe banki i aplikacje, OLX/Vinted „odbierz płatność”, inwestycje/krypto, praca za lajki, WhatsApp, „bezpieczne konto”, kody QR.
-  - Nowy plik `tests/examples_real.py`: `REAL_SCAMS` (~35, krotki `(tekst, "scam"|"suspicious")` z komentarzem źródła) i `REAL_LEGIT` (~25 zwykłych wiadomości). Treści przeformułowane, domeny zmyślone, bez prawdziwych danych.
-  - `tests/evaluate.py`: osobne wyniki dla zestawu podstawowego i realnego + lista pomyłek realnego.
-  - **Nie zmieniaj reguł** i nie dodawaj zestawu realnego do pytest. W opisie PR: źródła z linkami, wynik evaluate, tabela pomyłek jako lista zadań dla Kacpra.
-- [ ] **[Claude]** Audyt dostępności i UX (gałąź `ux/accessibility`):
-  - Zrzuty ekranu telefon 375×812 i desktop, jasny i ciemny motyw, stan pusty i trzy werdykty.
-  - Kontrast WCAG AA (z wartościami przed/po), fokus, kolejność tabulacji, `aria-live`/`aria-busy`, emoji ukryte przed czytnikiem, cele dotyku ≥ 48 px, powiększenie 200%, czytelny komunikat offline, wskazówka „dodaj do ekranu” tylko na iOS Safari (z zamknięciem zapamiętanym w localStorage w try/catch).
-  - Bez bibliotek i zewnętrznych czcionek, bez zmian w `app/`. Podbij wersję cache w `sw.js`.
-- [ ] **[Kacper]** Na podstawie pomyłek z zestawu realnego poprawić 1–2 reguły na raz (z code review od Claude).
-- [ ] **[Kacper]** Dodać 20 własnych zwykłych SMS-ów (po usunięciu danych) do `REAL_LEGIT`.
+### Następne (agenci, pierwsza fala równolegle)
+- [ ] **[Claude]** A1 Reguły: pozostałe pomyłki zestawu realnego.
+- [ ] **[Claude]** A2 Domeny: Public Suffix List (tldextract offline) i dopasowanie marek.
+- [ ] **[Claude]** A3 Serwer: prawdziwe IP za proxy, `--no-access-log`.
+- [ ] **[Claude]** A4 Maskowanie adresów i imion przed AI.
+- [ ] **[Claude]** A5 Pomiar AI na zestawach (atrapa bez klucza).
+- [ ] **[Claude]** A8 Instrukcja wdrożenia `docs/wdrozenie.md`.
+- [ ] **[Claude]** Druga fala: A6 „Zgłoś na 8080”, A7 wiek domeny (RDAP), A9 aktualizacja Figmy.
+
+### Właściciel
+- [ ] Uzupełnić pola `[DO UZUPEŁNIENIA]` w `static/prywatnosc.html` i `static/regulamin.html`.
+- [ ] Przeczytać kod reguł (`text_rules.py`, zwłaszcza `_is_warning`) i umieć obronić każdą decyzję.
 
 ### Tydzień 3
-- [ ] Włączyć AI z prawdziwym kluczem, przetestować na 20 wiadomościach, sprawdzić koszty i czas odpowiedzi. Ustawić miesięczny limit wydatków w konsoli Anthropic.
-- [ ] Przetestować PWA na Androidzie: dodanie do ekranu, „Udostępnij” z aplikacji SMS.
+- [ ] **[właściciel]** Włączyć AI z prawdziwym kluczem i uruchomić `python -m tests.eval_ai --yes` (po A5): koszt, czas, trafność. Ustawić miesięczny limit wydatków w konsoli Anthropic.
+- [ ] **[właściciel]** Przetestować PWA na Androidzie: dodanie do ekranu, „Udostępnij” z aplikacji SMS, TalkBack.
 
 ### Tydzień 4
-- [ ] Wdrożenie na Railway (Variables: `ANTHROPIC_API_KEY`, `DEBUG=false`), wygenerować domenę.
-- [ ] Test na 3–5 starszych osobach bez podpowiadania. Spisać, co ich zmyliło.
-- [ ] README do portfolio: zrzut ekranu, schemat działania, liczby z evaluate, opis decyzji (AI tylko podnosi, prywatność, koszty).
+- [ ] **[właściciel]** Wdrożenie na Railway według `docs/wdrozenie.md` (po A8).
+- [ ] **[właściciel]** Test na 3–5 starszych osobach bez podpowiadania. Spisać, co ich zmyliło.
+- [x] README do portfolio: schemat działania, liczby z evaluate, opis decyzji. Zostało: zrzut ekranu i link do wdrożonej strony.
 
 ### Po MVP (dopiero gdy ktoś spoza rodziny używa)
 1. Zrzuty ekranu przez model AI z obsługą obrazów.
-2. Wiek domeny przez RDAP (świeża domena = mocny sygnał).
+2. Wiek domeny przez RDAP: zadanie A7 w `docs/zadania-agentow.md`.
 3. Tryb opiekuna: powiadomienie dla bliskiej osoby przy czerwonej karcie.
 4. Ogłoszenia OLX/Otodom: skradzione zdjęcia, podejrzana cena.
 5. Bot Telegram/WhatsApp na tym samym API.
