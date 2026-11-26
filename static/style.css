@@ -466,6 +466,75 @@ textarea[aria-invalid="true"] { border-color: var(--scam); }
 }
 .back-link:visited { color: var(--primary); }
 
+/* ===== Poradniki (static/artykuly/) =====
+   Artykuł to strona .prose z kilkoma dodatkami: data, przykład wiadomości,
+   ramka z przyciskiem do sprawdzarki i lista poradników w spisie. */
+.article-meta { color: var(--muted); font-size: var(--text-sm); }
+
+/* Przykład podejrzanej wiadomości: wygląda jak dymek SMS-a, z podpisem nad nim */
+.example-msg { margin: 0 0 var(--space-4); max-width: 34em; }
+.example-msg figcaption {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+  margin-bottom: var(--space-1);
+}
+.example-msg blockquote {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--suspicious);
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere; /* długie adresy stron łamią się zamiast poszerzać ekran */
+}
+.example-msg blockquote p { margin: 0; }
+.prose .example-note { color: var(--muted); font-size: var(--text-sm); }
+
+/* Ramka "Masz podobną wiadomość?" z głównym przyciskiem do strony głównej */
+.article-cta {
+  margin: var(--space-7) 0;
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.prose .article-cta h2 { margin-top: 0; }
+/* Link wyglądający jak przycisk: bez podkreślenia i bez koloru odwiedzonego linku */
+a.btn { text-decoration: none; }
+a.btn--primary:visited { color: var(--on-primary); }
+
+/* Spis poradników: kafelki jeden pod drugim, cały kafelek jest linkiem */
+.prose .article-list { list-style: none; padding: 0; margin: var(--space-6) 0; max-width: none; }
+.prose .article-list li { margin-bottom: var(--space-3); }
+.article-list a {
+  display: block;
+  min-height: var(--tap-main);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--text);
+}
+.article-list a:visited { color: var(--text); }
+.article-list a:hover { border-color: var(--primary); }
+.article-list a:hover .article-list-title { text-decoration: underline; }
+.article-list-title {
+  display: block;
+  color: var(--primary);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-2);
+}
+.article-list-desc { display: block; color: var(--muted); font-size: var(--text-sm); }
+
+/* Linki "Przeczytaj też" i "Źródła": każdy w osobnej linii, łatwy do trafienia */
+.prose .article-related li,
+.prose .article-sources li { margin-bottom: var(--space-3); overflow-wrap: anywhere; }
+
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;

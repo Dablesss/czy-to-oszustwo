@@ -2,7 +2,8 @@
 // Zapytania do /api/ NIGDY nie są zapisywane (prywatność i aktualność wyników).
 
 // Zmień numer przy każdej zmianie w static/, żeby telefony pobrały nową wersję.
-const CACHE = "czy-to-oszustwo-v8";
+// Poradników (static/artykuly/) celowo NIE ma w SHELL: nie zapychamy pamięci telefonu.
+const CACHE = "czy-to-oszustwo-v9";
 const SHELL = ["/", "/style.css", "/app.js", "/manifest.json", "/icons/icon.svg",
                "/prywatnosc.html", "/regulamin.html"];
 
