@@ -81,6 +81,14 @@ def test_text_rules_quiet_on_normal_messages():
     assert check_text("Kod odbioru paczki: 123456") == []
 
 
+def test_text_rules_ignore_warnings():
+    # Ostrzeżenie banku to nie prośba oszusta ...
+    assert check_text("Pracownik banku nigdy nie poprosi Cię o kod BLIK.") == []
+    assert check_text("Nigdy nie przelewaj pieniędzy na tzw. bezpieczne konto.") == []
+    # ... ale samo "nie" przy prośbie niczego nie zmienia
+    assert "blik_request" in {s.code for s in check_text("Podeślij mi kod BLIK, nie mam kasy")}
+
+
 # --- prywatność ---
 
 def test_masks_personal_data():

@@ -141,10 +141,36 @@ RULES: list[Rule] = [
 ]
 
 
+# Ostrzeżenia zamiast próśb: "pracownik banku NIGDY NIE poprosi o kod BLIK",
+# "nigdy nie przelewaj na bezpieczne konto", "nie instaluj AnyDesk".
+# Same słowa "nie"/"uwaga" nie wystarczą ("podeślij BLIKa, nie mam kasy" to dalej prośba),
+# dlatego "nie" liczy się tylko z czasownikiem, który ostrzega.
+WARNING_WORDS = (r"(\bnigdy\b|\bnie (poprosi|prosi|prosimy|podawaj|przekazuj|udostepniaj"
+                 r"|przelewaj|wysylaj|instaluj|klikaj)"
+                 # "uwaga na falszywe SMS-y z prosba o doplate": opis cudzego oszustwa
+                 r"|falszyw\w* (sms|wiadomos|mail))")
+# Ostrzeżenie stoi tuż PRZED dopasowaniem (do 40 znaków): "nigdy nie podawaj nikomu kodu BLIK"
+WARNING_BEFORE = re.compile(WARNING_WORDS)
+# ... albo zaraz ZA nim: "pracownik banku nigdy nie poprosi", "kodu BLIK nie podawaj"
+WARNING_AFTER = re.compile(r"[\s,]*" + WARNING_WORDS)
+
+
+def _is_warning(normalized: str, match: re.Match[str]) -> bool:
+    """Czy to dopasowanie jest częścią ostrzeżenia ("nigdy nie..."), a nie prośbą oszusta."""
+    before = normalized[max(0, match.start() - 40):match.start()]
+    after = normalized[match.end():]
+    return bool(WARNING_BEFORE.search(before) or WARNING_AFTER.match(after))
+
+
+def _rule_matches(rule: Rule, normalized: str) -> bool:
+    """Reguła pasuje, jeśli choć jedno jej dopasowanie NIE jest ostrzeżeniem."""
+    return any(not _is_warning(normalized, m) for m in rule.pattern.finditer(normalized))
+
+
 def check_text(text: str) -> list[Signal]:
     normalized = normalize_text(text)
     return [
         Signal(code=rule.code, points=rule.points, reason=rule.reason, source="text")
         for rule in RULES
-        if rule.pattern.search(normalized)
+        if _rule_matches(rule, normalized)
     ]

@@ -37,6 +37,8 @@ SCAMS: list[tuple[str, str]] = [
     ("Parking Miejski: nieoplacony postoj. Zaplac teraz, aby uniknac dodatkowych oplat: parking-miasto.help", "scam"),
     ("Nowy system oplat w strefie: zeskanuj kod QR na parkomacie i zaplac karta na stronie.", "suspicious"),
     ("Bank Polnocny: wykryto podejrzana transakcje 1499 zl. Jesli to nie Ty, anuluj ja tutaj: bankpolnocny-anuluj.top", "scam"),
+    # Ostrzezenie w pierwszym zdaniu nie "wylacza" prosby o bezpieczne konto w drugim
+    ("Pracownik banku: nigdy nie podawaj nikomu hasla. Teraz prosze przelac srodki na bezpieczne konto.", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -63,4 +65,6 @@ LEGIT: list[str] = [
     "Wodociagi: faktura 89 zl z terminem 10.12 jest w eBOK. Oplac w terminie, aby uniknac odsetek.",
     "Zeskanuj kod QR na ulotce, aby zobaczyc menu naszej restauracji. Smacznego!",
     "Bank Polnocny: logowanie z nowego urzadzenia 3.12 o 8:15. Jesli to nie Ty, zadzwon na numer z odwrotu karty.",
+    # Prawdziwe ostrzezenie banku: "nigdy nie poprosi", "nie przelewaj"
+    "Bank Polnocny: pracownik banku nigdy nie poprosi Cie o kod BLIK. Nie przelewaj pieniedzy na bezpieczne konto.",
 ]
