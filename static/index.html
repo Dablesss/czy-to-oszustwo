@@ -76,9 +76,9 @@
   <main id="tresc">
    <div class="wrap">
     <section class="hero">
-      <p class="eyebrow">Bezpłatnie · bez logowania · nic nie zapisujemy</p>
-      <h1>Sprawdź podejrzany SMS albo link</h1>
-      <p class="lead">Wklej wiadomość, a w kilka sekund powiemy, czy wygląda na oszustwo i co zrobić dalej.</p>
+      <h1>Dostałeś <span class="hl">dziwnego</span> SMS-a?</h1>
+      <p class="lead">Wklej go poniżej. Sprawdzimy link i treść, zanim w cokolwiek klikniesz.
+        Za darmo, bez zakładania konta.</p>
     </section>
 
     <form id="check-form" class="panel" novalidate>
@@ -101,6 +101,20 @@
         <span id="check-label">Sprawdź wiadomość</span>
       </button>
     </form>
+
+    <!-- Przykłady do kliknięcia: wklejają wiadomość i od razu ją sprawdzają (app.js, data-example).
+         Domeny są zmyślone. -->
+    <section class="examples" aria-labelledby="przyklady-tytul">
+      <h2 id="przyklady-tytul" class="examples-title">Nie masz wiadomości pod ręką? Kliknij przykład:</h2>
+      <ul class="examples-list">
+        <li><button type="button" class="example-btn" data-example="InPost: Twoja paczka czeka na dopłatę 1,99 zł. Opłać w ciągu 24h: inpost-doplata24.top">
+          <span class="example-from">InPost</span>Twoja paczka czeka na dopłatę 1,99 zł. Opłać w ciągu 24h: inpost-doplata24.top</button></li>
+        <li><button type="button" class="example-btn" data-example="Mamo, to mój nowy numer, stary telefon się zepsuł. Możesz mi pilnie przelać 800 zł? Oddam jutro">
+          <span class="example-from">Nieznany numer</span>Mamo, to mój nowy numer, stary telefon się zepsuł. Możesz mi pilnie przelać 800 zł?</button></li>
+        <li><button type="button" class="example-btn" data-example="Cześć, będę za 10 minut. Kupić coś jeszcze do sklepu?">
+          <span class="example-from">Ania</span>Cześć, będę za 10 minut. Kupić coś jeszcze do sklepu?</button></li>
+      </ul>
+    </section>
 
     <!-- Niewidoczny komunikat dla czytnika ekranu: "Sprawdzam…", "Wynik gotowy". -->
     <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
@@ -134,11 +148,20 @@
       <button type="button" id="again-btn" class="btn btn--secondary btn--full">Sprawdź inną wiadomość</button>
     </section>
 
-    <ul class="trust">
-      <li><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>Nie zapisujemy treści wiadomości</li>
-      <li><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>Sprawdzamy na liście ostrzeżeń CERT Polska</li>
-      <li><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>Bez logowania i za darmo</li>
-    </ul>
+    <section class="how" id="jak-to-dziala" aria-labelledby="jak-tytul">
+      <h2 id="jak-tytul">Jak to sprawdzamy</h2>
+      <ol class="how-list">
+        <li><strong>Link porównujemy z listą ostrzeżeń CERT Polska.</strong>
+          To ponad 120 tysięcy adresów stron, które specjaliści już uznali za oszustwa. Listę odświeżamy co godzinę.</li>
+        <li><strong>Sprawdzamy, czy adres nie podszywa się pod firmę.</strong>
+          Na przykład <i>inpost-doplata24.top</i> udaje InPost, ale do niego nie należy.</li>
+        <li><strong>Szukamy sztuczek w treści.</strong>
+          Dopłata kilku złotych, prośba o kod BLIK, „mamo, to mój nowy numer”, groźba odcięcia prądu.
+          W niejasnych przypadkach pomaga sztuczna inteligencja.</li>
+      </ol>
+      <p class="how-note">Treści wiadomości nie zapisujemy. Wynik to wskazówka, nie gwarancja:
+        jeśli coś Cię niepokoi, zadzwoń do firmy albo bliskiej osoby na numer, który znasz.</p>
+    </section>
 
     <!-- Wskazówka tylko dla iPhone'a/iPada w Safari (pokazuje ją app.js) -->
     <aside id="ios-hint" class="hint" hidden>
@@ -155,44 +178,29 @@
     </aside>
    </div>
 
-    <section class="wrap wrap--wide section" aria-labelledby="poradniki-tytul">
-      <div class="section-head">
-        <h2 id="poradniki-tytul">Poradniki: poznaj najczęstsze oszustwa</h2>
-        <a class="link-arrow" href="/artykuly/">Wszystkie poradniki <span aria-hidden="true">&nbsp;→</span></a>
-      </div>
-      <ul class="card-grid">
-        <li>
-          <a class="card" href="/artykuly/sms-doplata-do-paczki.html">
-            <img src="/img/artykuly/sms-doplata-do-paczki.svg" alt="Telefon z podejrzanym SMS-em o dopłacie do paczki i karton przesyłki" width="1200" height="630" loading="lazy" decoding="async">
-            <span class="card-body">
-              <span class="card-title">SMS o dopłacie do paczki: jak rozpoznać oszustwo</span>
-              <span class="card-desc">„Paczka wstrzymana, dopłać 1,99 zł” – dlaczego to prawie zawsze oszustwo i jak sprawdzić prawdziwą przesyłkę.</span>
-              <span class="card-meta">Czytaj · 3 min</span>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a class="card" href="/artykuly/oszustwo-na-blik-od-znajomego.html">
-            <img src="/img/artykuly/oszustwo-na-blik-od-znajomego.svg" alt="Telefon z prośbą o kod BLIK od znajomego i kod zabezpieczony kłódką" width="1200" height="630" loading="lazy" decoding="async">
-            <span class="card-body">
-              <span class="card-title">Oszustwo „na BLIK” od znajomego</span>
-              <span class="card-desc">„Pożyczysz 500 zł? Wyślij mi kod BLIK” – jak oszuści przejmują konta znajomych i jak się bronić.</span>
-              <span class="card-meta">Czytaj · 2 min</span>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a class="card" href="/artykuly/falszywy-pracownik-banku.html">
-            <img src="/img/artykuly/falszywy-pracownik-banku.svg" alt="Telefon z ostrzeżeniem i budynek banku ze słuchawką: fałszywy pracownik banku" width="1200" height="630" loading="lazy" decoding="async">
-            <span class="card-body">
-              <span class="card-title">Fałszywy pracownik banku i „bezpieczne konto”</span>
-              <span class="card-desc">Dzwoni „bank”, mówi o włamaniu na konto i każe przelać pieniądze albo zainstalować aplikację. Rozłącz się.</span>
-              <span class="card-meta">Czytaj · 3 min</span>
-            </span>
-          </a>
-        </li>
-      </ul>
+    <section class="wrap section guides" aria-labelledby="poradniki-tytul">
+      <h2 id="poradniki-tytul">Tak oszukują najczęściej</h2>
+      <ol class="guide-list">
+        <li><a href="/artykuly/sms-doplata-do-paczki.html">SMS o dopłacie do paczki</a>
+          <span>„Paczka wstrzymana, dopłać 1,99 zł”. Chodzi o dane karty, nie o kwotę.</span></li>
+        <li><a href="/artykuly/oszustwo-na-blik-od-znajomego.html">Prośba o kod BLIK od znajomego</a>
+          <span>Ktoś przejął konto znajomego i pisze w jego imieniu.</span></li>
+        <li><a href="/artykuly/mamo-to-moj-nowy-numer.html">„Mamo, to mój nowy numer”</a>
+          <span>Wiadomość niby od dziecka, a potem pilna prośba o przelew.</span></li>
+        <li><a href="/artykuly/falszywy-pracownik-banku.html">Telefon od „pracownika banku”</a>
+          <span>„Bezpieczne konto” i instalacja aplikacji. Prawdziwy bank tak nie robi.</span></li>
+        <li><a href="/artykuly/olx-vinted-odbierz-platnosc.html">OLX i Vinted: „odbierz płatność”</a>
+          <span>Fałszywy kupujący przysyła link, który kradnie dane karty.</span></li>
+      </ol>
+      <p><a class="link-arrow" href="/artykuly/">Wszystkie poradniki (8) <span aria-hidden="true">&nbsp;→</span></a></p>
     </section>
+
+    <aside class="wrap author-note" aria-label="O projekcie">
+      <p>Stronę rozwija student informatyki jako projekt open source. Kod jest
+        <a href="https://github.com/Dablesss/czy-to-oszustwo">publiczny na GitHubie</a>,
+        więc każdy może sprawdzić, co dokładnie dzieje się z wklejoną wiadomością.
+        Masz oszustwo, którego nie rozpoznaliśmy? <a href="https://github.com/Dablesss/czy-to-oszustwo/issues">Napisz nam o nim</a>.</p>
+    </aside>
   </main>
 
   <footer class="site-footer">

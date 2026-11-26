@@ -4,7 +4,7 @@
    Kolory, odstępy, rozmiary czcionek i czasy animacji są TYLKO w zmiennych niżej. */
 :root {
   /* --- Kolory --- */
-  --bg: #ffffff;           /* tło strony */
+  --bg: #fbfaf7;           /* tło strony: bardzo jasny, ciepły papier */
   --surface: #ffffff;      /* karty i pola */
   --surface-2: #f5f7fa;    /* delikatnie wyróżnione sekcje i tło kart */
   --text: #16191d;
@@ -48,8 +48,8 @@
   --leading-tight: 1.2;
 
   /* --- Kształt i głębia --- */
-  --radius: 20px;
-  --radius-sm: 12px;
+  --radius: 12px;
+  --radius-sm: 8px;
   --radius-pill: 999px;
   --shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 12px 32px rgb(16 24 40 / 0.06);
 
@@ -63,13 +63,15 @@
   --icon-sm: 1.1em;
   --icon-lg: 44px;
   --content-width: 680px;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif; /* nagłówki */
+  --highlight: #ffe27a;   /* "zakreślacz" pod ważnym słowem */
   --wide-width: 1080px;   /* nagłówek, stopka, siatka kart */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0d0f12; --surface: #15181d; --surface-2: #1a1e24; --text: #eef0f3; --muted: #b4bcc8;
-    --line: #2a3038; --field-border: #8a94a3;
+    --line: #2a3038; --field-border: #8a94a3; --highlight: #6b5600;
     /* Jasnoniebieski przycisk z ciemnym tekstem (9.9:1) */
     --primary: #9cc0ff; --primary-hover: #c2d8ff; --primary-active: #dbe8ff;
     --on-primary: #0b1626; --primary-soft: #1c2a42; --focus: #c2d8ff;
@@ -137,7 +139,7 @@ a:hover { text-decoration-thickness: 3px; }
   min-height: var(--tap-min);
   padding: 0 var(--space-4);
   border: 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   background: var(--primary-soft);
   color: var(--primary);
   font-size: var(--text-sm);
@@ -203,7 +205,10 @@ h1 {
   text-wrap: balance; /* równe linie zamiast jednego słowa w ostatniej */
 }
 .lead { color: var(--muted); margin: 0; max-width: 34em; }
-h1 { font-weight: var(--weight-heavy); letter-spacing: -0.03em; }
+/* Nagłówki szeryfowe, jak w gazecie: odróżniają stronę od typowych szablonów */
+h1, h2 { font-family: var(--font-serif); font-weight: var(--weight-bold); letter-spacing: -0.01em; }
+/* Słowo "zakreślone markerem": żółty pasek w dolnej części liter */
+.hl { background: linear-gradient(transparent 58%, var(--highlight) 58%, var(--highlight) 92%, transparent 92%); padding: 0 0.08em; }
 /* Mała etykieta nad tytułem, np. "Bezpłatnie · bez logowania" */
 .eyebrow {
   display: inline-flex;
@@ -665,3 +670,47 @@ a.btn--primary:visited { color: var(--on-primary); }
   .steps li::before { background: CanvasText; }
   .verdict-head { border-bottom: 2px solid CanvasText; }
 }
+
+/* ===== Strona główna: przykłady, "jak to sprawdzamy", poradniki, notka ===== */
+.examples { margin-top: var(--space-6); }
+.examples-title { font-family: inherit; font-size: var(--text-base); font-weight: var(--weight-bold); margin: 0 0 var(--space-3); }
+.examples-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+/* Przykład wygląda jak dymek SMS-a: szare tło, ostry róg po lewej u góry */
+.example-btn {
+  display: block;
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: 4px var(--radius) var(--radius) var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.example-btn:hover { border-color: var(--primary); }
+.example-from { display: block; font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--muted); }
+
+.how { margin-top: var(--space-8); }
+.how h2, .guides h2 { font-size: var(--text-lg); margin: 0 0 var(--space-4); }
+.how-list { margin: 0; padding: 0; list-style: none; counter-reset: krok; }
+.how-list li { counter-increment: krok; position: relative; padding-left: 2.4em; margin-bottom: var(--space-4); }
+/* Duża szeryfowa cyfra zamiast kropki */
+.how-list li::before {
+  content: counter(krok);
+  position: absolute; left: 0; top: -0.15em;
+  font-family: var(--font-serif); font-size: var(--text-lg); font-weight: var(--weight-bold); color: var(--primary);
+}
+.how-note { color: var(--muted); border-left: 3px solid var(--highlight); padding-left: var(--space-4); }
+
+.guides { max-width: var(--content-width); }
+.guide-list { margin: 0 0 var(--space-4); padding: 0; list-style: none; counter-reset: rad; border-top: 1px solid var(--line); }
+.guide-list li { counter-increment: rad; display: grid; grid-template-columns: 2.4em 1fr; padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.guide-list li::before { content: counter(rad, decimal-leading-zero); grid-row: span 2; font-family: var(--font-serif); color: var(--muted); padding-top: 0.1em; }
+.guide-list a { font-weight: var(--weight-bold); display: inline-flex; align-items: center; min-height: var(--tap-min); }
+.guide-list a:visited { color: var(--primary); }
+.guide-list span { color: var(--muted); font-size: var(--text-sm); }
+
+.author-note { margin-top: var(--space-8); }
+.author-note p { margin: 0; padding: var(--space-4) 0; border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-sm); }
