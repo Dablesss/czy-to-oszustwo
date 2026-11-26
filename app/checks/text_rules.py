@@ -78,6 +78,13 @@ RULES: list[Rule] = [
        "Wiadomość o problemie z paczką to częsty pretekst oszustów.",
        r"(paczk|przesylk|kurier|inpost|dpd|dhl|poczta polska)\w*.{0,80}"
        r"(wstrzyman|zatrzyman|nie moze zostac|niedostarcz|adres\w* (nieprawidl|niepeln)|potwierdz|aktualizuj|oczekuj\w* na (oplat|doplat))"),
+    _r("parcel_return_cancel", 45,
+       "„Paczka wraca do nadawcy, anuluj zwrot przez link” to oszustwo. "
+       "Sprawdź paczkę w aplikacji przewoźnika, a nie przez link z wiadomości.",
+       # Zwrot do nadawcy ...
+       r"(zwrot\w*|odesl\w*|wroci\w*|wraca\w*) do nadawcy"
+       # ... i polecenie zatrzymania go przez link: "mozesz go anulowac tutaj:", "kliknij link"
+       r".{0,80}(anul|zatrzym|wstrzym|cofn)\w*[^.:]{0,30}(:|tutaj|link|ponizej)"),
     _r("blik_request", 60,
        "Nigdy nie podawaj nikomu kodu BLIK. Oszuści podszywają się pod znajomych i proszą o kod.",
        rf"(kod\w* blik|blik\w*.{{0,40}}{ASK_VERB}"
