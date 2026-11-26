@@ -35,6 +35,18 @@ def _r(code: str, points: int, reason: str, pattern: str) -> Rule:
 
 
 AMOUNT = r"\d{1,3}(?:[.,]\d{1,2})?\s?(?:zl|pln)"
+# Dowolna kwota, też duża i w euro: "4000 zl", "25 euro", "300 pln"
+AMOUNT_BIG = r"\d+\s?(?:zl|pln|euro|eur)"
+
+# Do reguły investment: słowa o zarabianiu i inwestowaniu.
+# "zarabia\w*" łapie każdą formę: zarabiaj, zarabiac, zarabiasz.
+INVEST = r"(inwest\w*|zarabia\w*|zarobek|zysk\w*|kryptowalut\w*|bitcoin)"
+
+# Do reguły easy_job: praca "za nic" (lajkowanie, "prosta praca", praca online / z domu) ...
+EASY_JOB = r"(lajk\w*|polubie\w*|prost\w* prac\w*|prac\w* (online|z domu|zdaln\w*))"
+# ... i stawka podana zaraz za kwotą: "300 pln dziennie", "25 euro za godzine", "40 zl za zadanie".
+# Prawdziwe ogłoszenia zwykle piszą "brutto" albo "netto", więc "32 zl brutto za godzine" nie pasuje.
+JOB_PAY = rf"{AMOUNT_BIG} (dziennie|za godzin\w*|za zadanie|za lajk\w*)"
 
 # Do reguły family_new_number: kto pisze i co się "stało" z telefonem.
 FAMILY = r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie)"
@@ -66,6 +78,13 @@ RULES: list[Rule] = [
        "Wiadomość o problemie z paczką to częsty pretekst oszustów.",
        r"(paczk|przesylk|kurier|inpost|dpd|dhl|poczta polska)\w*.{0,80}"
        r"(wstrzyman|zatrzyman|nie moze zostac|niedostarcz|adres\w* (nieprawidl|niepeln)|potwierdz|aktualizuj|oczekuj\w* na (oplat|doplat))"),
+    _r("parcel_return_cancel", 45,
+       "„Paczka wraca do nadawcy, anuluj zwrot przez link” to oszustwo. "
+       "Sprawdź paczkę w aplikacji przewoźnika, a nie przez link z wiadomości.",
+       # Zwrot do nadawcy ...
+       r"(zwrot\w*|odesl\w*|wroci\w*|wraca\w*) do nadawcy"
+       # ... i polecenie zatrzymania go przez link: "mozesz go anulowac tutaj:", "kliknij link"
+       r".{0,80}(anul|zatrzym|wstrzym|cofn)\w*[^.:]{0,30}(:|tutaj|link|ponizej)"),
     _r("blik_request", 60,
        "Nigdy nie podawaj nikomu kodu BLIK. Oszuści podszywają się pod znajomych i proszą o kod.",
        rf"(kod\w* blik|blik\w*.{{0,40}}{ASK_VERB}"
@@ -82,7 +101,17 @@ RULES: list[Rule] = [
        rf"|(to moj nowy numer{NOT_WORK}|pisze z nowego numeru|pisze z innego numeru)"),
     _r("money_request", 25,
        "Prośba o szybki przelew lub pożyczkę. Upewnij się telefonicznie, kto naprawdę pisze.",
-       r"(pozycz\w*|przelej\w*|przelew\w*|wyslij\w*|potrzebuj\w*).{0,40}(\d+\s?(zl|pln)|pieniadz|kas[ey])"),
+       # "pozycz(?!k)": prośba "pożycz mi", "pożyczysz", ale nie rzeczownik "pożyczka/pożyczkę"
+       # ("wniosek o pożyczkę 5000 zł został zaakceptowany" to informacja banku, nie prośba)
+       r"(pozycz(?!k)\w*|przelej\w*|przelew\w*|wyslij\w*|potrzebuj\w*).{0,40}(\d+\s?(zl|pln)|pieniadz|kas[ey])"),
+    _r("loan_approved", 45,
+       "„Przyznana pożyczka”, którą trzeba potwierdzić przez link, to pułapka. "
+       "Chodzi o dane logowania do banku albo o „opłatę za wypłatę”.",
+       # Pożyczka zaakceptowana ...
+       r"(pozyczk|kredyt|wnios)\w*.{0,60}(zaakceptowan|przyznan|zatwierdzon|rozpatrzon\w* pozytywn)"
+       # ... i polecenie z linkiem: "potwierdz ja tutaj:", "odbierz srodki ponizej".
+       # Bank, u którego sam złożyłeś wniosek, odsyła do aplikacji, a nie do linku.
+       r".{0,100}(potwierdz|odbierz|odebrac|wyplac|aktywuj)\w*[^.:]{0,30}(:|tutaj|link|ponizej)"),
     _r("urgency", 15,
        "Wiadomość wywiera presję czasu. Prawdziwe firmy i urzędy nie wymagają reakcji w kilka godzin.",
        r"(natychmiast|pilne|pilnie|w ciagu (24|48|12) ?(h|godz)|do konca dnia|dzisiaj do"
@@ -106,6 +135,22 @@ RULES: list[Rule] = [
        # "odbierz 250 zl na swoje konto", "odbierz 10 euro na start": darmowe pieniądze za nic.
        # Musi być "na konto/rachunek/start", bo "odbierz 20 zl na zakupy w aplikacji" to zwykły rabat sklepu.
        r"|odbierz \d+(?:[.,]\d{1,2})? ?(zl|pln|euro|eur) na (swoje |twoje )?(konto|rachunek|start)\b)"),
+    _r("seller_verification", 30,
+       "„Kupujący zapłacił, zweryfikuj konto” to oszustwo na sprzedających (OLX, Vinted). "
+       "Sprawdzaj sprzedaż tylko w aplikacji serwisu.",
+       # Weryfikacja konta i "kupujacy oplacil" w jednej wiadomości, w dowolnej kolejności.
+       # Prawdziwy serwis pisze o opłaconym zamówieniu ALBO o weryfikacji konta, nie łączy tego.
+       r"weryfik\w*.{0,80}kupujac\w* (oplacil|zaplacil)"
+       r"|kupujac\w* (oplacil|zaplacil)\w*.{0,80}weryfik"),
+    _r("payment_failed", 25,
+       "„Płatność się nie udała, odnów subskrypcję przez link” to częsta przynęta na dane karty. "
+       "Sprawdź subskrypcję w aplikacji albo na stronie, wpisując adres samodzielnie.",
+       # Nieudana płatność ...
+       r"(nie udalo (nam )?sie (przetworzyc|pobrac|zrealizowac|obciazyc)|nie moglismy (przetworzyc|pobrac|obciazyc)"
+       r"|(platnos|oplat|transakcj)\w* (zostala )?(odrzucon|nieudan))"
+       # ... i polecenie z dwukropkiem albo linkiem: "Odnow subskrypcje: <link>".
+       # Samo "zaktualizuj metode platnosci w aplikacji" pisze prawdziwy serwis.
+       r".{0,80}(odnow|zaktualizuj|uzupelnij|potwierdz|podaj)\w*[^.:]{0,40}(:|tutaj|link|ponizej)"),
     _r("install_app", 30,
        "Prośba o zainstalowanie aplikacji z linku. Aplikacje instaluj tylko ze Sklepu Play lub App Store.",
        # "zainstal\w*" łapie każdą formę: zainstaluj, zainstalowac, zainstaluje
@@ -115,8 +160,19 @@ RULES: list[Rule] = [
        r"(odlaczen\w*|odciec\w*|wstrzyman\w*|zaleglos\w*).{0,60}(prad|energi|gaz|dostaw)"),
     _r("investment", 45,
        "Obietnica łatwego zysku z inwestycji to bardzo częste oszustwo.",
-       r"(inwest\w*|zarabiaj\w*|zarobek|zysk\w*|kryptowalut\w*|bitcoin).{0,80}"
-       r"(dziennie|tygodniowo|gwarant|bez ryzyka|\d+ ?%|pasywn)"),
+       rf"{INVEST}.{{0,80}}(dziennie|tygodniowo|gwarant|bez ryzyka|pasywn"
+       # Procent zysku, ale nie oprocentowanie "w skali roku" z reklamy lokaty albo obligacji.
+       # (?!...) znaczy "jeśli zaraz potem NIE MA tych słów".
+       r"|\d+ ?%(?! (w skali roku|rocznie|w pierwszym roku)))"
+       # "Inwestycja ... pozwala zarabiac od 4000 zl miesiecznie": pensja z inwestycji
+       rf"|inwest\w*.{{0,80}}{AMOUNT_BIG} miesiecznie"
+       # "Polecaja ja znani eksperci z telewizji": reklama z twarzami znanych osob
+       rf"|{INVEST}.{{0,120}}(znan\w* (eksper|osob|celebryt)|celebryt\w*|z telewizji)"),
+    _r("easy_job", 35,
+       "„Prosta praca” za lajki, oceny albo z domu za wysoką stawkę to znane oszustwo. "
+       "Na początku płacą grosze, potem każą „dopłacić”, żeby odebrać zarobek.",
+       # Praca "za nic" i stawka: w dowolnej kolejności
+       rf"{EASY_JOB}.{{0,100}}{JOB_PAY}|{JOB_PAY}.{{0,100}}{EASY_JOB}"),
     _r("fine_or_debt", 25,
        "Mandat, dług albo opłata wysłana SMS-em z linkiem to oszustwo. Urzędy tak nie ściągają należności.",
        r"(mandat|grzywn|zadluzen|egzekuc|komornik|oplat\w* drogow|e-?toll|nieoplacon|niezaplacon)"
@@ -184,6 +240,12 @@ WARNING_AFTER = re.compile(r"\s*(nigdy )?nie (poprosi|prosi|prosimy|podawaj|prze
 ABBREVIATIONS = re.compile(r"\b(tzw|np|ok|tj|wg)\.")
 # Koniec zdania albo zdania składowego: ostrzeżenie z innego zdania się nie liczy
 CLAUSE_END = re.compile(r"[.!?,;:]")
+# Zdanie podrzędne "który/która..." tuż przed dopasowaniem:
+# "Nie instaluj AnyDesk na prośbę osoby, która dzwoni jako konsultant banku".
+# "która dzwoni..." dopowiada coś o "osobie", więc należy do zdania z ostrzeżeniem.
+# Grupa 1 to część zdania przed przecinkiem (bez kropki, dwukropka i innego przecinka),
+# a po "który" do dopasowania może być najwyżej 40 znaków, też bez kropki ani przecinka.
+RELATIVE_CLAUSE = re.compile(r"([^.!?;:,]{0,60}), ktor\w*\b[^.!?;:,]{0,40}$")
 
 
 def _is_warning(normalized: str, match: re.Match[str]) -> bool:
@@ -196,7 +258,13 @@ def _is_warning(normalized: str, match: re.Match[str]) -> bool:
     before = ABBREVIATIONS.sub(lambda m: m.group(1), before)  # "tzw." -> "tzw"
     before = CLAUSE_END.split(before)[-1]  # tylko tekst od ostatniej kropki/przecinka
     after = normalized[match.end():]
-    return bool(WARNING_BEFORE.search(before) or WARNING_AFTER.match(after))
+    if WARNING_BEFORE.search(before) or WARNING_AFTER.match(after):
+        return True
+    # Dopasowanie w zdaniu "która...": ostrzeżenie może stać tuż przed przecinkiem.
+    longer = normalized[max(0, match.start() - 120):match.start()]
+    longer = ABBREVIATIONS.sub(lambda m: m.group(1), longer)
+    relative = RELATIVE_CLAUSE.search(longer)
+    return bool(relative and WARNING_BEFORE.search(relative.group(1)))
 
 
 def _rule_matches(rule: Rule, normalized: str) -> bool:

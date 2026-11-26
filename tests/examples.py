@@ -49,6 +49,23 @@ SCAMS: list[tuple[str, str]] = [
     ("GITD: zarejestrowano przekroczenie predkosci. Sprawdz mandat i zaplac online: gitd-mandat.online", "scam"),
     ("Orange: Twoja karta SIM zostanie zablokowana. Zaktualizuj dane: orange-karta-sim.com", "scam"),
     ("T-Mobile: nie udalo sie pobrac platnosci za abonament. Zaplac 4,99 zl: t-mobile-oplata.top", "scam"),
+    # Ostrzezenie ze zdaniem "ktore..." w pierwszym zdaniu nie wylacza prosby o AnyDesk w drugim
+    ("Nigdy nie podawaj hasla osobom, ktore dzwonia. Tu konsultant banku: prosze zainstalowac AnyDesk.", "scam"),
+    # Inwestycja jak pensja ("miesiecznie") i reklama z "ekspertami z telewizji"
+    ("Inwestycja w nowy terminal LNG pozwala zarabiac od 3500 zl miesiecznie. Zapisz sie: lng-zysk.top", "scam"),
+    ("Inwestuj w akcje spolek energetycznych. Polecaja to znani eksperci z telewizji: energia-inwest.vip", "scam"),
+    # Pozyczka, o ktora nikt nie prosil, do "potwierdzenia" przez link
+    ("Twoja pozyczka 3000 zl zostala przyznana. Aby odebrac srodki, potwierdz dane tutaj: kasa-od-reki.top", "scam"),
+    # "Prosta praca" z wysoka stawka i grupa na komunikatorze
+    ("Prosta praca z domu: oceniasz hotele, 40 zl za zadanie. Kliknij link i dolacz do grupy: hotel-praca.top", "scam"),
+    # "Paczka wraca do nadawcy" i link do "zatrzymania zwrotu"
+    ("InPost: paczka nie zostala odebrana i zostanie odeslana do nadawcy. Aby zatrzymac zwrot, kliknij link: "
+     "inpost-zwrot.top", "scam"),
+    # Oszustwo na sprzedajacych: "kupujacy oplacil" + "weryfikacja konta"
+    ("Vinted: kupujacy oplacil Twoj przedmiot, ale konto sprzedawcy wymaga weryfikacji: "
+     "vinted-pl.sprzedaz-weryfikacja.com", "scam"),
+    # Nieudana platnosc za subskrypcje i link do "odnowienia"
+    ("Kino Online: nie udalo sie pobrac platnosci. Zaktualizuj dane karty tutaj: kino-online-konto.com", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -78,6 +95,20 @@ LEGIT: list[str] = [
     # Prawdziwe ostrzezenie banku: "nigdy nie poprosi", "nie przelewaj"
     "Bank Polnocny: pracownik banku nigdy nie poprosi Cie o kod BLIK. Nie przelewaj pieniedzy na bezpieczne konto.",
     # Sklep DAJE kod rabatowy ("dajemy"), nikt nie prosi o kod BLIK
+    # Ostrzezenie rozciaga sie na zdanie "ktora dzwoni jako konsultant banku" (po przecinku)
+    "Bank Polnocny: nie instaluj AnyDesk na prosbe osoby, ktora dzwoni jako konsultant banku.",
+    # Reklama lokaty: oprocentowanie "w skali roku" to nie obietnica szybkiego zysku
+    "Bank Polnocny: lokata z zyskiem 6% w skali roku. Zaloz ja w aplikacji banku.",
+    # Bank informuje o pozyczce, o ktora klient sam wnioskowal (bez linku, rzeczownik "pozyczke")
+    "Bank Polnocny: wniosek o pozyczke 8000 zl zostal zaakceptowany. Srodki wyplacimy na Twoje konto jutro.",
+    # Stawka "za godzine" bez "prostej pracy", lajkow ani pracy z domu
+    "Korepetycje z matematyki online, 60 zl za godzine. Zapisy u wychowawczyni.",
+    # Zwrot do nadawcy bez linku: odeslanie do sklepu
+    "Paczka wraca do nadawcy. Jesli chcesz ja zatrzymac, skontaktuj sie ze sklepem.",
+    # Kupujacy zaplacil, ale bez "weryfikacji konta"
+    "OLX: kupujacy zaplacil za przedmiot. Pieniadze trafia na Twoje konto po odbiorze paczki.",
+    # Nieudana platnosc, ale odeslanie do aplikacji, a nie do linku
+    "Kino Online: nie udalo sie pobrac platnosci za subskrypcje. Zaktualizuj metode platnosci w aplikacji.",
     "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
     # Prawdziwy bank kieruje do aplikacji i na numer z karty, a nie w link
     "Bank Polnocny: zablokowalismy podejrzana transakcje 2300 zl. Sprawdz ja w aplikacji albo zadzwon na numer z karty.",
