@@ -8,6 +8,8 @@ import ipaddress
 import re
 from urllib.parse import urlsplit
 
+import tldextract
+
 # Link z protokołem albo goła domena z końcówką z liter (min. 2), opcjonalnie ze ścieżką.
 # (?<![@\w.-]) pomija adresy e-mail i fragmenty innych słów.
 _URL_RE = re.compile(
@@ -71,21 +73,37 @@ def is_ip(host: str) -> bool:
         return False
 
 
-# Domeny drugiego poziomu, pod którymi rejestruje się domeny (np. firma.com.pl).
-_SECOND_LEVEL = {
-    "com.pl", "net.pl", "org.pl", "gov.pl", "edu.pl", "info.pl", "biz.pl", "waw.pl",
-    "co.uk", "org.uk", "com.ua", "com.br", "co.in",
-}
+def _make_extractor() -> tldextract.TLDExtract:
+    """Tworzy tldextract działający w pełni offline.
+
+    - suffix_list_urls=(): nie pobieraj Public Suffix List z internetu,
+      użyj kopii wbudowanej w bibliotekę (aktualizuje się razem z wersją tldextract).
+    - cache_dir=None: nie zapisuj nic na dysku.
+    - include_psl_private_domains=True: domeny typu github.io, netlify.app czy blogspot.com
+      traktujemy jak końcówki, bo każdy użytkownik dostaje tam własną stronę.
+      "oszust.github.io" należy do oszusta, nie do GitHuba.
+    """
+    return tldextract.TLDExtract(
+        suffix_list_urls=(),
+        cache_dir=None,
+        include_psl_private_domains=True,
+    )
+
+
+_EXTRACT = _make_extractor()
 
 
 def registrable_domain(host: str) -> str:
-    """Domena "właściwa", np. dla "konto.allegro.pl.xyz.com" zwraca "xyz.com".
+    """Domena "właściwa", czyli ta, którą ktoś kupił i kontroluje.
 
-    Uproszczenie bez pełnej Public Suffix List. Po MVP można podmienić na bibliotekę tldextract.
+    Przykłady: "konto.allegro.pl.xyz.com" -> "xyz.com", "sklep.x.com.pl" -> "x.com.pl",
+    "user.github.io" -> "user.github.io". Korzysta z Public Suffix List (biblioteka tldextract).
     """
     if is_ip(host):
         return host
-    parts = host.split(".")
-    if len(parts) >= 3 and ".".join(parts[-2:]) in _SECOND_LEVEL:
-        return ".".join(parts[-3:])
-    return ".".join(parts[-2:])
+    parts = _EXTRACT(host)
+    if parts.domain and parts.suffix:
+        return f"{parts.domain}.{parts.suffix}"
+    # Nieznana końcówka (np. "https://serwer.lokalny") albo sam sufiks (np. "gov.pl"):
+    # zostajemy przy dwóch ostatnich członach, tak jak wcześniej.
+    return ".".join(host.split(".")[-2:])

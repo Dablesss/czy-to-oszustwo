@@ -111,3 +111,39 @@ def test_masks_personal_data():
     assert "1981" not in masked
     assert "600 100 200" not in masked
     assert "[PESEL]" in masked and "[NUMER KONTA]" in masked and "[TELEFON]" in masked
+
+
+# --- domeny: Public Suffix List (tldextract offline) ---
+
+def test_registrable_domain_public_suffix_list():
+    assert registrable_domain("konto.allegro.pl.xyz.com") == "xyz.com"
+    assert registrable_domain("inpost.pl") == "inpost.pl"
+    assert registrable_domain("sklep.x.com.pl") == "x.com.pl"
+    assert registrable_domain("x.com.pl") == "x.com.pl"
+    assert registrable_domain("urzad.x.waw.pl") == "x.waw.pl"
+    # github.io to "końcówka prywatna": każda strona użytkownika ma innego właściciela
+    assert registrable_domain("user.github.io") == "user.github.io"
+    # eu.cc nie jest na liście sufiksów, więc domeną właściwą jest eu.cc
+    assert registrable_domain("a.b.eu.cc") == "eu.cc"
+
+
+def test_registrable_domain_ip_and_unknown_suffix():
+    assert registrable_domain("192.168.1.10") == "192.168.1.10"
+    # sam sufiks albo nieznana końcówka: dwa ostatnie człony, jak przed zmianą
+    assert registrable_domain("gov.pl") == "gov.pl"
+    assert registrable_domain("panel.serwer.lokalny") == "serwer.lokalny"
+
+
+def test_public_suffix_list_works_offline(monkeypatch):
+    """tldextract nie może pobierać listy z internetu: ani przy starcie, ani w testach."""
+    import socket
+
+    from app.checks import links
+
+    def no_network(*args, **kwargs):
+        raise AssertionError("tldextract próbował połączyć się z siecią")
+
+    monkeypatch.setattr(socket, "create_connection", no_network)
+    monkeypatch.setattr(socket.socket, "connect", no_network)
+    fresh = links._make_extractor()          # nowy obiekt, więc lista ładuje się od zera
+    assert fresh("sklep.x.com.pl").suffix == "com.pl"
