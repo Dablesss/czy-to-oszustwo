@@ -122,6 +122,27 @@ def test_service_worker_skips_api():
     assert handler.index('"/api/"') < handler.index("respondWith")
 
 
+def test_shared_text_never_goes_to_network():
+    """Zasada: nie logujemy treści wiadomości. "Udostępnij" z aplikacji SMS otwiera
+    /?text=<treść>, a serwer i hosting zapisują adresy stron w logach. Service worker
+    musi obsłużyć taki adres sam (strona z pamięci), zanim zapyta sieć.
+
+    Ograniczenie: sprawdzamy tekst pliku, bez uruchamiania JavaScriptu."""
+    sw = (STATIC / "sw.js").read_text(encoding="utf-8")
+    handler = sw[sw.index('addEventListener("fetch"'):]
+    assert '"text"' in handler and "searchParams" in handler
+    share_check = handler.index("searchParams")
+    assert share_check < handler.index("fetch(event.request)")  # przed zapytaniem do sieci
+    assert 'caches.match("/")' in handler[share_check:]
+
+
+def test_server_has_no_access_log():
+    """Zasada: nie logujemy treści wiadomości ani zbędnych danych. Logi dostępu
+    uvicorna zapisywałyby adres IP i pełny adres strony (z ?text=... przy udostępnianiu)."""
+    dockerfile = (STATIC.parent / "Dockerfile").read_text(encoding="utf-8")
+    assert "--no-access-log" in dockerfile
+
+
 # ---------------------------------------------------------------- 4. Prywatność logów
 
 
