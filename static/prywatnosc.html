@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+  UWAGA: Ten tekst NIE jest poradą prawną. Został napisany na podstawie tego,
+  co faktycznie robi kod aplikacji. Przed publicznym startem musi go sprawdzić
+  osoba znająca RODO, a wszystkie pola [DO UZUPEŁNIENIA: …] trzeba wypełnić.
+  Przy każdej zmianie w zbieraniu danych (app/, static/app.js) zaktualizuj ten plik.
+-->
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prywatność · Czy to oszustwo?</title>
+  <meta name="description" content="Jakie dane zbiera strona Czy to oszustwo? i co się z nimi dzieje.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-logo" viewBox="0 0 32 32">
+      <path d="M16 3 27 7v8.5c0 6.6-4.6 11.6-11 13.5C9.6 27.1 5 22.1 5 15.5V7Z" fill="currentColor"/>
+      <path class="logo-check" d="m11 16 3.5 3.5L21.5 12" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="wrap brand">
+      <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
+      <span class="brand-name">Czy to oszustwo?</span>
+    </div>
+  </header>
+
+  <main class="wrap prose">
+    <a class="back-link" href="/"><span aria-hidden="true">←</span> Wróć do sprawdzania</a>
+
+    <h1>Prywatność</h1>
+    <p class="lead">W skrócie: nie zakładasz konta, a treści Twojej wiadomości nigdzie nie zapisujemy.</p>
+
+    <h2>Kto odpowiada za dane</h2>
+    <p>Stronę prowadzi <mark>[DO UZUPEŁNIENIA: imię i nazwisko administratora danych]</mark>.
+      Kontakt: <mark>[DO UZUPEŁNIENIA: adres e-mail]</mark>.</p>
+
+    <h2>Treść wiadomości</h2>
+    <p>Gdy naciśniesz „Sprawdź wiadomość”, tekst trafia na nasz serwer tylko na czas sprawdzenia.
+      Nie zapisujemy go i nie wpisujemy do logów. W logach zostaje tylko wynik
+      (na przykład „podejrzane”), liczba linków i to, czy pytaliśmy AI.</p>
+    <p>Linki sprawdzamy na naszym serwerze, na pobranej kopii Listy Ostrzeżeń CERT Polska.
+      Twojej wiadomości nie wysyłamy do CERT.</p>
+
+    <h2>Sztuczna inteligencja (AI)</h2>
+    <p>Gdy wynik jest niepewny, możemy poprosić o ocenę AI firmy Anthropic (USA).
+      Wcześniej automatycznie zakrywamy numery PESEL, kont, kart i telefonów, adresy e-mail i kody.
+      Imion, nazwisk i adresów nie zakrywamy, więc nie wklejaj danych, których nie musisz.</p>
+    <p>Jak długo Anthropic przechowuje te dane: <mark>[DO UZUPEŁNIENIA: okres według aktualnych zasad Anthropic API]</mark>.</p>
+
+    <h2>Adres IP</h2>
+    <p>Twój adres IP służy do limitu sprawdzeń na minutę, żeby nikt nie przeciążył strony.
+      Licznik jest tylko w pamięci serwera i znika po jego ponownym uruchomieniu.
+      Serwer i firma hostingowa Railway zapisują też w logach technicznych adres IP, godzinę i otwierany adres strony,
+      bez treści wiadomości. Jak długo: <mark>[DO UZUPEŁNIENIA: okres przechowywania logów w Railway]</mark>.</p>
+
+    <h2>Twój telefon</h2>
+    <ul>
+      <li>Nie używamy plików cookie ani narzędzi do śledzenia.</li>
+      <li>Telefon zapamiętuje pliki strony, żeby otwierała się szybciej. Wyników sprawdzeń nie zapamiętuje.</li>
+      <li>Gdy zamkniesz wskazówkę na iPhonie, telefon zapamięta tylko, że jest zamknięta.</li>
+      <li>Przycisk „Wklej ze schowka” odczytuje schowek dopiero po naciśnięciu.</li>
+    </ul>
+
+    <h2>Twoje prawa</h2>
+    <p>Możesz zapytać o swoje dane, poprosić o ich usunięcie albo sprzeciwić się ich użyciu.
+      Możesz też złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych (UODO).
+      Podstawa prawna: <mark>[DO UZUPEŁNIENIA: podstawa prawna według RODO, do potwierdzenia przez prawnika]</mark>.</p>
+
+    <p class="updated">Ostatnia zmiana: <mark>[DO UZUPEŁNIENIA: data]</mark></p>
+
+    <a class="back-link" href="/"><span aria-hidden="true">←</span> Wróć do sprawdzania</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="report">
+        Podejrzany SMS zgłoś do CERT Polska: przekaż go na numer <strong>8080</strong>.
+      </p>
+      <ul class="footer-links">
+        <li><a href="/prywatnosc.html" aria-current="page">Prywatność</a></li>
+        <li><a href="/regulamin.html">Regulamin</a></li>
+        <li><a href="https://github.com/Dablesss/czy-to-oszustwo">Kod źródłowy na GitHubie</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

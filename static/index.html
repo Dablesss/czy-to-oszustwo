@@ -3,70 +3,149 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Czy to oszustwo?</title>
+  <title>Czy to oszustwo? Sprawdź podejrzany SMS albo link</title>
   <meta name="description" content="Sprawdź podejrzany SMS, wiadomość albo link w kilka sekund.">
-  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#181c22" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <main>
-    <header>
-      <h1>Czy to oszustwo?</h1>
-      <p class="lead">Wklej podejrzaną wiadomość albo link. Sprawdzimy go w kilka sekund.</p>
-    </header>
+  <!-- Ikony w jednym miejscu. Niżej używamy ich przez <use href="#...">. -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-logo" viewBox="0 0 32 32">
+      <path d="M16 3 27 7v8.5c0 6.6-4.6 11.6-11 13.5C9.6 27.1 5 22.1 5 15.5V7Z" fill="currentColor"/>
+      <path class="logo-check" d="m11 16 3.5 3.5L21.5 12" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-paste" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8" y="2" width="8" height="4" rx="1"/>
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+    </symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 20 6v6c0 4.8-3.4 8.3-8 9.5C7.4 20.3 4 16.8 4 12V6Z"/><path d="m9 12 2 2 4-4"/>
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+    </symbol>
+    <symbol id="i-scam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 2h8l6 6v8l-6 6H8l-6-6V8Z"/><path d="m9 9 6 6M15 9l-6 6"/>
+    </symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>
+    </symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/>
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>
+    </symbol>
+  </svg>
 
-    <form id="check-form" novalidate>
-      <label for="message" class="visually-hidden">Treść wiadomości albo link</label>
-      <textarea id="message" name="text" rows="6" maxlength="3000" aria-describedby="error"
-        placeholder="Wklej tutaj wiadomość, SMS albo link…"></textarea>
+  <header class="site-header">
+    <div class="wrap brand">
+      <svg class="brand-logo" aria-hidden="true"><use href="#i-logo"/></svg>
+      <span class="brand-name">Czy to oszustwo?</span>
+    </div>
+  </header>
 
-      <div class="buttons">
-        <button type="button" id="paste-btn" class="secondary">Wklej ze schowka</button>
-        <button type="submit" id="check-btn" class="primary">SPRAWDŹ</button>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Sprawdź podejrzany SMS albo link</h1>
+      <p class="lead">Wklej wiadomość, a w kilka sekund powiemy, czy wygląda na oszustwo i co zrobić dalej.</p>
+    </section>
+
+    <form id="check-form" class="panel" novalidate>
+      <div class="field-head">
+        <label for="message">Treść wiadomości albo link</label>
+        <button type="button" id="paste-btn" class="btn btn--ghost">
+          <svg class="icon" aria-hidden="true"><use href="#i-paste"/></svg>
+          Wklej ze schowka
+        </button>
       </div>
+      <!-- Bez maxlength: przeglądarka ucinałaby tekst po cichu. Limit pilnuje app.js. -->
+      <!-- aria-describedby ustawia app.js: tylko na widoczny licznik i błąd -->
+      <textarea id="message" name="text" rows="6"
+        placeholder="Na przykład: Twoja paczka czeka na dopłatę 1,99 zł…"></textarea>
+      <p id="counter" class="counter" hidden></p>
       <p id="error" class="error" role="alert" hidden></p>
+
+      <button type="submit" id="check-btn" class="btn btn--primary">
+        <span class="spinner" aria-hidden="true"></span>
+        <span id="check-label">Sprawdź wiadomość</span>
+      </button>
     </form>
 
     <!-- Niewidoczny komunikat dla czytnika ekranu: "Sprawdzam…", "Wynik gotowy". -->
     <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
 
     <section id="result" class="result" aria-labelledby="verdict-title" hidden>
-      <div class="card" id="card">
-        <p class="verdict-icon" id="verdict-icon" aria-hidden="true"></p>
-        <!-- tabindex="-1": po sprawdzeniu przenosimy tu fokus z JS -->
-        <h2 id="verdict-title" tabindex="-1"></h2>
-        <h3>Co zrobić teraz:</h3>
-        <ul id="advice"></ul>
+      <!-- Klasa scam / suspicious / no_signs (z app.js) wybiera kolor i ikonę. -->
+      <div class="verdict" id="verdict">
+        <div class="verdict-head">
+          <span class="verdict-icon" aria-hidden="true">
+            <svg class="only-scam"><use href="#i-scam"/></svg>
+            <svg class="only-suspicious"><use href="#i-warn"/></svg>
+            <svg class="only-no_signs"><use href="#i-ok"/></svg>
+          </span>
+          <div>
+            <p class="overline">Wynik sprawdzenia</p>
+            <!-- tabindex="-1": po sprawdzeniu przenosimy tu fokus z JS -->
+            <h2 id="verdict-title" tabindex="-1"></h2>
+          </div>
+        </div>
+        <div class="verdict-body">
+          <h3>Co zrobić teraz</h3>
+          <ul id="advice" class="steps"></ul>
+        </div>
       </div>
 
-      <details>
+      <details class="reasons">
         <summary>Dlaczego tak uważamy?</summary>
         <ul id="reasons"></ul>
       </details>
 
-      <button type="button" id="again-btn" class="secondary wide">Sprawdź inną wiadomość</button>
+      <button type="button" id="again-btn" class="btn btn--secondary btn--full">Sprawdź inną wiadomość</button>
     </section>
+
+    <ul class="trust">
+      <li><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>Nie zapisujemy treści wiadomości</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>Sprawdzamy na liście ostrzeżeń CERT Polska</li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>Bez logowania i za darmo</li>
+    </ul>
 
     <!-- Wskazówka tylko dla iPhone'a/iPada w Safari (pokazuje ją app.js) -->
     <aside id="ios-hint" class="hint" hidden>
-      <p>
-        <strong>Dodaj tę stronę do ekranu głównego.</strong>
-        Naciśnij przycisk <strong>Udostępnij</strong>
-        (kwadrat ze strzałką w górę)
-        na dole ekranu, a potem <strong>„Do ekranu początkowego”</strong>.
-      </p>
-      <button type="button" id="ios-hint-close" class="secondary">Zamknij wskazówkę</button>
+      <svg class="icon hint-icon" aria-hidden="true"><use href="#i-phone"/></svg>
+      <div>
+        <p>
+          <strong>Dodaj tę stronę do ekranu głównego.</strong>
+          Naciśnij przycisk <strong>Udostępnij</strong>
+          (kwadrat ze strzałką w górę)
+          na dole ekranu, a potem <strong>„Do ekranu początkowego”</strong>.
+        </p>
+        <button type="button" id="ios-hint-close" class="btn btn--secondary">Zamknij wskazówkę</button>
+      </div>
     </aside>
-
-    <footer>
-      <p>To narzędzie pomocnicze, nie gwarancja. Nie zapisujemy treści sprawdzanych wiadomości.</p>
-      <p>Podejrzany SMS możesz zgłosić do CERT Polska, przesyłając go na numer <strong>8080</strong>.</p>
-    </footer>
   </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="report">
+        Podejrzany SMS zgłoś do CERT Polska: przekaż go na numer <strong>8080</strong>.
+      </p>
+      <p>To narzędzie pomocnicze, nie gwarancja. W razie wątpliwości zadzwoń do firmy na numer, który znasz.</p>
+      <ul class="footer-links">
+        <li><a href="/prywatnosc.html">Prywatność</a></li>
+        <li><a href="/regulamin.html">Regulamin</a></li>
+        <li><a href="https://github.com/Dablesss/czy-to-oszustwo">Kod źródłowy na GitHubie</a></li>
+      </ul>
+    </div>
+  </footer>
   <script src="/app.js"></script>
 </body>
 </html>
