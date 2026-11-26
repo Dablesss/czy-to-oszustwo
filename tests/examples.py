@@ -56,6 +56,8 @@ SCAMS: list[tuple[str, str]] = [
     ("Inwestuj w akcje spolek energetycznych. Polecaja to znani eksperci z telewizji: energia-inwest.vip", "scam"),
     # Pozyczka, o ktora nikt nie prosil, do "potwierdzenia" przez link
     ("Twoja pozyczka 3000 zl zostala przyznana. Aby odebrac srodki, potwierdz dane tutaj: kasa-od-reki.top", "scam"),
+    # "Prosta praca" z wysoka stawka i grupa na komunikatorze
+    ("Prosta praca z domu: oceniasz hotele, 40 zl za zadanie. Kliknij link i dolacz do grupy: hotel-praca.top", "scam"),
 ]
 
 LEGIT: list[str] = [
@@ -91,6 +93,8 @@ LEGIT: list[str] = [
     "Bank Polnocny: lokata z zyskiem 6% w skali roku. Zaloz ja w aplikacji banku.",
     # Bank informuje o pozyczce, o ktora klient sam wnioskowal (bez linku, rzeczownik "pozyczke")
     "Bank Polnocny: wniosek o pozyczke 8000 zl zostal zaakceptowany. Srodki wyplacimy na Twoje konto jutro.",
+    # Stawka "za godzine" bez "prostej pracy", lajkow ani pracy z domu
+    "Korepetycje z matematyki online, 60 zl za godzine. Zapisy u wychowawczyni.",
     "Dajemy Ci kod na 30 zl rabatu na pierwsze zamowienie w sklepie Zielony Koszyk.",
     # Prawdziwy bank kieruje do aplikacji i na numer z karty, a nie w link
     "Bank Polnocny: zablokowalismy podejrzana transakcje 2300 zl. Sprawdz ja w aplikacji albo zadzwon na numer z karty.",

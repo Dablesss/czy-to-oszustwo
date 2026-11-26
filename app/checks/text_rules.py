@@ -42,6 +42,12 @@ AMOUNT_BIG = r"\d+\s?(?:zl|pln|euro|eur)"
 # "zarabia\w*" łapie każdą formę: zarabiaj, zarabiac, zarabiasz.
 INVEST = r"(inwest\w*|zarabia\w*|zarobek|zysk\w*|kryptowalut\w*|bitcoin)"
 
+# Do reguły easy_job: praca "za nic" (lajkowanie, "prosta praca", praca online / z domu) ...
+EASY_JOB = r"(lajk\w*|polubie\w*|prost\w* prac\w*|prac\w* (online|z domu|zdaln\w*))"
+# ... i stawka podana zaraz za kwotą: "300 pln dziennie", "25 euro za godzine", "40 zl za zadanie".
+# Prawdziwe ogłoszenia zwykle piszą "brutto" albo "netto", więc "32 zl brutto za godzine" nie pasuje.
+JOB_PAY = rf"{AMOUNT_BIG} (dziennie|za godzin\w*|za zadanie|za lajk\w*)"
+
 # Do reguły family_new_number: kto pisze i co się "stało" z telefonem.
 FAMILY = r"(mamo|tato|mama|tata|babciu|dziadku|synu|corko|kochanie)"
 # "Nowy numer do pracy" albo "numer służbowy" to DRUGI numer, a nie historia o zepsutym telefonie.
@@ -139,6 +145,11 @@ RULES: list[Rule] = [
        rf"|inwest\w*.{{0,80}}{AMOUNT_BIG} miesiecznie"
        # "Polecaja ja znani eksperci z telewizji": reklama z twarzami znanych osob
        rf"|{INVEST}.{{0,120}}(znan\w* (eksper|osob|celebryt)|celebryt\w*|z telewizji)"),
+    _r("easy_job", 35,
+       "„Prosta praca” za lajki, oceny albo z domu za wysoką stawkę to znane oszustwo. "
+       "Na początku płacą grosze, potem każą „dopłacić”, żeby odebrać zarobek.",
+       # Praca "za nic" i stawka: w dowolnej kolejności
+       rf"{EASY_JOB}.{{0,100}}{JOB_PAY}|{JOB_PAY}.{{0,100}}{EASY_JOB}"),
     _r("fine_or_debt", 25,
        "Mandat, dług albo opłata wysłana SMS-em z linkiem to oszustwo. Urzędy tak nie ściągają należności.",
        r"(mandat|grzywn|zadluzen|egzekuc|komornik|oplat\w* drogow|e-?toll|nieoplacon|niezaplacon)"
