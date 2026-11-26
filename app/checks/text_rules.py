@@ -127,9 +127,13 @@ RULES: list[Rule] = [
        r"((zalogowa|logowani)\w*.{0,60}(nowego urzadzenia|nowym urzadzeniu|nieznanego urzadzenia"
        r"|innej lokalizacji|innego kraju)"
        r"|prob\w* (przelania|przelewu|wyplaty)|podejrzan\w* (transakcj|przelew|logowan)|nieautoryzowan\w*)"
-       # ... a potem polecenie: kliknij/sprawdź/anuluj albo "zadzwoń pod numer z tej wiadomości".
-       # Prawdziwy bank każe dzwonić na numer z karty albo sprawdzić w aplikacji.
-       r".{0,100}(sprawdz|kliknij|anuluj|zweryfikuj|potwierdz|zabezpiecz"
+       # ... a potem polecenie, które prowadzi do oszusta: link ("kliknij", "tutaj", "http"),
+       # "anuluj", polecenie z dwukropkiem ("Sprawdz natychmiast: <link>", "Zweryfikuj konto: <link>")
+       # albo "zadzwoń pod numer z tej wiadomości".
+       # Samo "sprawdź/potwierdź w aplikacji" albo "zadzwoń na numer z karty" pisze prawdziwy bank,
+       # dlatego te słowa liczą się tylko z dwukropkiem (po nim zwykle stoi link).
+       r".{0,100}(kliknij|link|tutaj|ponizej|anuluj|http|www\."
+       r"|(sprawdz|potwierdz|zweryfikuj|zabezpiecz)\w*[^.:]{0,30}:"
        r"|zadzwon\w*.{0,40}numer\w* (z tej wiadomosci|z sms|ponizej))"),
     _r("personal_data_request", 25,
        "Prośba o PESEL, dane karty albo hasło. Nikt uczciwy nie prosi o to w wiadomości.",
